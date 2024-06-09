@@ -14,6 +14,12 @@
 		499929362C0FEBA5003BD29B /* YomuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929352C0FEBA5003BD29B /* YomuTests.swift */; };
 		499929402C0FEBA5003BD29B /* YomuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999293F2C0FEBA5003BD29B /* YomuUITests.swift */; };
 		499929422C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929412C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift */; };
+		499929542C100B39003BD29B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929532C100B39003BD29B /* User.swift */; };
+		499929562C1054C7003BD29B /* Manga.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929552C1054C7003BD29B /* Manga.swift */; };
+		499929592C105D71003BD29B /* StaticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929582C105D71003BD29B /* StaticData.swift */; };
+		4999295B2C113381003BD29B /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999295A2C113381003BD29B /* Authentication.swift */; };
+		499929642C13049A003BD29B /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929632C13049A003BD29B /* Account.swift */; };
+		499929672C1306C2003BD29B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929662C1306C2003BD29B /* Request.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +50,12 @@
 		4999293B2C0FEBA5003BD29B /* YomuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YomuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4999293F2C0FEBA5003BD29B /* YomuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuUITests.swift; sourceTree = "<group>"; };
 		499929412C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		499929532C100B39003BD29B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		499929552C1054C7003BD29B /* Manga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manga.swift; sourceTree = "<group>"; };
+		499929582C105D71003BD29B /* StaticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticData.swift; sourceTree = "<group>"; };
+		4999295A2C113381003BD29B /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
+		499929632C13049A003BD29B /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		499929662C1306C2003BD29B /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +106,11 @@
 		499929232C0FEBA3003BD29B /* Yomu */ = {
 			isa = PBXGroup;
 			children = (
+				499929572C105D60003BD29B /* API */,
+				499929652C130581003BD29B /* Methods */,
+				499929522C100B03003BD29B /* Data Models */,
+				499929502C100ADB003BD29B /* Views */,
 				499929242C0FEBA3003BD29B /* YomuApp.swift */,
-				499929262C0FEBA3003BD29B /* ContentView.swift */,
 				499929282C0FEBA5003BD29B /* Assets.xcassets */,
 				4999292A2C0FEBA5003BD29B /* Preview Content */,
 			);
@@ -125,6 +140,41 @@
 				499929412C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift */,
 			);
 			path = YomuUITests;
+			sourceTree = "<group>";
+		};
+		499929502C100ADB003BD29B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				499929262C0FEBA3003BD29B /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		499929522C100B03003BD29B /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				499929532C100B39003BD29B /* User.swift */,
+				499929552C1054C7003BD29B /* Manga.swift */,
+			);
+			path = "Data Models";
+			sourceTree = "<group>";
+		};
+		499929572C105D60003BD29B /* API */ = {
+			isa = PBXGroup;
+			children = (
+				499929632C13049A003BD29B /* Account.swift */,
+				4999295A2C113381003BD29B /* Authentication.swift */,
+				499929582C105D71003BD29B /* StaticData.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		499929652C130581003BD29B /* Methods */ = {
+			isa = PBXGroup;
+			children = (
+				499929662C1306C2003BD29B /* Request.swift */,
+			);
+			path = Methods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +307,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				499929592C105D71003BD29B /* StaticData.swift in Sources */,
+				499929672C1306C2003BD29B /* Request.swift in Sources */,
 				499929272C0FEBA3003BD29B /* ContentView.swift in Sources */,
 				499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */,
+				499929562C1054C7003BD29B /* Manga.swift in Sources */,
+				499929542C100B39003BD29B /* User.swift in Sources */,
+				4999295B2C113381003BD29B /* Authentication.swift in Sources */,
+				499929642C13049A003BD29B /* Account.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
