@@ -20,6 +20,11 @@
 		4999295B2C113381003BD29B /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999295A2C113381003BD29B /* Authentication.swift */; };
 		499929642C13049A003BD29B /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929632C13049A003BD29B /* Account.swift */; };
 		499929672C1306C2003BD29B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929662C1306C2003BD29B /* Request.swift */; };
+		4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999296C2C16A1D6003BD29B /* SettingsView.swift */; };
+		4999296F2C16A219003BD29B /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999296E2C16A219003BD29B /* SearchView.swift */; };
+		499929712C16A3B7003BD29B /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929702C16A3B7003BD29B /* LibraryView.swift */; };
+		499929732C16A431003BD29B /* UpdatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929722C16A431003BD29B /* UpdatesView.swift */; };
+		499929752C16A466003BD29B /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929742C16A465003BD29B /* CommunityView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +61,11 @@
 		4999295A2C113381003BD29B /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		499929632C13049A003BD29B /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		499929662C1306C2003BD29B /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		4999296C2C16A1D6003BD29B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4999296E2C16A219003BD29B /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		499929702C16A3B7003BD29B /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		499929722C16A431003BD29B /* UpdatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesView.swift; sourceTree = "<group>"; };
+		499929742C16A465003BD29B /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +156,11 @@
 			isa = PBXGroup;
 			children = (
 				499929262C0FEBA3003BD29B /* ContentView.swift */,
+				499929742C16A465003BD29B /* CommunityView.swift */,
+				499929702C16A3B7003BD29B /* LibraryView.swift */,
+				4999296E2C16A219003BD29B /* SearchView.swift */,
+				4999296C2C16A1D6003BD29B /* SettingsView.swift */,
+				499929722C16A431003BD29B /* UpdatesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -307,12 +322,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4999296F2C16A219003BD29B /* SearchView.swift in Sources */,
 				499929592C105D71003BD29B /* StaticData.swift in Sources */,
 				499929672C1306C2003BD29B /* Request.swift in Sources */,
 				499929272C0FEBA3003BD29B /* ContentView.swift in Sources */,
+				4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */,
 				499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */,
+				499929752C16A466003BD29B /* CommunityView.swift in Sources */,
 				499929562C1054C7003BD29B /* Manga.swift in Sources */,
+				499929712C16A3B7003BD29B /* LibraryView.swift in Sources */,
 				499929542C100B39003BD29B /* User.swift in Sources */,
+				499929732C16A431003BD29B /* UpdatesView.swift in Sources */,
 				4999295B2C113381003BD29B /* Authentication.swift in Sources */,
 				499929642C13049A003BD29B /* Account.swift in Sources */,
 			);

@@ -7,39 +7,61 @@
 
 import SwiftUI
 
-struct appState {
-    let session: Session
-}
-
 struct ContentView: View {
-    @State private var username = ""
-    @State private var password = ""
-    @State private var ID = ""
-    @State private var secret = ""
-    
-    let token: Token
+    @State public var showingLoginAlert = false
+    @State var credentials: Credentials
     
     var body: some View {
-        VStack {
-            Section {
-                TextField("Username", text: $username)
-                SecureField("Password", text: $password)
-                TextField("Client ID", text: $ID)
-                SecureField("Secret", text: $secret)
-            }
-            .padding(.horizontal)
+        TabView {
+            UpdatesView()
+                .tabItem {
+                    Label("Updates", systemImage: "doc.text.image")
+                }
             
-            Button("Test") {
-                auth(username: username, password: password, ID: ID, secret: secret)
-            }
+            LibraryView()
+                .tabItem {
+                    Label("Library", systemImage: "books.vertical")
+                }
             
-//            Button("ReAuth") {
-//                reAuth(token: token.refresh, ID: ID, secret: secret)
-//            }
+            CommunityView()
+                .tabItem {
+                    Label("Community", systemImage: "person.2")
+                }
+            
+            SearchView()
+                .tabItem {
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+            
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
+        }
+        .alert("Login", isPresented: $showingLoginAlert) {
+            TextField("Username", text: $credentials.username)
+                .autocorrectionDisabled()
+            SecureField("Password", text: $credentials.password)
+                .autocorrectionDisabled()
+            SecureField("Client ID", text: $credentials.client_id)
+                .autocorrectionDisabled()
+            SecureField("Secret", text: $credentials.client_secret)
+                .autocorrectionDisabled()
+            
+            Button("Cancel", role: .cancel) { }
+            Button("OK") {
+                login(username: credentials.username, password: credentials.password, ID: credentials.client_id, secret: credentials.client_secret) { succeded in
+                    if succeded {
+                        showingLoginAlert = false
+                    }
+                }
+                      }
+        } message: {
+            Text("Please login to Mangadex")
         }
     }
 }
 
 #Preview {
-    ContentView(token: Token(access_token: "", refresh_token: ""))
+    ContentView(credentials: Credentials(username: "", password: "", client_id: "", client_secret: ""))
 }

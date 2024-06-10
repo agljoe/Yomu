@@ -7,17 +7,16 @@
 
 import Foundation
 
-public struct Credentials: Hashable, Codable {
-    let grant_type: String
-    let username: String
-    let password: String
-    let client_id: String
-    let client_secret: String
+public struct Credentials: Codable {
+    var username: String
+    var password: String
+    var client_id: String
+    var client_secret: String
 }
 
 public struct Token: Hashable, Codable {
     let access_token: String
-    let refresh_token: String
+    let refresh_token: String?
 }
 
 extension Token {
@@ -31,12 +30,36 @@ public enum Session {
     case active
     case expired
 }
-    
-func auth(username: String, password: String, ID: String, secret: String) {
+
+//enum KeychainError: Error {
+//    case noPassword
+//    case unexpectedPasswordData
+//    case unhandledError(status: OSStatus)
+//}
+//
+//let credentials = Credentials(username: "A", password: "A", client_id: "A", client_secret: "A")
+//
+//let sever = "https://auth.mangadex.org"
+//
+//let account = credentials.username
+//let password = credentials.password.data(using: String.Encoding.utf8)!
+//var query: [String: Any] = [
+//    kSecClass as String: kSecClassInternetPassword,
+//    kSecAttrAccount as String: account,
+//    kSecAttrServer as String: sever,
+//    kSecValueData as String: password
+//]
+//
+//let status = SecItemAdd(query as CFDictionary, nil)
+//guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
+
+
+public func login(username: String, password: String, ID: String, secret: String, completion: @escaping (Bool) -> Void) {
     let urlString = "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token"
     
     guard let url = URL(string: urlString) else {
         print("Invalid URL: \(urlString)")
+        completion(false)
         return
     }
     
@@ -48,9 +71,14 @@ func auth(username: String, password: String, ID: String, secret: String) {
         switch response {
         case .none:
             print("No response recived from server")
+            completion(false)
+            return
         case .some(_):
             if response?.statusCode == 200 {
-               
+                print("OK")
+                completion(true)
+            } else {
+                completion(false)
             }
         }
     }
