@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State public var showingLoginAlert = false
+    @State private var showingLoginAlert = false
     @State var credentials: Credentials
     
     var body: some View {

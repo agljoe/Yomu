@@ -10,7 +10,7 @@ import SwiftUI
 struct UpdatesView: View {
     var body: some View {
         Button("Login to view updates.") {
-          
+            
         }
     }
 }
