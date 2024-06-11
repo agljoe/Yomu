@@ -8,7 +8,7 @@
 import Foundation
 
 enum MDApiError: Error {
-    case invalidResponse
+    case unknownResponse
     case badRequest
     case unauthorizedRequest
     case forbiddenRequest
@@ -40,7 +40,7 @@ public class Request {
             case 503:
                 throw MDApiError.serviceUnavailable
             default:
-                throw MDApiError.invalidResponse
+                throw MDApiError.unknownResponse
             }
         }
         return data

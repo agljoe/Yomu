@@ -14,9 +14,7 @@ public struct Credentials: Codable, Sendable {
     var client_secret: String
     
     mutating func reset() {
-        username = ""
         password = ""
-        client_id = ""
         client_secret = ""
     }
 }
@@ -60,15 +58,16 @@ public func auth(for credentials: Credentials) async throws -> Void {
         let token = try JSONDecoder().decode(Token.self, from: data)
         try handleToken(username: credentials.username, type: "access", token: token.access_token)
         try handleToken(username: credentials.username, type: "refresh", token: token.refresh_token!)
-//        print(token) // implement func handleToken
     } catch { throw AuthenticationError.failedToAuthenticate }
     
+    try storeCredentials(credentials: credentials)
 }
 
 //TODO: implement OAuth session refresh for reAuthorization
 
-private func reAuth(token: String, credentials: Credentials) async throws -> Void {
+private func reAuth(token: String) async throws -> Void {
     guard let token = try? getToken(type: token) else { throw KeychainError.noToken }
+    guard let credentials = try? getCredentials(server: "https://mangadex.org") else { throw KeychainError.noPassword }
     
     let urlString = "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token"
     
@@ -76,17 +75,60 @@ private func reAuth(token: String, credentials: Credentials) async throws -> Voi
     
     let value = "application/x-www-form-urlencoded"
 
-    guard let content = "grant_type=refresh_token&refresh_token=\(token)&client_id=\(credentials.client_id)&client_secret=\(credentials.client_secret)".data(using: .utf8) else { throw AuthenticationError.invalidCredentials } // key token from keychain
+    guard let content = "grant_type=refresh_token&refresh_token=\(token)&client_id=\(credentials.client_id)&client_secret=\(credentials.client_secret)".data(using: .utf8) else { throw AuthenticationError.invalidCredentials }
     
     do {
         let data = try await Request().post(url: url, value: value, content: content)
         let token = try JSONDecoder().decode(Token.self, from: data)
-        try handleToken(username: credentials.username, type: "access", token: token.access_token) // update token
-        try handleToken(username: credentials.username, type: "refresh", token: token.refresh_token!) //update token
+        try handleToken(username: credentials.username, type: "access", token: token.access_token)
+        try handleToken(username: credentials.username, type: "refresh", token: token.refresh_token!)
     } catch { throw AuthenticationError.failedToAuthenticate }
 }
 
-private func handleToken(username: String, type: String, token: String) throws -> Void {
+private func storeCredentials(credentials: Credentials) throws -> () {
+    let server = "https://mangadex.org"
+
+    let account = credentials.username
+    let client_id = credentials.client_id
+    let client_secret = credentials.client_secret.data(using: String.Encoding.utf8)!
+    
+    var query: [String: Any] = [
+        kSecClass as String: kSecClassInternetPassword,
+        kSecAttrAccount as String: account,
+        kSecAttrLabel as String: client_id,
+        kSecAttrServer as String: server,
+        kSecValueData as String: client_secret
+    ]
+    
+    let status = SecItemAdd(query as CFDictionary, nil)
+    guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
+}
+
+private func getCredentials(server: String) throws -> Credentials {
+    let query: [String: Any] = [
+        kSecClass as String: kSecClassInternetPassword,
+        kSecAttrServer as String: server,
+        kSecMatchLimit as String: kSecMatchLimitOne,
+        kSecReturnAttributes as String: true,
+        kSecReturnData as String: true
+    ]
+    
+    var item: CFTypeRef?
+    let status = SecItemCopyMatching(query as CFDictionary, &item)
+    guard status != errSecItemNotFound else { throw KeychainError.noPassword }
+    guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
+    
+    guard let existingItem = item as? [String : Any],
+        let passwordData = existingItem[kSecValueData as String] as? Data,
+        let password = String(data: passwordData, encoding: String.Encoding.utf8),
+        let id = existingItem[kSecAttrLabel as String] as? String,
+        let account = existingItem[kSecAttrAccount as String] as? String
+    else { throw KeychainError.unexpectedPasswordData }
+    
+    return Credentials(username: account, password: "", client_id: id, client_secret: password)
+}
+
+private func handleToken(username: String, type: String, token: String) throws -> () {
     
     let attribute = type
     
@@ -101,16 +143,16 @@ private func handleToken(username: String, type: String, token: String) throws -
     
     let status = SecItemAdd(query as CFDictionary, nil)
     guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status)}
-    print("Success")
-    return
 }
 
-private func getToken(type: String) throws -> String {
-    let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-                                kSecAttrLabel as String: type,
-                                kSecMatchLimit as String: kSecMatchLimitOne,
-                                kSecReturnAttributes as String: true,
-                                kSecReturnData as String: true]
+public func getToken(type: String) throws -> String {
+    let query: [String: Any] = [
+        kSecClass as String: kSecClassGenericPassword,
+        kSecAttrLabel as String: type,
+        kSecMatchLimit as String: kSecMatchLimitOne,
+        kSecReturnAttributes as String: true,
+        kSecReturnData as String: true
+    ]
     
     var item: CFTypeRef?
     let status = SecItemCopyMatching(query as CFDictionary, &item)
@@ -121,16 +163,33 @@ private func getToken(type: String) throws -> String {
         let tokenData = existingItem[kSecValueData as String] as? Data,
         let token = String(data: tokenData, encoding: String.Encoding.utf8),
         let type = existingItem[kSecAttrAccount as String] as? String
-    else {
-        throw KeychainError.unexpectedPasswordData
-    }
+    else { throw KeychainError.unexpectedPasswordData }
     
     return token
 }
 
-private func updateToken(type: String, credentials: Credentials) throws -> Void {
+private func updateToken(username: String, type: String, token: String) throws -> () {
     let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                 kSecAttrLabel as String: type]
     
+    let account = username
+    let type = type
+    let token = token.data(using: String.Encoding.utf8)!
+    let attributes: [String: Any] = [
+        kSecAttrPath as String: account,
+        kSecAttrLabel as String: type,
+        kSecValueData as String: token
+    ]
+    
+    let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+    guard status != errSecItemNotFound else { throw KeychainError.noToken }
+    guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
+    
+    try deleteKeyChainItem(query: query)
 
+}
+
+private func deleteKeyChainItem(query: [String: Any]) throws -> () {
+    let status = SecItemDelete(query as CFDictionary)
+    guard status == errSecSuccess || status == errSecItemNotFound else { throw KeychainError.unhandledError(status: status) }
 }
