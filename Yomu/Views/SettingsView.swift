@@ -29,6 +29,7 @@ struct SettingsView: View {
                 Button("OK") {
                     Task {
                         try? await auth(for: credentials)
+                        credentials.reset()
                     }
                 }
             } message: {

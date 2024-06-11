@@ -10,26 +10,40 @@ import Foundation
 enum MDApiError: Error {
     case invalidResponse
     case badRequest
+    case unauthorizedRequest
     case forbiddenRequest
     case notFound
-    case unauthorizedRequest
     case serviceUnavailable
 }
 
 public class Request {
-    public func post<T: Encodable>(url: URL, value: String, content: T) async throws -> Data {
+    public func post(url: URL, value: String, content: Data) async throws -> Data {
         var request = URLRequest(url: url)
         request.setValue(value, forHTTPHeaderField: "Content-Type")
         request.httpShouldHandleCookies = true
         
         request.httpMethod = "POST"
         
-        request.httpBody = content as? Data
+        request.httpBody = content
         
         let (data, response) = try await URLSession.shared.data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw MDApiError.badRequest } // fix to handle specific errors
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            switch (response as? HTTPURLResponse)?.statusCode {
+            case 400: 
+                throw MDApiError.badRequest
+            case 401:
+                throw MDApiError.unauthorizedRequest
+            case 403:
+                throw MDApiError.forbiddenRequest
+            case 404:
+                throw MDApiError.notFound
+            case 503:
+                throw MDApiError.serviceUnavailable
+            default:
+                throw MDApiError.invalidResponse
+            }
+        }
         return data
-        
     }
 }
 
