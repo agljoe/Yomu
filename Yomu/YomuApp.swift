@@ -11,7 +11,7 @@ import SwiftUI
 struct YomuApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(credentials: Credentials(username: "", password: "", client_id: "", client_secret: ""))
+            ContentView()
         }
     }
 }

@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct LibraryView: View {
+    @State private var query = ""
+    
     var body: some View {
-        Text("Library")
+        NavigationStack {
+            Text("Login to view your library")
+                .navigationTitle("Library")
+        }
+        .searchable(text: $query, prompt: Text("Search Library"))
     }
 }
 
