@@ -20,14 +20,14 @@ public struct Credentials: Codable, Sendable {
 }
 
 public struct Token: Hashable, Codable {
-    let access_token: String
-    let refresh_token: String?
+    let access: String
+    let refresh: String?
 }
 
 extension Token {
     private enum CodingKeys: String, CodingKey {
-        case access_token
-        case refresh_token
+        case access = "access_token"
+        case refresh = "refresh_token"
     }
 }
 
@@ -44,7 +44,7 @@ public enum KeychainError: Error {
     case unhandledError(status: OSStatus)
 }
 
-public func auth(for credentials: Credentials) async throws -> Void {
+public func auth(for credentials: Credentials) async throws -> () {
     let urlString = "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token"
     
     guard let url = URL(string: urlString) else { throw AuthenticationError.invalidCredentials }
@@ -56,18 +56,20 @@ public func auth(for credentials: Credentials) async throws -> Void {
     do {
         let data = try await Request().post(url: url, value: value, content: content)
         let token = try JSONDecoder().decode(Token.self, from: data)
-        try handleToken(username: credentials.username, type: "access", token: token.access_token)
-        try handleToken(username: credentials.username, type: "refresh", token: token.refresh_token!)
+        try handleToken(username: credentials.username, type: "access", token: token.access)
+        try handleToken(username: credentials.username, type: "refresh", token: token.refresh!)
     } catch { throw AuthenticationError.failedToAuthenticate }
     
-    try storeCredentials(credentials: credentials)
+    try storeCredentials(username: credentials.username, password: credentials.password, server: "https://mangadex.org")
+    try storeCredentials(username: credentials.client_id, password: credentials.client_secret, server: "https://auth.mangadex.org")
+    
 }
 
 //TODO: implement OAuth session refresh for reAuthorization
 
-private func reAuth(token: String) async throws -> Void {
-    guard let token = try? getToken(type: token) else { throw KeychainError.noToken }
-    guard let credentials = try? getCredentials(server: "https://mangadex.org") else { throw KeychainError.noPassword }
+private func reAuth() async throws -> () {
+    guard let token = try? getToken(type: "refresh") else { throw KeychainError.noToken }
+    guard let credentials = try? getCredentials(server: "https://auth.mangadex.org") else { throw KeychainError.noPassword }
     
     let urlString = "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token"
     
@@ -80,24 +82,21 @@ private func reAuth(token: String) async throws -> Void {
     do {
         let data = try await Request().post(url: url, value: value, content: content)
         let token = try JSONDecoder().decode(Token.self, from: data)
-        try handleToken(username: credentials.username, type: "access", token: token.access_token)
-        try handleToken(username: credentials.username, type: "refresh", token: token.refresh_token!)
+        try handleToken(username: credentials.username, type: "access", token: token.access)
     } catch { throw AuthenticationError.failedToAuthenticate }
 }
 
-private func storeCredentials(credentials: Credentials) throws -> () {
-    let server = "https://mangadex.org"
+public func storeCredentials(username: String, password: String, server: String) throws -> () {
+    let server = server
 
-    let account = credentials.username
-    let client_id = credentials.client_id
-    let client_secret = credentials.client_secret.data(using: String.Encoding.utf8)!
+    let account = username
+    let password = password.data(using: String.Encoding.utf8)!
     
-    var query: [String: Any] = [
+    let query: [String: Any] = [
         kSecClass as String: kSecClassInternetPassword,
         kSecAttrAccount as String: account,
-        kSecAttrLabel as String: client_id,
         kSecAttrServer as String: server,
-        kSecValueData as String: client_secret
+        kSecValueData as String: password
     ]
     
     let status = SecItemAdd(query as CFDictionary, nil)
@@ -121,11 +120,14 @@ private func getCredentials(server: String) throws -> Credentials {
     guard let existingItem = item as? [String : Any],
         let passwordData = existingItem[kSecValueData as String] as? Data,
         let password = String(data: passwordData, encoding: String.Encoding.utf8),
-        let id = existingItem[kSecAttrLabel as String] as? String,
         let account = existingItem[kSecAttrAccount as String] as? String
     else { throw KeychainError.unexpectedPasswordData }
     
-    return Credentials(username: account, password: "", client_id: id, client_secret: password)
+    if server == "https://mangadex.org" {
+        return Credentials(username: account, password: password, client_id: "", client_secret: "")
+    } else if server == "https://auth.mangadex.org" {
+        return Credentials(username: "", password: "", client_id: account, client_secret: password)
+    } else { throw KeychainError.noPassword }
 }
 
 private func handleToken(username: String, type: String, token: String) throws -> () {
@@ -137,7 +139,7 @@ private func handleToken(username: String, type: String, token: String) throws -
     let query: [String: Any] = [
         kSecClass as String: kSecClassGenericPassword,
         kSecAttrAccount as String: account,
-        kSecAttrLabel as String: type,
+        kSecAttrLabel as String: attribute,
         kSecValueData as String: token
     ]
     
@@ -162,7 +164,7 @@ public func getToken(type: String) throws -> String {
     guard let existingItem = item as? [String : Any],
         let tokenData = existingItem[kSecValueData as String] as? Data,
         let token = String(data: tokenData, encoding: String.Encoding.utf8),
-        let type = existingItem[kSecAttrAccount as String] as? String
+        let _ = existingItem[kSecAttrLabel as String] as? String
     else { throw KeychainError.unexpectedPasswordData }
     
     return token

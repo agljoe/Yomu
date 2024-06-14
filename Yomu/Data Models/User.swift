@@ -10,7 +10,5 @@ import Foundation
 struct User: Identifiable {
     let id: UUID //maybe can be mangadex id
     let username: String
-    
-   
 }
 
