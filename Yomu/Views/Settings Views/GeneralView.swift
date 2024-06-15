@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GeneralView: View {
+    @State private var defaultLanguage = ["English", "French", "Japanese", "Chinese"] //update for all languages
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -16,10 +18,19 @@ struct GeneralView: View {
                 }
                 
                 Section {
+                    Picker("Language", selection: $defaultLanguage) {
+                        ForEach(defaultLanguage, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                }
+                
+                Section {
                     Button("Reset", role: .destructive) {
                         //reset app
                     }
                 }
+                
             }
             .navigationTitle("General")
             .navigationBarTitleDisplayMode(.inline)

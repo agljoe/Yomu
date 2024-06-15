@@ -128,6 +128,66 @@ struct LocalizedLanguage: Codable {
     let zhRomanized: String?
 }
 
+//struct LocalizedLanguage: Codable {
+//    let en: String
+//    let sq: String
+//    let ar: String
+//    let az: String
+//    let bn: String
+//    let bg: String
+//    let my: String
+//    let ca: String
+//    let cnSimplified: String
+//    let cnTraditional: String
+//    let hr: String
+//    let cs: String
+//    let da: String
+//    let nl: String
+//    let eo: String
+//    let et: String
+//    let tl: String
+//    let fi: String
+//    let fr: String
+//    let ka: String
+//    let de: String
+//    let el: String
+//    let he: String
+//    let hi: String
+//    let hu: String
+//    let id: String
+//    let it: String
+//    let ja: String
+//    let kk: String
+//    let ko: String
+//    let la: String
+//    let lt: String
+//    let ms: String
+//    let mn: String
+//    let ne: String
+//    let no: String
+//    let fa: String
+//    let pl: String
+//    let ptPortugal: String
+//    let ptBrazil: String
+//    let ro: String
+//    let ru: String
+//    let sr: String
+//    let sk: String
+//    let sl: String
+//    let esSpain: String
+//    let esLATAM: String
+//    let sv: String
+//    let ta: String
+//    let te: String
+//    let th: String
+//    let tr: String
+//    let uk: String
+//    let vi: String
+//    let jaRomanized: String
+//    let koRomanized: String
+//    let zhRomanized: String
+//}
+
 extension LocalizedLanguage {
     public enum CodingKeys: String, CodingKey {
         case en
@@ -191,18 +251,18 @@ extension LocalizedLanguage {
 }
 
 struct MangaLink: Codable {
-    let al: String // anilist, stored as id
-    let ap: String // animeplanet, stored as slug
-    let bw: String // bw, stored as series/
-    let mu: String // mangaupdates, stored as id
-    let nu: String // novelupdates, stored as slug
-    let kt: String // kitsu.io, stored as int id or slug
-    let amz: String // amazon, stored as full URL
-    let ebj: String // ebookjapan, stored as full URL
-    let mal: String // myanimelist, stored as id
-    let cdj: String // CDJapan, stored as full URL
-    let raw: String // stored as full URL, untranslated stuff URL
-    let engtl: String // stored as full URL, official english licened URL
+    let al: String? // anilist, stored as id
+    let ap: String? // animeplanet, stored as slug
+    let bw: String? // bw, stored as series/
+    let mu: String? // mangaupdates, stored as id
+    let nu: String? // novelupdates, stored as slug
+    let kt: String? // kitsu.io, stored as int id or slug
+    let amz: String? // amazon, stored as full URL
+    let ebj: String? // ebookjapan, stored as full URL
+    let mal: String? // myanimelist, stored as id
+    let cdj: String? // CDJapan, stored as full URL
+    let raw: String? // stored as full URL, untranslated stuff URL
+    let engtl: String? // stored as full URL, official english licened URL
 }
 
 enum Demographic: String, Codable {
@@ -214,7 +274,7 @@ enum Demographic: String, Codable {
 
 enum Status: String, Codable {
     case ongoing
-    case completeted
+    case completed
     case hiatus
     case cancelled
 }
@@ -226,7 +286,7 @@ enum Rating: String, Codable {
     case pornographic
 }
 
-enum RelationshipType: String, Codable {
+enum RelationshipType: Codable {
     case manga
     case chapter
     case cover_art

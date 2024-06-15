@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct AppearanceView: View {
+    @State private var enableDarkMode = true
     var body: some View {
-        Text("Appearance")
+        NavigationStack {
+            Form {
+                Section {
+                    Toggle("Dark Mode", isOn: $enableDarkMode)
+                }
+            }
+            .navigationTitle("Appearance")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 

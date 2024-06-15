@@ -9,7 +9,6 @@ import Foundation
 
 struct Relationship: Codable, Identifiable {
     let id: UUID
-    let type: RelationshipType
+    let type: String
     let related: MangaRelated?
 }
-

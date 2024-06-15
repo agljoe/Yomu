@@ -6,3 +6,112 @@
 //
 
 import Foundation
+
+private struct AuthorData: Decodable {
+    let data: Author
+    
+    enum CodingKeys: CodingKey {
+        case data
+    }
+}
+
+public struct Author: Decodable, Identifiable, Sendable {
+    public let id: UUID
+    let type: String // distinguish between author and artist from manga relationships, note: calling GET/author/{id} will always return type author even for artis
+    let name: String
+    let imageUrl: String?
+    let biography: LocalizedLanguage?
+    let twitter: String?
+    let pixiv: String?
+    let melonBook: String?
+    let fanBox: String?
+    let booth: String?
+    let nicoVideo: String?
+    let skeb: String?
+    let fantia: String?
+    let tumblr: String?
+    let youtube: String?
+    let weibo: String?
+    let naver: String?
+    let namicomi: String?
+    let website: String?
+    let createdAt: String
+    let updatedAt: String
+    let version: Int
+    let relationships: [Manga]?
+    
+    enum CodingKeys: CodingKey {
+        case id
+        case type
+        case attributes
+        case relationships
+    }
+    
+    enum AttributesCodingKeys: CodingKey {
+        case name
+        case imageUrl
+        case biography
+        case twitter
+        case pixiv
+        case melonBook
+        case fanBox
+        case booth
+        case nicoVideo
+        case skeb
+        case fantia
+        case tumblr
+        case youtube
+        case weibo
+        case naver
+        case namicomi
+        case website
+        case createdAt
+        case updatedAt
+        case version
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(UUID.self, forKey: .id)
+        self.type = try container.decode(String.self, forKey: .type)
+        
+        let attributesContainer = try container.nestedContainer(keyedBy: AttributesCodingKeys.self, forKey: .attributes)
+        self.name = try attributesContainer.decode(String.self, forKey: .name)
+        self.imageUrl = try attributesContainer.decodeIfPresent(String.self, forKey: .imageUrl)
+        self.biography = try attributesContainer.decode(LocalizedLanguage.self, forKey: .biography)
+        self.twitter = try attributesContainer.decodeIfPresent(String.self, forKey: .twitter)
+        self.pixiv = try attributesContainer.decodeIfPresent(String.self, forKey: .pixiv)
+        self.melonBook = try attributesContainer.decodeIfPresent(String.self, forKey: .melonBook)
+        self.fanBox = try attributesContainer.decodeIfPresent(String.self, forKey: .fanBox)
+        self.booth = try attributesContainer.decodeIfPresent(String.self, forKey: .booth)
+        self.nicoVideo = try attributesContainer.decodeIfPresent(String.self, forKey: .nicoVideo)
+        self.skeb = try attributesContainer.decodeIfPresent(String.self, forKey: .skeb)
+        self.fantia = try attributesContainer.decodeIfPresent(String.self, forKey: .fantia)
+        self.tumblr = try attributesContainer.decodeIfPresent(String.self, forKey: .tumblr)
+        self.youtube = try attributesContainer.decodeIfPresent(String.self, forKey: .youtube)
+        self.weibo = try attributesContainer.decodeIfPresent(String.self, forKey: .weibo)
+        self.naver = try attributesContainer.decodeIfPresent(String.self, forKey: .naver)
+        self.namicomi = try attributesContainer.decodeIfPresent(String.self, forKey: .namicomi)
+        self.website = try attributesContainer.decodeIfPresent(String.self, forKey: .website)
+        self.createdAt = try attributesContainer.decode(String.self, forKey: .createdAt)
+        self.updatedAt = try attributesContainer.decode(String.self, forKey: .updatedAt)
+        self.version = try attributesContainer.decode(Int.self, forKey: .version)
+        
+        self.relationships = try container.decodeIfPresent([Manga].self, forKey: .relationships)
+    }
+}
+
+public func getAuthor(id: String) async throws -> Author {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "api.mangadex.org"
+    components.path = "/author/dbe4cbfe-81dd-4766-a658-ad006ad5a1d7"
+    components.query = "includes[]=manga"
+
+    guard let url = components.url else { throw MDApiError.badRequest }
+    
+    let data = try await Request().get(for: url)
+    let author = try! JSONDecoder().decode(AuthorData.self, from: data)
+    print(author)
+    return author.data
+}

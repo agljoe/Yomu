@@ -53,9 +53,11 @@ public struct Chapter: Decodable, Identifiable, Sendable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
         let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
         self.id = try dataContainer.decode(UUID.self, forKey: .id)
         self.type = try dataContainer.decode(String.self, forKey: .type)
+        
         let attributesContainer = try dataContainer.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
         self.title = try attributesContainer.decode(String.self, forKey: .title)
         self.volume = try attributesContainer.decode(String.self, forKey: .volume)
@@ -69,6 +71,7 @@ public struct Chapter: Decodable, Identifiable, Sendable {
         self.updatedAt = try attributesContainer.decode(String.self, forKey: .updatedAt)
         self.publishAt = try attributesContainer.decode(String.self, forKey: .publishAt)
         self.readableAt = try attributesContainer.decode(String.self, forKey: .readableAt)
+        
         self.relationships = try dataContainer.decode([Relationship].self, forKey: .relationships)
     }
 }
