@@ -37,6 +37,9 @@
 		499929902C1BE2EE003BD29B /* ReaderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999298F2C1BE2EE003BD29B /* ReaderSettingsView.swift */; };
 		499929922C1BE438003BD29B /* LibrarySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929912C1BE438003BD29B /* LibrarySettingsView.swift */; };
 		499929942C1BE4F4003BD29B /* SearchSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929932C1BE4F4003BD29B /* SearchSettingsView.swift */; };
+		499929962C1E7566003BD29B /* FilterSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929952C1E7566003BD29B /* FilterSettingsView.swift */; };
+		4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929992C21142F003BD29B /* FilterTagsView.swift */; };
+		499929A02C225189003BD29B /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999299F2C225189003BD29B /* Tag.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +93,9 @@
 		4999298F2C1BE2EE003BD29B /* ReaderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSettingsView.swift; sourceTree = "<group>"; };
 		499929912C1BE438003BD29B /* LibrarySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarySettingsView.swift; sourceTree = "<group>"; };
 		499929932C1BE4F4003BD29B /* SearchSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSettingsView.swift; sourceTree = "<group>"; };
+		499929952C1E7566003BD29B /* FilterSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSettingsView.swift; sourceTree = "<group>"; };
+		499929992C21142F003BD29B /* FilterTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTagsView.swift; sourceTree = "<group>"; };
+		4999299F2C225189003BD29B /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +206,7 @@
 				499929782C192FA4003BD29B /* Author.swift */,
 				4999297A2C1930ED003BD29B /* Relationship.swift */,
 				499929822C1977EF003BD29B /* Volume.swift */,
+				4999299F2C225189003BD29B /* Tag.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -232,6 +239,8 @@
 				4999298F2C1BE2EE003BD29B /* ReaderSettingsView.swift */,
 				499929912C1BE438003BD29B /* LibrarySettingsView.swift */,
 				499929932C1BE4F4003BD29B /* SearchSettingsView.swift */,
+				499929952C1E7566003BD29B /* FilterSettingsView.swift */,
+				499929992C21142F003BD29B /* FilterTagsView.swift */,
 			);
 			path = "Settings Views";
 			sourceTree = "<group>";
@@ -373,6 +382,7 @@
 				499929902C1BE2EE003BD29B /* ReaderSettingsView.swift in Sources */,
 				4999298A2C1BBE52003BD29B /* AboutView.swift in Sources */,
 				4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */,
+				4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */,
 				499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */,
 				499929752C16A466003BD29B /* CommunityView.swift in Sources */,
 				499929562C1054C7003BD29B /* Manga.swift in Sources */,
@@ -387,9 +397,11 @@
 				499929642C13049A003BD29B /* Account.swift in Sources */,
 				4999298E2C1BCFB3003BD29B /* AccessibilityView.swift in Sources */,
 				499929772C192C4A003BD29B /* Chapter.swift in Sources */,
+				499929962C1E7566003BD29B /* FilterSettingsView.swift in Sources */,
 				499929862C1BB5DB003BD29B /* GeneralView.swift in Sources */,
 				499929922C1BE438003BD29B /* LibrarySettingsView.swift in Sources */,
 				499929832C1977EF003BD29B /* Volume.swift in Sources */,
+				499929A02C225189003BD29B /* Tag.swift in Sources */,
 				4999297B2C1930ED003BD29B /* Relationship.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

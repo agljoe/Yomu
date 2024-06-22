@@ -99,43 +99,19 @@ public struct Manga: Decodable, Identifiable, Sendable {
 
 }
 
-struct Tag: Decodable {
-    let id: UUID
-    let name: LocalizedLanguage
-    let relationships: [Relationship]
-    
-    enum CodingKeys: CodingKey {
-        case id
-        case attributes
-        case relationships
-    }
-    
-    enum AttributeCodingKeys: CodingKey {
-        case name
-    }
-    
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(UUID.self, forKey: .id)
-        
-        let nameContainer = try container.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
-        self.name = try nameContainer.decode(LocalizedLanguage.self, forKey: .name)
-        
-        self.relationships = try container.decode([Relationship].self, forKey: .relationships)
-    }
-}
 
 public func getManga(id: String) async throws -> Manga {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
     components.path = "/manga/\(id)"
+    components.query = "includes[]=author&includes[]=artist"
 
     guard let url = components.url else { throw MDApiError.badRequest }
 
     let data = try await Request().get(for: url)
     let manga = try! JSONDecoder().decode(MangaData.self, from: data)
-    print(manga)
+    print(manga.data.relationships!)
     return manga.data
 }
 
@@ -151,3 +127,4 @@ public func getMangaChapters(id: String) async throws -> [Chapter] {
     let chapters = try JSONDecoder().decode([Chapter].self, from: data)
     return chapters
 }
+

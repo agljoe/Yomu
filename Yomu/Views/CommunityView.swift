@@ -9,7 +9,15 @@ import SwiftUI
 
 struct CommunityView: View {
     var body: some View {
-        Text("Coming Soon")
+        VStack {
+            Text("Coming Soon")
+            
+            Button("Get Tags") {
+                Task {
+                    try await getTags()
+                }
+            }
+        }
     }
 }
 

@@ -8,8 +8,28 @@
 import SwiftUI
 
 struct SearchSettingsView: View {
+    @State var saveSearchFilters = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            Form {
+                Section {
+                    NavigationLink {
+                        FilterSettingsView()
+                    } label: {
+                        HStack {
+                            Text("Filters")
+                        }
+                    }
+                }
+                
+                Section {
+                    Toggle("Save Filters", isOn: $saveSearchFilters)
+                }
+            }
+            .navigationTitle("Search")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 

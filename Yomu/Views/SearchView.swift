@@ -8,25 +8,44 @@
 import SwiftUI
 
 struct SearchView: View {
+    @State private var query = ""
+    @State private var showingSheet = false
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
-        VStack {
-            Button("Get Manga") {
-                Task {
-                    try await getManga(id: "30b89356-952c-4a72-9d8c-cf44147e881a")
+        NavigationStack {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 20) {
+                    Button("Test") {
+                        var components = URLComponents()
+                        components.scheme = "https"
+                        components.host = "api.mangadex.org"
+                        components.path = "/manga/"
+                        components.query = "includes[]=author&includes[]=artist"
+                        
+                        print(components)
+                    }
+                }
+            }
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always))
+            .navigationTitle("Search")
+            .toolbar(id: "options") {
+                ToolbarItem(id: "filters", placement: .primaryAction) {
+                    Button {
+                        showingSheet = true
+                    } label: {
+                        Image(systemName: "line.3.horizontal.decrease.circle")
+                    }
+                    .toolbarRole(.navigationStack)
                 }
             }
             
-            Button("Get Another Manga") {
-                Task {
-                    try await getManga(id: "dfffa880-4154-40d1-abd2-0dff94248908")
-                }
-            }
-            
-            Button("Get Author") {
-                Task {
-                    try await getAuthor(id: "dbe4cbfe-81dd-4766-a658-ad006ad5a1d7")
-                }
-            }
+        }
+        .sheet(isPresented: $showingSheet) {
+            FilterSettingsView()
         }
     }
 }
