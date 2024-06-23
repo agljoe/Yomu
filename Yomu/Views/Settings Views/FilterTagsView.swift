@@ -9,10 +9,12 @@ import SwiftData
 import SwiftUI
 
 struct TagButton: View {
+    @State var filter: FilterTag
     @State var buttonColor = Color.noSelection
+    
     var body: some View {
-        Button("Text") {
-            switchColor(color: buttonColor)
+        Button(filter.tag.name) {
+            updateSelection(color: buttonColor)
         }
         .frame(width: 45, height: 25)
         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -20,462 +22,53 @@ struct TagButton: View {
         .foregroundStyle(.buttonText)
     }
     
-    func switchColor(color: Color) {
+    func updateSelection(color: Color) { // could be better
         switch color {
         case .noSelection:
             buttonColor = Color.includes
+            filter.isIncluded = false
+            filter.isExcluded = false
         case .includes:
             buttonColor = Color.excludes
+            filter.isIncluded = true
+            filter.isExcluded = false
         case .excludes:
             buttonColor = Color.noSelection
+            filter.isIncluded = false
+            filter.isExcluded = true
         default:
             buttonColor = Color.noSelection
+            filter.isIncluded = false
+            filter.isExcluded = false
         }
     }
 }
 
 struct FilterTagsView: View {
-//    @Query var tags: [Tag]
+    @Environment(\.modelContext) var modelContext
+    @Query var tags: [FilterTag]
     
+    @State private var path = [FilterTag]()
     @State private var inclusionMode = ["And", "Or"]
     @State private var exclusionMode = ["And", "Or"]
+    @State private var includeGore = false
+    @State private var includeSexualViolence = false
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             Form {
-                Section(header: Text("Format")) {
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Button("4-Koma") {
-                                
-                            }
-                            
-                            Button("Adaptation") {
-                                
-                            }
-                            
-                            Button("Anthology") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Award Winning") {
-                                
-                            }
-                            
-                            Button("Doujinshi") {
-                                
-                            }
-                            
-                            Button("Fan Colored") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Full Color") {
-                                
-                            }
-                            
-                            Button("Long Strip") {
-                                
-                            }
-                            
-                            Button("Official Colored") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Oneshot") {
-                                
-                            }
-                            
-                            Button("Self-Published") {
-                                
-                            }
-
-                            Button("Web Comic") {
-                                
-                            }
-                            Spacer()
-                        }
+                Section {
+                    ForEach(path.filter { $0.tag.group == "format" }) { tag in
+                        TagButton(filter: tag)
                     }
                 }
-                .textCase(.none)
-                
-                Section(header: Text("Genre")) {
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Button("Action") {
-                                
-                            }
-                            
-                            Button("Adventure") {
-                                
-                            }
-                            
-                            
-                            Button("Boy's Love") {
-                                
-                            }
-                            
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Comedy") {
-                                
-                            }
-                            Button("Crime") {
-                                
-                            }
-                            
-                            Button("Drama") {
-                                
-                            }
-                            
-                            Button("Fantasy") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Girl's Love") {
-                                
-                            }
-                            
-                            Button("Historical") {
-                                
-                            }
-                            
-                            Button("Horror") {
-                                
-                            }
-                            
-                            Button("Isekai") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Magical Girls") {
-                                
-                            }
-                            
-                            Button("Mecha") {
-                                
-                            }
-                            
-                            Button("Medical") {
-                                
-                            }
-                            
-                            
-                            Button("Mystery") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Philosophical") {
-                                
-                            }
-                            
-                            Button("Psycological") {
-                                
-                            }
-                            
-                            Button("Romance") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Sci-Fi") {
-                                
-                            }
-                            
-                            Button("Slice of Life") {
-                                
-                            }
-                            
-                            Button("Sports") {
-                                
-                            }
-                            
-                            Button("Superhero") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Thriller") {
-                                
-                            }
-                            
-                            Button("Tragedy") {
-                                
-                            }
-                            
-                            Button("Wuxia") {
-                                
-                            }
-                            Spacer()
-                        }
-                    }
-                }
-                .textCase(.none)
-                
-                Section(header: Text("Theme")) {
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Button("Aliens") {
-                                
-                            }
-                            
-                            Button("Animals") {
-                                
-                            }
-                            
-                            Button("Cooking") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Crossdressing") {
-                                
-                            }
-                            
-                            Button("Delinquents") {
-                                
-                            }
-                            
-                            Button("Demons") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Genderswap") {
-                                
-                            }
-                            
-                            Button("Ghosts") {
-                                
-                            }
-                            
-                            Button("Gyaru") {
-                                
-                            }
-                            
-                            Button("Harem") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Incest") {
-                                
-                            }
-                            
-                            Button("Loli") {
-                                
-                            }
-                            
-                            Button("Mafia") {
-                                
-                            }
-                            
-                            Button("Magic") {
-                                
-                            }
-                            
-                            Button("Marial Arts") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Military") {
-                                
-                            }
-                            
-                            Button("Monster Girls") {
-                                
-                            }
-                            
-                            Button("Monsters") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Music") {
-                                
-                            }
-                            
-                            Button("Ninja") {
-                                
-                            }
-                            
-                            Button("Office Workers") {
-                                
-                            }
-                            
-                            Button("Police") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Post-Apocalyptic") {
-                                
-                            }
-                            
-                            Button("Reincarnation") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Reverse Harem") {
-                                
-                            }
-                            
-                            Button("Samurai") {
-                                
-                            }
-                            
-                            Button("School Life") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Shota") {
-                                
-                            }
-                            
-                            Button("Supernatural") {
-                                
-                            }
-                            
-                            Button("Survival") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Time Travel") {
-                                
-                            }
-                            
-                            Button("Traditional Games") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Vampires") {
-                                
-                            }
-                            
-                            Button("Video Games") {
-                                
-                            }
-                            
-                            Button("Villainess") {
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Spacer()
-                            Button("Virtual Reality") {
-                                
-                            }
-                            
-                            Button("Zombies") {
-                                
-                            }
-                            Spacer()
-                        }
-                    }
-                }
-                .textCase(.none)
                 
                 Section(header: Text("Content")) {
-                    Button("Gore") {
-                        
-                    }
+                    Toggle("Gore", isOn: $includeGore)
+                    // onChange add to query
                     
-                    Button("Sexual Violence") {
-                        
-                    }
+                    Toggle("Sexual Violence", isOn: $includeGore)
+                    //onChange add to query
                 }
                 .textCase(.none)
                 
@@ -505,7 +98,20 @@ struct FilterTagsView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
+    
+    func loadTags() async throws {
+        // try to only call once
+        
+        let tags = try await getTags()
+        
+        for tag in tags {
+            let filterTag = FilterTag(tag: tag, isIncluded: false, isExcluded: false)
+            modelContext.insert(filterTag)
+            path.append(filterTag)
+        }
+    }
 }
+
 
 #Preview {
     FilterTagsView()

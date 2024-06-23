@@ -8,16 +8,20 @@
 import Foundation
 import SwiftData
 
-//@Model
-//class FilterTag {
-//    var filterTag: Tag
-//    
-//    init(filterTag: Tag) {
-//        self.filterTag = filterTag
-//    }
-//}
+@Model
+class FilterTag {
+    var tag: Tag
+    var isIncluded: Bool
+    var isExcluded: Bool
+    
+    init(tag: Tag, isIncluded: Bool, isExcluded: Bool) {
+        self.tag = tag
+        self.isIncluded = isIncluded
+        self.isExcluded = isExcluded
+    }
+}
 
-public struct TagData: Decodable {
+public struct TagData: Codable {
     let data: [Tag]
     
     
@@ -26,11 +30,10 @@ public struct TagData: Decodable {
     }
 }
 
-public struct Tag: Decodable, Identifiable, Sendable {
+public struct Tag: Codable, Identifiable, Sendable {
     public let id: UUID
     let name: String
     let group: String
-    var selection = Selection.none
     
     enum CodingKeys: CodingKey {
         case id
@@ -45,12 +48,7 @@ public struct Tag: Decodable, Identifiable, Sendable {
     enum NameCodingKeys: CodingKey {
         case en
     }
-    
-    enum Selection {
-        case none
-        case include
-        case exclude
-    }
+
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -61,6 +59,18 @@ public struct Tag: Decodable, Identifiable, Sendable {
         self.name = try nameContainer.decode(String.self, forKey: .en)
         
         self.group = try attributeContainer.decode(String.self, forKey: .group)
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        
+        var attributeContainer = container.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
+        var nameContainer = attributeContainer.nestedContainer(keyedBy: NameCodingKeys.self, forKey: .name)
+        try nameContainer.encode(name, forKey: .en)
+        
+        try attributeContainer.encode(group, forKey: .group)
+        
     }
 }
 
