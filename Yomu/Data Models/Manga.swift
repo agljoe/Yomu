@@ -128,3 +128,14 @@ public func getMangaChapters(id: String) async throws -> [Chapter] {
     return chapters
 }
 
+public func getMangaCover(id: String) async throws {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "api.mangadex.org"
+    components.path = "/cover/\(id)"
+    
+    guard let url = components.url else { throw MDApiError.badRequest }
+    
+    let data = try await Request().get(for: url)
+    
+}

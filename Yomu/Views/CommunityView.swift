@@ -17,6 +17,12 @@ struct CommunityView: View {
                     try await getTags()
                 }
             }
+            
+            Button("Health Check") {
+                Task {
+                    try await healthCheck()
+                }
+            }
         }
     }
 }

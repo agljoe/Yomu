@@ -9,11 +9,11 @@ import SwiftData
 import SwiftUI
 
 struct TagButton: View {
-    @State var filter: FilterTag
+//    @State var filter: FilterTag
     @State var buttonColor = Color.noSelection
     
     var body: some View {
-        Button(filter.tag.name) {
+        Button("Tempt") {
             updateSelection(color: buttonColor)
         }
         .frame(width: 45, height: 25)
@@ -26,41 +26,43 @@ struct TagButton: View {
         switch color {
         case .noSelection:
             buttonColor = Color.includes
-            filter.isIncluded = false
-            filter.isExcluded = false
+//            filter.isIncluded = false
+//            filter.isExcluded = false
         case .includes:
             buttonColor = Color.excludes
-            filter.isIncluded = true
-            filter.isExcluded = false
+//            filter.isIncluded = true
+//            filter.isExcluded = false
         case .excludes:
             buttonColor = Color.noSelection
-            filter.isIncluded = false
-            filter.isExcluded = true
+//            filter.isIncluded = false
+//            filter.isExcluded = true
         default:
             buttonColor = Color.noSelection
-            filter.isIncluded = false
-            filter.isExcluded = false
+//            filter.isIncluded = false
+//            filter.isExcluded = false
         }
     }
 }
 
 struct FilterTagsView: View {
-    @Environment(\.modelContext) var modelContext
-    @Query var tags: [FilterTag]
+//    @Environment(\.modelContext) var modelContext
+//    @Query var tags: [FilterTag]
+//    
+//    @State private var path = [FilterTag]()
+    @State private var tags = [Tag]()
     
-    @State private var path = [FilterTag]()
     @State private var inclusionMode = ["And", "Or"]
     @State private var exclusionMode = ["And", "Or"]
     @State private var includeGore = false
     @State private var includeSexualViolence = false
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack {
             Form {
                 Section {
-                    ForEach(path.filter { $0.tag.group == "format" }) { tag in
-                        TagButton(filter: tag)
-                    }
+//                    ForEach(path.filter { $0.tag.group == "format" }) { tag in
+//                        TagButton(filter: tag)
+//                    }
                 }
                 
                 Section(header: Text("Content")) {
@@ -99,17 +101,17 @@ struct FilterTagsView: View {
         }
     }
     
-    func loadTags() async throws {
-        // try to only call once
-        
-        let tags = try await getTags()
-        
-        for tag in tags {
-            let filterTag = FilterTag(tag: tag, isIncluded: false, isExcluded: false)
-            modelContext.insert(filterTag)
-            path.append(filterTag)
-        }
-    }
+//    func loadTags() async throws {
+//        guard !path.isEmpty else { return }
+//        
+//        let tags = try await getTags()
+//        
+//        for tag in tags {
+//            let filterTag = FilterTag(tag: tag, isIncluded: false, isExcluded: false)
+//            modelContext.insert(filterTag)
+//            path.append(filterTag)
+//        }
+//    }
 }
 
 

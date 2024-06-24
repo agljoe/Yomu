@@ -6,22 +6,22 @@
 //
 
 import Foundation
-import SwiftData
+//import SwiftData
 
-@Model
-class FilterTag {
-    var tag: Tag
-    var isIncluded: Bool
-    var isExcluded: Bool
-    
-    init(tag: Tag, isIncluded: Bool, isExcluded: Bool) {
-        self.tag = tag
-        self.isIncluded = isIncluded
-        self.isExcluded = isExcluded
-    }
-}
+//@Model
+//class FilterTag {
+//    var tag: Tag
+//    var isIncluded: Bool
+//    var isExcluded: Bool
+//    
+//    init(tag: Tag, isIncluded: Bool, isExcluded: Bool) {
+//        self.tag = tag
+//        self.isIncluded = isIncluded
+//        self.isExcluded = isExcluded
+//    }
+//}
 
-public struct TagData: Codable {
+public struct TagData: Decodable {
     let data: [Tag]
     
     
@@ -34,6 +34,7 @@ public struct Tag: Codable, Identifiable, Sendable {
     public let id: UUID
     let name: String
     let group: String
+    var selection = Selection.none
     
     enum CodingKeys: CodingKey {
         case id
@@ -47,6 +48,12 @@ public struct Tag: Codable, Identifiable, Sendable {
     
     enum NameCodingKeys: CodingKey {
         case en
+    }
+    
+    enum Selection {
+        case none
+        case include
+        case exclude
     }
 
     
@@ -83,7 +90,8 @@ public func getTags() async throws -> [Tag] {
     guard let url = components.url else { throw MDApiError.badRequest }
     
     let data = try await Request().get(for: url)
-    let tags = try! JSONDecoder().decode(TagData.self, from: data)
+    let tags = try JSONDecoder().decode(TagData.self, from: data)
+//    print(tags.data)
     
     return tags.data
 }

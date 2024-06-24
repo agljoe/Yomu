@@ -67,3 +67,13 @@ public class Request {
     }
 }
 
+public func healthCheck() async throws -> () {
+    let urlString = "https://api.mangadex.org/ping"
+    
+    guard let url = URL(string: urlString) else { throw MDApiError.badRequest }
+    
+    let data = try await Request().get(for: url)
+    let response = String(data: data, encoding: .utf8)
+    
+    if response == "pong" { return } else { throw MDApiError.serviceUnavailable }
+}
