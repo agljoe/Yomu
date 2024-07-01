@@ -23,6 +23,18 @@ struct CommunityView: View {
                     try await healthCheck()
                 }
             }
+            
+            Button("Get Cover") {
+                Task {
+                    try! await getCover(id: "dfffa880-4154-40d1-abd2-0dff94248908") 
+                }
+            }
+            
+            Button("Try JSON Decoder") {
+                Task {
+                    try! await getManga(id: "dfffa880-4154-40d1-abd2-0dff94248908")
+                }
+            }
         }
     }
 }

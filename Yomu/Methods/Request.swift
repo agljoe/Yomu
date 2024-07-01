@@ -73,7 +73,7 @@ public func healthCheck() async throws -> () {
     guard let url = URL(string: urlString) else { throw MDApiError.badRequest }
     
     let data = try await Request().get(for: url)
-    let response = String(data: data, encoding: .utf8)
+    let response = String(data: data, encoding: .utf8) ?? ""
     
     if response == "pong" { return } else { throw MDApiError.serviceUnavailable }
 }

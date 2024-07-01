@@ -27,8 +27,6 @@
 		499929752C16A466003BD29B /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929742C16A465003BD29B /* CommunityView.swift */; };
 		499929772C192C4A003BD29B /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929762C192C4A003BD29B /* Chapter.swift */; };
 		499929792C192FA4003BD29B /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929782C192FA4003BD29B /* Author.swift */; };
-		4999297B2C1930ED003BD29B /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999297A2C1930ED003BD29B /* Relationship.swift */; };
-		499929832C1977EF003BD29B /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929822C1977EF003BD29B /* Volume.swift */; };
 		499929862C1BB5DB003BD29B /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929852C1BB5DB003BD29B /* GeneralView.swift */; };
 		499929882C1BB84D003BD29B /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929872C1BB84D003BD29B /* AppearanceView.swift */; };
 		4999298A2C1BBE52003BD29B /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929892C1BBE52003BD29B /* AboutView.swift */; };
@@ -40,6 +38,8 @@
 		499929962C1E7566003BD29B /* FilterSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929952C1E7566003BD29B /* FilterSettingsView.swift */; };
 		4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929992C21142F003BD29B /* FilterTagsView.swift */; };
 		499929A02C225189003BD29B /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999299F2C225189003BD29B /* Tag.swift */; };
+		499929A22C2A4E0F003BD29B /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A12C2A4E0F003BD29B /* Cover.swift */; };
+		499929A82C324011003BD29B /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A72C324011003BD29B /* Artist.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,8 +83,6 @@
 		499929742C16A465003BD29B /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
 		499929762C192C4A003BD29B /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
 		499929782C192FA4003BD29B /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
-		4999297A2C1930ED003BD29B /* Relationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
-		499929822C1977EF003BD29B /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		499929852C1BB5DB003BD29B /* GeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralView.swift; sourceTree = "<group>"; };
 		499929872C1BB84D003BD29B /* AppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceView.swift; sourceTree = "<group>"; };
 		499929892C1BBE52003BD29B /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -96,6 +94,8 @@
 		499929952C1E7566003BD29B /* FilterSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSettingsView.swift; sourceTree = "<group>"; };
 		499929992C21142F003BD29B /* FilterTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTagsView.swift; sourceTree = "<group>"; };
 		4999299F2C225189003BD29B /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		499929A12C2A4E0F003BD29B /* Cover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
+		499929A72C324011003BD29B /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,7 +148,7 @@
 			children = (
 				499929572C105D60003BD29B /* API */,
 				499929652C130581003BD29B /* Methods */,
-				499929522C100B03003BD29B /* Data Models */,
+				499929522C100B03003BD29B /* Models */,
 				499929502C100ADB003BD29B /* Views */,
 				499929242C0FEBA3003BD29B /* YomuApp.swift */,
 				499929282C0FEBA5003BD29B /* Assets.xcassets */,
@@ -197,18 +197,18 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		499929522C100B03003BD29B /* Data Models */ = {
+		499929522C100B03003BD29B /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				499929532C100B39003BD29B /* User.swift */,
 				499929552C1054C7003BD29B /* Manga.swift */,
 				499929762C192C4A003BD29B /* Chapter.swift */,
 				499929782C192FA4003BD29B /* Author.swift */,
-				4999297A2C1930ED003BD29B /* Relationship.swift */,
-				499929822C1977EF003BD29B /* Volume.swift */,
+				499929A72C324011003BD29B /* Artist.swift */,
 				4999299F2C225189003BD29B /* Tag.swift */,
+				499929A12C2A4E0F003BD29B /* Cover.swift */,
 			);
-			path = "Data Models";
+			path = Models;
 			sourceTree = "<group>";
 		};
 		499929572C105D60003BD29B /* API */ = {
@@ -376,10 +376,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4999296F2C16A219003BD29B /* SearchView.swift in Sources */,
+				499929A22C2A4E0F003BD29B /* Cover.swift in Sources */,
 				499929592C105D71003BD29B /* StaticData.swift in Sources */,
 				499929672C1306C2003BD29B /* Request.swift in Sources */,
 				499929272C0FEBA3003BD29B /* ContentView.swift in Sources */,
 				499929902C1BE2EE003BD29B /* ReaderSettingsView.swift in Sources */,
+				499929A82C324011003BD29B /* Artist.swift in Sources */,
 				4999298A2C1BBE52003BD29B /* AboutView.swift in Sources */,
 				4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */,
 				4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */,
@@ -400,9 +402,7 @@
 				499929962C1E7566003BD29B /* FilterSettingsView.swift in Sources */,
 				499929862C1BB5DB003BD29B /* GeneralView.swift in Sources */,
 				499929922C1BE438003BD29B /* LibrarySettingsView.swift in Sources */,
-				499929832C1977EF003BD29B /* Volume.swift in Sources */,
 				499929A02C225189003BD29B /* Tag.swift in Sources */,
-				4999297B2C1930ED003BD29B /* Relationship.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

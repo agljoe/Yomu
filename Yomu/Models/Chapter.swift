@@ -23,7 +23,7 @@ public struct Chapter: Decodable, Identifiable, Sendable {
     let updatedAt: String
     let publishAt: String
     let readableAt: String
-    let relationships: [Relationship]
+//    let relationships: [Relationship]
     
     enum CodingKeys: String, CodingKey {
         case data
@@ -33,7 +33,7 @@ public struct Chapter: Decodable, Identifiable, Sendable {
         case id
         case type
         case attributes
-        case relationships
+//        case relationships
     }
     
     enum AttributeCodingKeys: String, CodingKey {
@@ -72,7 +72,7 @@ public struct Chapter: Decodable, Identifiable, Sendable {
         self.publishAt = try attributesContainer.decode(String.self, forKey: .publishAt)
         self.readableAt = try attributesContainer.decode(String.self, forKey: .readableAt)
         
-        self.relationships = try dataContainer.decode([Relationship].self, forKey: .relationships)
+//        self.relationships = try dataContainer.decode([Relationship].self, forKey: .relationships)
     }
 }
 

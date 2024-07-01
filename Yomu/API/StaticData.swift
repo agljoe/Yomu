@@ -128,66 +128,6 @@ struct LocalizedLanguage: Codable {
     let zhRomanized: String?
 }
 
-//struct LocalizedLanguage: Codable {
-//    let en: String
-//    let sq: String
-//    let ar: String
-//    let az: String
-//    let bn: String
-//    let bg: String
-//    let my: String
-//    let ca: String
-//    let cnSimplified: String
-//    let cnTraditional: String
-//    let hr: String
-//    let cs: String
-//    let da: String
-//    let nl: String
-//    let eo: String
-//    let et: String
-//    let tl: String
-//    let fi: String
-//    let fr: String
-//    let ka: String
-//    let de: String
-//    let el: String
-//    let he: String
-//    let hi: String
-//    let hu: String
-//    let id: String
-//    let it: String
-//    let ja: String
-//    let kk: String
-//    let ko: String
-//    let la: String
-//    let lt: String
-//    let ms: String
-//    let mn: String
-//    let ne: String
-//    let no: String
-//    let fa: String
-//    let pl: String
-//    let ptPortugal: String
-//    let ptBrazil: String
-//    let ro: String
-//    let ru: String
-//    let sr: String
-//    let sk: String
-//    let sl: String
-//    let esSpain: String
-//    let esLATAM: String
-//    let sv: String
-//    let ta: String
-//    let te: String
-//    let th: String
-//    let tr: String
-//    let uk: String
-//    let vi: String
-//    let jaRomanized: String
-//    let koRomanized: String
-//    let zhRomanized: String
-//}
-
 extension LocalizedLanguage {
     public enum CodingKeys: String, CodingKey {
         case en

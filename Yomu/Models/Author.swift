@@ -17,8 +17,7 @@ private struct AuthorData: Decodable {
 
 public struct Author: Decodable, Identifiable, Sendable {
     public let id: UUID
-    let type: String // distinguish between author and artist from manga relationships, note: calling GET/author/{id} will always return type author even for artis
-    let name: String
+    let name: String?
     let imageUrl: String?
     let biography: LocalizedLanguage?
     let twitter: String?
@@ -35,9 +34,9 @@ public struct Author: Decodable, Identifiable, Sendable {
     let naver: String?
     let namicomi: String?
     let website: String?
-    let createdAt: String
-    let updatedAt: String
-    let version: Int
+    let createdAt: String?
+    let updatedAt: String?
+    let version: Int?
     let relationships: [Manga]?
     
     enum CodingKeys: CodingKey {
@@ -73,7 +72,7 @@ public struct Author: Decodable, Identifiable, Sendable {
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
-        self.type = try container.decode(String.self, forKey: .type)
+//        self.type = try container.decode(String.self, forKey: .type)
         
         let attributesContainer = try container.nestedContainer(keyedBy: AttributesCodingKeys.self, forKey: .attributes)
         self.name = try attributesContainer.decode(String.self, forKey: .name)

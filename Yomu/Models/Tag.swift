@@ -34,7 +34,7 @@ public struct Tag: Codable, Identifiable, Sendable {
     public let id: UUID
     let name: String
     let group: String
-    var selection = Selection.none
+//    var selection = Selection.none
     
     enum CodingKeys: CodingKey {
         case id
@@ -50,11 +50,11 @@ public struct Tag: Codable, Identifiable, Sendable {
         case en
     }
     
-    enum Selection {
-        case none
-        case include
-        case exclude
-    }
+//    enum Selection {
+//        case none
+//        case include
+//        case exclude
+//    }
 
     
     public init(from decoder: any Decoder) throws {
