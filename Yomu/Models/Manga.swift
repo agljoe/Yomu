@@ -15,8 +15,10 @@ private struct MangaData: Decodable {
     }
 }
 
+//TODO: decode dates as Date? rather than String
 public struct Manga: Decodable, Identifiable, Sendable {
     public let id: UUID
+    let related: String?
     let title: [String: String]
     let altTitles: [[String: String]]
     let description: [String: String]
@@ -37,12 +39,13 @@ public struct Manga: Decodable, Identifiable, Sendable {
     let version: Int
     let availableTranslatedLanguages: [String]
     let latestUploadedChapter: UUID? // same as Chapter.id
-    var author: [Author]?
-    var artist: [Artist]?
-    var relatedManga: [Manga]?
+    let author: [Author]?
+    let artist: [Artist]?
+    let cover: Cover?
+    let relatedManga: [Manga]?
     
     enum CodingKeys: CodingKey {
-        case id, attributes, relationships
+        case id, related, attributes, relationships
     }
     
     enum AttributeCodingKeys: CodingKey {
@@ -56,13 +59,14 @@ public struct Manga: Decodable, Identifiable, Sendable {
     enum RelationshipType: String, Decodable {
         case author
         case artist
+        case cover_art
         case manga
-        //case cover_art
     }
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
+        self.related = try container.decodeIfPresent(String.self, forKey: .related)
 
         let attributesContainer = try container.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
         self.title = try attributesContainer.decode([String: String].self, forKey: .title)
@@ -101,9 +105,11 @@ public struct Manga: Decodable, Identifiable, Sendable {
         
         var authors: [Author] = []
         var artists: [Artist] = []
-        var mangas: [Manga] = []
+        var relatedManga: [Manga] = []
         
-        var typeArray = try! container.nestedUnkeyedContainer(forKey: .relationships)
+        var coverArt: [Cover] = []
+        
+        var typeArray = try container.nestedUnkeyedContainer(forKey: .relationships)
         
         var array = typeArray
         
@@ -119,78 +125,22 @@ public struct Manga: Decodable, Identifiable, Sendable {
             case .artist:
                 let artist = try array.decode(Artist.self)
                 artists.append(artist)
+            case .cover_art:
+                let cover = try array.decode(Cover.self)
+                coverArt.append(cover)
             case .manga:
                 let manga = try array.decode(Manga.self)
-                mangas.append(manga)
+                relatedManga.append(manga)
             }
-            
-            self.author = authors
-            self.artist = artists
-            self.relatedManga = mangas
         }
-//        let relationshipsContainer = try container.superDecoder(forKey: .relationships)
-//        
-//        self.author = try [Author](from: relationshipsContainer)
-//        self.artist = try [Author](from: relationshipsContainer)
-//        self.relatedManga = try [Manga](from: relationshipsContainer)
-//        let relationships = try container.decode([Data].self, forKey: .relationships)
-//        
-//        var authors: [Author] = []
-//        var artists: [Author] = []
-//        var relatedManga: [Manga] = []
-//        
-//        for relationship in relationships {
-//            if let author = try? JSONDecoder().decode(Author.self, from: relationship) {
-//                authors.append(author)
-//            } else if let artist = try? JSONDecoder().decode(Author.self, from: relationship) {
-//                artists.append(artist)
-//            } else if let manga = try? JSONDecoder().decode(Manga.self, from: relationship) {
-//                relatedManga.append(manga)
-//            } else { throw DecodingError.dataCorruptedError(forKey: .relationships, in: container, debugDescription: "Failed to decode refence expansion")}
-//        }
-//        
-//        self.author = authors
-//        self.artist = artists
-//        self.relatedManga = relatedManga
+
+        self.author = authors
+        self.artist = artists
+        self.cover = coverArt.first // weird hacky solution because relationships are forced into a heteronegous array, but only one cover art will ever be present in response json
+        self.relatedManga = relatedManga
     }
 
 }
-
-//struct MangaRelationship: Identifiable, Decodable, Sendable {
-//    let id: UUID
-//    let type: String
-//    
-//    let name: String?
-//    let title: String?
-//    let fileName: String?
-//    
-//    enum CodingKeys: CodingKey {
-//        case id, type, attributes
-//    }
-//     
-//    enum AttributeCodingKeys: CodingKey {
-//        case name, fileName, title
-//    }
-//    
-//    enum TitleCodingKeys: CodingKey {
-//        case en
-//    }
-//    
-//    init(from decoder: any Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        self.id = try container.decode(UUID.self, forKey: .id)
-//        
-//        self.type = try container.decode(String.self, forKey: .type)
-//        
-//        let attributesContainer = try container.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
-//        
-//        self.name = try attributesContainer.decodeIfPresent(String.self, forKey: .name)
-//        self.title = try attributesContainer.decodeIfPresent(String.self, forKey: .title)
-//        self.fileName = try attributesContainer.decodeIfPresent(String.self, forKey: .fileName)
-//    }
-//    
-//}
-
 
 public func getManga(id: String) async throws -> Manga {
     var components = URLComponents()
@@ -199,7 +149,7 @@ public func getManga(id: String) async throws -> Manga {
     components.path = "/manga/\(id)"
     components.queryItems = [
         URLQueryItem(name: "includes[]", value: "manga"),
-        URLQueryItem(name: "includes[]", value: "cover_art"),
+//        URLQueryItem(name: "includes[]", value: "cover_art"),
         URLQueryItem(name: "includes[]", value: "artist"),
         URLQueryItem(name: "includes[]", value: "Author")
     ]
