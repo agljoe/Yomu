@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		492FB2B82C79703F00F634E1 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2B72C79703F00F634E1 /* Relationship.swift */; };
 		499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929242C0FEBA3003BD29B /* YomuApp.swift */; };
 		499929272C0FEBA3003BD29B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929262C0FEBA3003BD29B /* ContentView.swift */; };
 		499929292C0FEBA5003BD29B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 499929282C0FEBA5003BD29B /* Assets.xcassets */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		492FB2B72C79703F00F634E1 /* Relationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
 		499929212C0FEBA3003BD29B /* Yomu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		499929242C0FEBA3003BD29B /* YomuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuApp.swift; sourceTree = "<group>"; };
 		499929262C0FEBA3003BD29B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -147,7 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				499929572C105D60003BD29B /* API */,
-				499929652C130581003BD29B /* Methods */,
 				499929522C100B03003BD29B /* Models */,
 				499929502C100ADB003BD29B /* Views */,
 				499929242C0FEBA3003BD29B /* YomuApp.swift */,
@@ -207,6 +208,7 @@
 				499929A72C324011003BD29B /* Artist.swift */,
 				4999299F2C225189003BD29B /* Tag.swift */,
 				499929A12C2A4E0F003BD29B /* Cover.swift */,
+				492FB2B72C79703F00F634E1 /* Relationship.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -217,16 +219,9 @@
 				499929632C13049A003BD29B /* Account.swift */,
 				4999295A2C113381003BD29B /* Authentication.swift */,
 				499929582C105D71003BD29B /* StaticData.swift */,
-			);
-			path = API;
-			sourceTree = "<group>";
-		};
-		499929652C130581003BD29B /* Methods */ = {
-			isa = PBXGroup;
-			children = (
 				499929662C1306C2003BD29B /* Request.swift */,
 			);
-			path = Methods;
+			path = API;
 			sourceTree = "<group>";
 		};
 		499929842C1BB5CD003BD29B /* Settings Views */ = {
@@ -402,6 +397,7 @@
 				499929962C1E7566003BD29B /* FilterSettingsView.swift in Sources */,
 				499929862C1BB5DB003BD29B /* GeneralView.swift in Sources */,
 				499929922C1BE438003BD29B /* LibrarySettingsView.swift in Sources */,
+				492FB2B82C79703F00F634E1 /* Relationship.swift in Sources */,
 				499929A02C225189003BD29B /* Tag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

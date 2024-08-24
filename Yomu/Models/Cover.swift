@@ -27,8 +27,7 @@ public struct Cover: Decodable, Identifiable, Sendable {
 //    let relationships: [Relationship]
     
     enum CodingKeys: CodingKey {
-        case id
-        case attributes
+        case id, attributes
 //        case relationships
     }
     

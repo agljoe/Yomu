@@ -226,7 +226,7 @@ enum Rating: String, Codable {
     case pornographic
 }
 
-enum RelationshipType: Codable {
+enum RelationshipType:Codable {
     case manga
     case chapter
     case cover_art

@@ -7,16 +7,8 @@
 
 import Foundation
 
-private struct MangaData: Decodable {
-    let data: Manga
-    
-    enum CodingKeys: CodingKey {
-        case data
-    }
-}
-
 //TODO: decode dates as Date? rather than String
-public struct Manga: Decodable, Identifiable, Sendable {
+public struct MangaEntity: Decodable, Identifiable, Sendable {
     public let id: UUID
     let related: String?
     let title: [String: String]
@@ -38,11 +30,11 @@ public struct Manga: Decodable, Identifiable, Sendable {
     let updatedAt: String
     let version: Int
     let availableTranslatedLanguages: [String]
-    let latestUploadedChapter: UUID? // same as Chapter.id
+    let latestUploadedChapter: UUID? // same as id in Chapter structt
     let author: [Author]?
     let artist: [Artist]?
     let cover: Cover?
-    let relatedManga: [Manga]?
+    let relatedManga: [RelatedManga]?
     
     enum CodingKeys: CodingKey {
         case id, related, attributes, relationships
@@ -50,17 +42,6 @@ public struct Manga: Decodable, Identifiable, Sendable {
     
     enum AttributeCodingKeys: CodingKey {
         case title, altTitles, description, isLocked, links, originalLanguage, lastVolume, lastChapter, publicationDemographic, status, year, contentRating, tags, state, chapterNumbersResetOnNewVolume, createdAt, updatedAt, version, availableTranslatedLanguages, latestUploadedChapter
-    }
-    
-    enum RelationshipCodingKeys: CodingKey {
-        case type
-    }
-    
-    enum RelationshipType: String, Decodable {
-        case author
-        case artist
-        case cover_art
-        case manga
     }
     
     public init(from decoder: any Decoder) throws {
@@ -105,59 +86,109 @@ public struct Manga: Decodable, Identifiable, Sendable {
         
         var authors: [Author] = []
         var artists: [Artist] = []
-        var relatedManga: [Manga] = []
+        var coverArt: Cover?
+        var relatedManga: [RelatedManga] = []
         
-        var coverArt: [Cover] = []
-        
-        var typeArray = try container.nestedUnkeyedContainer(forKey: .relationships)
-        
-        var array = typeArray
-        
-        while !typeArray.isAtEnd {
-            let relationship = try typeArray.nestedContainer(keyedBy: RelationshipCodingKeys.self)
-            
-            let type = try relationship.decode(RelationshipType.self, forKey: .type)
-            
-            switch type {
-            case .author:
-                let author = try array.decode(Author.self)
-                authors.append(author)
-            case .artist:
-                let artist = try array.decode(Artist.self)
-                artists.append(artist)
-            case .cover_art:
-                let cover = try array.decode(Cover.self)
-                coverArt.append(cover)
-            case .manga:
-                let manga = try array.decode(Manga.self)
-                relatedManga.append(manga)
+        do {
+            let relationships = try container.decode([MangaRelationship].self, forKey: .relationships)
+            for relationship in relationships {
+                switch relationship {
+                case .author(let author):
+                    authors.append(author)
+                case .artist(let artist):
+                    artists.append(artist)
+                case .cover_art(let cover):
+                    coverArt = cover
+                case .manga(let manga):
+                    relatedManga.append(manga)
+                }
             }
         }
 
         self.author = authors
         self.artist = artists
-        self.cover = coverArt.first // weird hacky solution because relationships are forced into a heteronegous array, but only one cover art will ever be present in response json
+        self.cover = coverArt
         self.relatedManga = relatedManga
     }
-
 }
 
-public func getManga(id: String) async throws -> Manga {
+public struct Manga: Identifiable, Sendable {
+    public let id: UUID
+    let related: String?
+    let title: [String: String]
+    let altTitles: [[String: String]]
+    let description: [String: String]
+    let isLocked: Bool
+    let links: MangaLink
+    let originalLanguage: String
+    let lastVolume: String?
+    let lastChapter: String?
+    let publicationDemographic: Demographic?
+    let status: Status
+    let year: Int?
+    let contentRating: Rating
+    let tags: [Tag]
+    let state: String
+    let chapterNumbersResetOnNewVolume: Bool
+    let createdAt: String
+    let updatedAt: String
+    let version: Int
+    let availableTranslatedLanguages: [String]
+    let latestUploadedChapter: UUID?
+    let author: [Author]?
+    let artist: [Artist]?
+    let cover: Cover?
+    let relatedManga: [Manga]?
+    
+    init(id: UUID, related: String?, title: [String : String], altTitles: [[String : String]], description: [String : String], isLocked: Bool, links: MangaLink, originalLanguage: String, lastVolume: String?, lastChapter: String?, publicationDemographic: Demographic?, status: Status, year: Int?, contentRating: Rating, tags: [Tag], state: String, chapterNumbersResetOnNewVolume: Bool, createdAt: String, updatedAt: String, version: Int, availableTranslatedLanguages: [String], latestUploadedChapter: UUID?, author: [Author]?, artist: [Artist]?, cover: Cover?, relatedManga: [Manga]?) {
+        self.id = id
+        self.related = related
+        self.title = title
+        self.altTitles = altTitles
+        self.description = description
+        self.isLocked = isLocked
+        self.links = links
+        self.originalLanguage = originalLanguage
+        self.lastVolume = lastVolume
+        self.lastChapter = lastChapter
+        self.publicationDemographic = publicationDemographic
+        self.status = status
+        self.year = year
+        self.contentRating = contentRating
+        self.tags = tags
+        self.state = state
+        self.chapterNumbersResetOnNewVolume = chapterNumbersResetOnNewVolume
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.version = version
+        self.availableTranslatedLanguages = availableTranslatedLanguages
+        self.latestUploadedChapter = latestUploadedChapter
+        self.author = author
+        self.artist = artist
+        self.cover = cover
+        self.relatedManga = relatedManga
+    }
+    
+}
+
+public func getManga(id: String) async throws -> MangaEntity {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
     components.path = "/manga/\(id)"
     components.queryItems = [
-        URLQueryItem(name: "includes[]", value: "manga"),
-//        URLQueryItem(name: "includes[]", value: "cover_art"),
+        URLQueryItem(name: "includes[]", value: "cover_art"),
         URLQueryItem(name: "includes[]", value: "artist"),
-        URLQueryItem(name: "includes[]", value: "Author")
+        URLQueryItem(name: "includes[]", value: "author")
     ]
+
+    struct Root: Decodable { let data: MangaEntity }
 
     guard let url = components.url else { throw MDApiError.badRequest }
 
     let data = try await Request().get(for: url)
-    let manga = try! JSONDecoder().decode(MangaData.self, from: data)
+    
+    let manga = try! JSONDecoder().decode(Root.self, from: data)
     print(manga.data)
     return manga.data
 }

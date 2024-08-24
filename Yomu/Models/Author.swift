@@ -17,7 +17,7 @@ private struct AuthorData: Decodable {
 
 public struct Author: Decodable, Identifiable, Sendable {
     public let id: UUID
-    let name: String?
+    let name: String
     let imageUrl: String?
     let biography: LocalizedLanguage?
     let twitter: String?
@@ -37,13 +37,10 @@ public struct Author: Decodable, Identifiable, Sendable {
     let createdAt: String?
     let updatedAt: String?
     let version: Int?
-    let relationships: [Manga]?
+    let relationships: [MangaEntity]?
     
     enum CodingKeys: CodingKey {
-        case id
-        case type
-        case attributes
-        case relationships
+        case id, type, attributes, relationships
     }
     
     enum AttributesCodingKeys: CodingKey {
@@ -96,7 +93,7 @@ public struct Author: Decodable, Identifiable, Sendable {
         self.updatedAt = try attributesContainer.decode(String.self, forKey: .updatedAt)
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         
-        self.relationships = try container.decodeIfPresent([Manga].self, forKey: .relationships)
+        self.relationships = try container.decodeIfPresent([MangaEntity].self, forKey: .relationships)
     }
 }
 
