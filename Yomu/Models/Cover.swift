@@ -7,14 +7,6 @@
 
 import Foundation
 
-struct CoverData: Decodable {
-    let data: Cover
-    
-    enum CodingKeys: CodingKey {
-        case data
-    }
-}
-
 public struct Cover: Decodable, Identifiable, Sendable {
     public let id: UUID
     let volume: String

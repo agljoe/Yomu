@@ -36,37 +36,20 @@ public struct Artist: Decodable, Identifiable, Sendable {
     }
     
     enum AttributesCodingKeys: CodingKey {
-        case name
-        case imageUrl
-        case biography
-        case twitter
-        case pixiv
-        case melonBook
-        case fanBox
-        case booth
-        case nicoVideo
-        case skeb
-        case fantia
-        case tumblr
-        case youtube
-        case weibo
-        case naver
-        case namicomi
-        case website
-        case createdAt
-        case updatedAt
-        case version
+        case name, imageUrl, biography, twitter, pixiv, melonBook, fanBox, booth, nicoVideo, skeb, fantia, tumblr, youtube, weibo, naver, namicomi, website, createdAt, updatedAt, version
     }
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
-//        self.type = try container.decode(String.self, forKey: .type)
         
         let attributesContainer = try container.nestedContainer(keyedBy: AttributesCodingKeys.self, forKey: .attributes)
         self.name = try attributesContainer.decode(String.self, forKey: .name)
+        
         self.imageUrl = try attributesContainer.decodeIfPresent(String.self, forKey: .imageUrl)
+        
         self.biography = try attributesContainer.decode(LocalizedLanguage.self, forKey: .biography)
+        
         self.twitter = try attributesContainer.decodeIfPresent(String.self, forKey: .twitter)
         self.pixiv = try attributesContainer.decodeIfPresent(String.self, forKey: .pixiv)
         self.melonBook = try attributesContainer.decodeIfPresent(String.self, forKey: .melonBook)
@@ -81,8 +64,10 @@ public struct Artist: Decodable, Identifiable, Sendable {
         self.naver = try attributesContainer.decodeIfPresent(String.self, forKey: .naver)
         self.namicomi = try attributesContainer.decodeIfPresent(String.self, forKey: .namicomi)
         self.website = try attributesContainer.decodeIfPresent(String.self, forKey: .website)
+        
         self.createdAt = try attributesContainer.decode(String.self, forKey: .createdAt)
         self.updatedAt = try attributesContainer.decode(String.self, forKey: .updatedAt)
+        
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         
         self.relationships = try container.decodeIfPresent([MangaEntity].self, forKey: .relationships)

@@ -7,16 +7,18 @@
 
 import Foundation
 
-public enum MDApiError: Error {
-    case unknownResponse
-    case badRequest
-    case unauthorizedRequest
-    case forbiddenRequest
-    case notFound
-    case serviceUnavailable
-}
-
 public class Request {
+        
+    public enum MDApiError: Error {
+        case unknownResponse
+        case badRequest
+        case unauthorizedRequest
+        case forbiddenRequest
+        case notFound
+        case serviceUnavailable
+    }
+    
+    
     public func post(url: URL, value: String, content: Data) async throws -> Data {
         var request = URLRequest(url: url)
         request.setValue(value, forHTTPHeaderField: "Content-Type")
@@ -41,11 +43,8 @@ public class Request {
         
         request.httpMethod = "GET"
         
-//        request.httpBody = content
-        
         let (data, response) = try await URLSession.shared.data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw try httpError(for: (response as! HTTPURLResponse)) }
-        print("\(data)")
         return data
     }
     
@@ -70,10 +69,112 @@ public class Request {
 public func healthCheck() async throws -> () {
     let urlString = "https://api.mangadex.org/ping"
     
-    guard let url = URL(string: urlString) else { throw MDApiError.badRequest }
+    guard let url = URL(string: urlString) else { throw Request.MDApiError.badRequest }
     
     let data = try await Request().get(for: url)
     let response = String(data: data, encoding: .utf8) ?? ""
     
-    if response == "pong" { return } else { throw MDApiError.serviceUnavailable }
+    if response == "pong" { return } else { throw Request.MDApiError.serviceUnavailable }
+}
+
+public func getManga(id: String) async throws -> Manga {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "api.mangadex.org"
+    components.path = "/manga/\(id)"
+    components.queryItems = [
+        URLQueryItem(name: "includes[]", value: "cover_art"),
+        URLQueryItem(name: "includes[]", value: "artist"),
+        URLQueryItem(name: "includes[]", value: "author")
+    ]
+
+    struct Root: Decodable { let data: MangaEntity }
+
+    guard let url = components.url else { throw Request.MDApiError.badRequest }
+
+    let data = try await Request().get(for: url)
+    
+    let manga = try! JSONDecoder().decode(Root.self, from: data)
+    
+    #if DEBUG
+    print(manga.data)
+    #endif
+    
+    return Manga(from: manga.data)
+}
+
+public func getChapters(id: String) async throws -> [Chapter] {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "api.mangadex.org"
+    components.path = "/manga/\(id)/feed"
+    
+    guard let url = components.url else { throw Request.MDApiError.badRequest }
+    
+    let data = try await Request().get(for: url)
+    let chapters = try JSONDecoder().decode([Chapter].self, from: data)
+    return chapters
+}
+
+public func getCover(id: String) async throws -> () {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "api.mangadex.org"
+    components.path = "/cover/\(id)"
+    
+    guard let url = components.url else { throw Request.MDApiError.badRequest }
+    
+    struct Root: Decodable { let data: Cover }
+    
+    let data = try await Request().get(for: url)
+    let cover = try JSONDecoder().decode(Root.self, from: data)
+    
+    #if DEBUG
+    print(cover.data)
+    #endif
+    
+}
+
+public func getAuthor(id: String) async throws -> Author {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "api.mangadex.org"
+    components.path = "/author/\(id)"
+    components.queryItems = [URLQueryItem(name: "includes[]", value: "manga")]
+
+    guard let url = components.url else { throw Request.MDApiError.badRequest }
+    
+    struct Root: Decodable { let data: Author}
+    
+    let data = try await Request().get(for: url)
+    let author = try JSONDecoder().decode(Root.self, from: data)
+    #if DEBUG
+    print(author)
+    #endif
+    return author.data
+}
+
+public func getChaptersFor(mangaId: UUID) async throws -> [Chapter] {
+    var compontents = URLComponents()
+    compontents.scheme = "https"
+    compontents.host = "api.mangadex.org"
+    compontents.path = "/get/\(mangaId)/feed"
+    compontents.queryItems = [
+        URLQueryItem(name: "includes[]", value: "scanlation_group"),
+        URLQueryItem(name: "includes[]", value: "user")
+    ]
+    
+    guard let url = compontents.url else { throw  Request.MDApiError.badRequest }
+    
+    struct Root: Decodable {
+        let data: [Chapter]
+        let limit: Int
+        let offset: Int
+        let total: Int
+    }
+    
+    let data = try await Request().get(for: url)
+    let chapters = try JSONDecoder().decode(Root.self, from: data)
+    // track limit, offset, and total
+    return chapters.data
 }

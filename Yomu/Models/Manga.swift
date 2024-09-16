@@ -8,8 +8,8 @@
 import Foundation
 
 //TODO: decode dates as Date? rather than String
-public struct MangaEntity: Decodable, Identifiable, Sendable {
-    public let id: UUID
+struct MangaEntity: Decodable, Identifiable {
+    let id: UUID
     let related: String?
     let title: [String: String]
     let altTitles: [[String: String]]
@@ -90,8 +90,8 @@ public struct MangaEntity: Decodable, Identifiable, Sendable {
         var relatedManga: [RelatedManga] = []
         
         do {
-            let relationships = try container.decode([MangaRelationship].self, forKey: .relationships)
-            for relationship in relationships {
+            let relationships = try container.decodeIfPresent([MangaRelationship].self, forKey: .relationships)
+            for relationship in relationships ?? [MangaRelationship]() {
                 switch relationship {
                 case .author(let author):
                     authors.append(author)
@@ -112,7 +112,7 @@ public struct MangaEntity: Decodable, Identifiable, Sendable {
     }
 }
 
-public struct Manga: Identifiable, Sendable {
+public struct Manga: Decodable, Identifiable, Sendable {
     public let id: UUID
     let related: String?
     let title: [String: String]
@@ -138,9 +138,38 @@ public struct Manga: Identifiable, Sendable {
     let author: [Author]?
     let artist: [Artist]?
     let cover: Cover?
-    let relatedManga: [Manga]?
+    let relatedManga: [RelatedManga]?
     
-    init(id: UUID, related: String?, title: [String : String], altTitles: [[String : String]], description: [String : String], isLocked: Bool, links: MangaLink, originalLanguage: String, lastVolume: String?, lastChapter: String?, publicationDemographic: Demographic?, status: Status, year: Int?, contentRating: Rating, tags: [Tag], state: String, chapterNumbersResetOnNewVolume: Bool, createdAt: String, updatedAt: String, version: Int, availableTranslatedLanguages: [String], latestUploadedChapter: UUID?, author: [Author]?, artist: [Artist]?, cover: Cover?, relatedManga: [Manga]?) {
+    init() {
+        self.id = UUID()
+        self.related = ""
+        self.title = ["": ""]
+        self.altTitles = [["": ""]]
+        self.description = ["": ""]
+        self.isLocked = false
+        self.links = MangaLink(al: "", ap: "", bw: "", mu: "", nu: "", kt: "", amz: "", ebj: "", mal: "", cdj: "", raw: "", engtl: "")
+        self.originalLanguage = ""
+        self.lastVolume = ""
+        self.lastChapter = ""
+        self.publicationDemographic = Demographic.shounen
+        self.status = Status.ongoing
+        self.year = 0
+        self.contentRating = Rating.safe
+        self.tags = [Tag]()
+        self.state = ""
+        self.chapterNumbersResetOnNewVolume = false
+        self.createdAt = ""
+        self.updatedAt = ""
+        self.version = 0
+        self.availableTranslatedLanguages = [String]()
+        self.latestUploadedChapter = nil
+        self.author = [Author]()
+        self.artist = [Artist]()
+        self.cover = nil
+        self.relatedManga = nil
+    }
+    
+    init(id: UUID, related: String?, title: [String : String], altTitles: [[String : String]], description: [String : String], isLocked: Bool, links: MangaLink, originalLanguage: String, lastVolume: String?, lastChapter: String?, publicationDemographic: Demographic?, status: Status, year: Int?, contentRating: Rating, tags: [Tag], state: String, chapterNumbersResetOnNewVolume: Bool, createdAt: String, updatedAt: String, version: Int, availableTranslatedLanguages: [String], latestUploadedChapter: UUID?, author: [Author]?, artist: [Artist]?, cover: Cover?, relatedManga: [RelatedManga]?) {
         self.id = id
         self.related = related
         self.title = title
@@ -169,54 +198,45 @@ public struct Manga: Identifiable, Sendable {
         self.relatedManga = relatedManga
     }
     
+    init(from entity: MangaEntity) {
+        self.id = entity.id
+        self.related = entity.related
+        self.title = entity.title
+        self.altTitles = entity.altTitles
+        self.description = entity.description
+        self.isLocked = entity.isLocked
+        self.links = entity.links
+        self.originalLanguage = entity.originalLanguage
+        self.lastVolume = entity.lastVolume
+        self.lastChapter = entity.lastChapter
+        self.publicationDemographic = entity.publicationDemographic
+        self.status = entity.status
+        self.year = entity.year
+        self.contentRating = entity.contentRating
+        self.tags = entity.tags
+        self.state = entity.state
+        self.chapterNumbersResetOnNewVolume = entity.chapterNumbersResetOnNewVolume
+        self.createdAt = entity.createdAt
+        self.updatedAt = entity.updatedAt
+        self.version = entity.version
+        self.availableTranslatedLanguages = entity.availableTranslatedLanguages
+        self.latestUploadedChapter = entity.latestUploadedChapter
+        self.author = entity.author
+        self.artist = entity.artist
+        self.cover = entity.cover
+        self.relatedManga = entity.relatedManga
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let entity = try MangaEntity(from: decoder)
+        self.init(from: entity)
+    }
+    
 }
 
-public func getManga(id: String) async throws -> MangaEntity {
-    var components = URLComponents()
-    components.scheme = "https"
-    components.host = "api.mangadex.org"
-    components.path = "/manga/\(id)"
-    components.queryItems = [
-        URLQueryItem(name: "includes[]", value: "cover_art"),
-        URLQueryItem(name: "includes[]", value: "artist"),
-        URLQueryItem(name: "includes[]", value: "author")
-    ]
-
-    struct Root: Decodable { let data: MangaEntity }
-
-    guard let url = components.url else { throw MDApiError.badRequest }
-
-    let data = try await Request().get(for: url)
-    
-    let manga = try! JSONDecoder().decode(Root.self, from: data)
-    print(manga.data)
-    return manga.data
+struct RelatedManga: Decodable {
+    let id: UUID
+    let type: String
+    let related: String
 }
 
-public func getMangaChapters(id: String) async throws -> [Chapter] {
-    var components = URLComponents()
-    components.scheme = "https"
-    components.host = "api.mangadex.org"
-    components.path = "/manga/\(id)/feed"
-    
-    guard let url = components.url else { throw MDApiError.badRequest }
-    
-    let data = try await Request().get(for: url)
-    let chapters = try JSONDecoder().decode([Chapter].self, from: data)
-    return chapters
-}
-
-public func getCover(id: String) async throws -> Cover {
-    var components = URLComponents()
-    components.scheme = "https"
-    components.host = "api.mangadex.org"
-    components.path = "/cover/\(id)"
-    
-    guard let url = components.url else { throw MDApiError.badRequest }
-    
-    let data = try await Request().get(for: url)
-    let cover = try! JSONDecoder().decode(CoverData.self, from: data)
-    print(cover.data)
-    
-    return cover.data
-}

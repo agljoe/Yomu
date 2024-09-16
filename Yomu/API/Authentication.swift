@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Credentials: Codable, Sendable {
+struct Credentials: Codable {
     var username: String
     var password: String
     var client_id: String
@@ -22,9 +22,7 @@ public struct Credentials: Codable, Sendable {
 public struct Token: Hashable, Codable {
     let access: String
     let refresh: String?
-}
-
-extension Token {
+    
     private enum CodingKeys: String, CodingKey {
         case access = "access_token"
         case refresh = "refresh_token"
@@ -44,7 +42,7 @@ public enum KeychainError: Error {
     case unhandledError(status: OSStatus)
 }
 
-public func auth(for credentials: Credentials) async throws -> () {
+func auth(for credentials: Credentials) async throws -> () {
     let urlString = "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token"
     
     guard let url = URL(string: urlString) else { throw AuthenticationError.invalidCredentials }
@@ -86,7 +84,7 @@ private func reAuth() async throws -> () {
     } catch { throw AuthenticationError.failedToAuthenticate }
 }
 
-public func storeCredentials(username: String, password: String, server: String) throws -> () {
+func storeCredentials(username: String, password: String, server: String) throws -> () {
     let server = server
 
     let account = username
@@ -147,7 +145,7 @@ private func handleToken(username: String, type: String, token: String) throws -
     guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status)}
 }
 
-public func getToken(type: String) throws -> String {
+func getToken(type: String) throws -> String {
     let query: [String: Any] = [
         kSecClass as String: kSecClassGenericPassword,
         kSecAttrLabel as String: type,

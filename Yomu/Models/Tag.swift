@@ -6,35 +6,11 @@
 //
 
 import Foundation
-//import SwiftData
-
-//@Model
-//class FilterTag {
-//    var tag: Tag
-//    var isIncluded: Bool
-//    var isExcluded: Bool
-//    
-//    init(tag: Tag, isIncluded: Bool, isExcluded: Bool) {
-//        self.tag = tag
-//        self.isIncluded = isIncluded
-//        self.isExcluded = isExcluded
-//    }
-//}
-
-public struct TagData: Decodable {
-    let data: [Tag]
-    
-    
-    enum CodingKeys: CodingKey {
-        case data
-    }
-}
 
 public struct Tag: Codable, Identifiable, Sendable {
     public let id: UUID
     let name: String
     let group: String
-//    var selection = Selection.none
     
     enum CodingKeys: CodingKey {
         case id
@@ -42,21 +18,13 @@ public struct Tag: Codable, Identifiable, Sendable {
     }
     
     enum AttributeCodingKeys: CodingKey {
-        case name
-        case group
+        case name, group
     }
     
     enum NameCodingKeys: CodingKey {
         case en
     }
-    
-//    enum Selection {
-//        case none
-//        case include
-//        case exclude
-//    }
 
-    
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -87,11 +55,15 @@ public func getTags() async throws -> [Tag] {
     components.host = "api.mangadex.org"
     components.path = "/manga/tag"
     
-    guard let url = components.url else { throw MDApiError.badRequest }
+    guard let url = components.url else { throw Request.MDApiError.badRequest }
+    
+    struct Root: Decodable { let data: [Tag] }
     
     let data = try await Request().get(for: url)
-    let tags = try JSONDecoder().decode(TagData.self, from: data)
-//    print(tags.data)
+    let tags = try JSONDecoder().decode(Root.self, from: data)
+    #if DEBUG
+    print(tags.data)
+    #endif
     
     return tags.data
 }

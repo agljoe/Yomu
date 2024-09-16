@@ -7,12 +7,6 @@
 
 import Foundation
 
-struct RelatedManga: Decodable {
-    let id: UUID
-    let type: String
-    let related: String
-}
-
 enum MangaRelationshipType: String, Decodable {
     case author
     case artist
@@ -50,3 +44,34 @@ enum MangaRelationship: Decodable {
         }
     }
 }
+
+enum ChapterRelationshipType: String, Decodable {
+    case scanlation_group
+    case user
+}
+
+enum ChapterRelationship: Decodable {
+    case scanlation_group(ScanlationGroup)
+    case user(User)
+    
+    enum CodingKeys: CodingKey {
+        case id, type, name, attributes, relationships
+    }
+    
+    enum AttributeCodingKeys: CodingKey {
+        case name, username, roles, locked, website, ircServer, ircChannel, discord, contactEmail, description, twitter, mangaUpdates, focusedLanguages, official, verified, inactive, exLisensed, publishDelay, createdAt, updatedAt, version
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let relationshipType = try container.decode(ChapterRelationshipType.self, forKey: .type)
+        
+        switch relationshipType {
+        case .scanlation_group:
+            self = .scanlation_group(try ScanlationGroup(from: decoder))
+        case .user:
+            self = .user(try User(from: decoder))
+        }
+    }
+}
+

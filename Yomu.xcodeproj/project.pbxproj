@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		492FB2B82C79703F00F634E1 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2B72C79703F00F634E1 /* Relationship.swift */; };
+		492FB2BC2C7BBB0F00F634E1 /* ScanlationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */; };
 		499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929242C0FEBA3003BD29B /* YomuApp.swift */; };
 		499929272C0FEBA3003BD29B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929262C0FEBA3003BD29B /* ContentView.swift */; };
 		499929292C0FEBA5003BD29B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 499929282C0FEBA5003BD29B /* Assets.xcassets */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		492FB2B72C79703F00F634E1 /* Relationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
+		492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanlationGroup.swift; sourceTree = "<group>"; };
 		499929212C0FEBA3003BD29B /* Yomu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		499929242C0FEBA3003BD29B /* YomuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuApp.swift; sourceTree = "<group>"; };
 		499929262C0FEBA3003BD29B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				4999299F2C225189003BD29B /* Tag.swift */,
 				499929A12C2A4E0F003BD29B /* Cover.swift */,
 				492FB2B72C79703F00F634E1 /* Relationship.swift */,
+				492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */,
 				4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */,
 				499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */,
+				492FB2BC2C7BBB0F00F634E1 /* ScanlationGroup.swift in Sources */,
 				499929752C16A466003BD29B /* CommunityView.swift in Sources */,
 				499929562C1054C7003BD29B /* Manga.swift in Sources */,
 				4999298C2C1BCCE3003BD29B /* Icon.swift in Sources */,

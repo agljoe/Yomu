@@ -7,14 +7,6 @@
 
 import Foundation
 
-private struct AuthorData: Decodable {
-    let data: Author
-    
-    enum CodingKeys: CodingKey {
-        case data
-    }
-}
-
 public struct Author: Decodable, Identifiable, Sendable {
     public let id: UUID
     let name: String
@@ -37,44 +29,27 @@ public struct Author: Decodable, Identifiable, Sendable {
     let createdAt: String?
     let updatedAt: String?
     let version: Int?
-    let relationships: [MangaEntity]?
+    let realtedManga: [MangaEntity]?
     
     enum CodingKeys: CodingKey {
         case id, type, attributes, relationships
     }
     
     enum AttributesCodingKeys: CodingKey {
-        case name
-        case imageUrl
-        case biography
-        case twitter
-        case pixiv
-        case melonBook
-        case fanBox
-        case booth
-        case nicoVideo
-        case skeb
-        case fantia
-        case tumblr
-        case youtube
-        case weibo
-        case naver
-        case namicomi
-        case website
-        case createdAt
-        case updatedAt
-        case version
+        case name, imageUrl, biography, twitter, pixiv, melonBook, fanBox, booth, nicoVideo, skeb, fantia, tumblr, youtube, weibo, naver, namicomi, website, createdAt, updatedAt, version
     }
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
-//        self.type = try container.decode(String.self, forKey: .type)
         
         let attributesContainer = try container.nestedContainer(keyedBy: AttributesCodingKeys.self, forKey: .attributes)
         self.name = try attributesContainer.decode(String.self, forKey: .name)
+        
         self.imageUrl = try attributesContainer.decodeIfPresent(String.self, forKey: .imageUrl)
+        
         self.biography = try attributesContainer.decode(LocalizedLanguage.self, forKey: .biography)
+        
         self.twitter = try attributesContainer.decodeIfPresent(String.self, forKey: .twitter)
         self.pixiv = try attributesContainer.decodeIfPresent(String.self, forKey: .pixiv)
         self.melonBook = try attributesContainer.decodeIfPresent(String.self, forKey: .melonBook)
@@ -89,25 +64,12 @@ public struct Author: Decodable, Identifiable, Sendable {
         self.naver = try attributesContainer.decodeIfPresent(String.self, forKey: .naver)
         self.namicomi = try attributesContainer.decodeIfPresent(String.self, forKey: .namicomi)
         self.website = try attributesContainer.decodeIfPresent(String.self, forKey: .website)
+        
         self.createdAt = try attributesContainer.decode(String.self, forKey: .createdAt)
         self.updatedAt = try attributesContainer.decode(String.self, forKey: .updatedAt)
+        
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         
-        self.relationships = try container.decodeIfPresent([MangaEntity].self, forKey: .relationships)
+        self.realtedManga = try container.decodeIfPresent([MangaEntity].self, forKey: .relationships)
     }
-}
-
-public func getAuthor(id: String) async throws -> Author {
-    var components = URLComponents()
-    components.scheme = "https"
-    components.host = "api.mangadex.org"
-    components.path = "/author/dbe4cbfe-81dd-4766-a658-ad006ad5a1d7"
-    components.query = "includes[]=manga"
-
-    guard let url = components.url else { throw MDApiError.badRequest }
-    
-    let data = try await Request().get(for: url)
-    let author = try! JSONDecoder().decode(AuthorData.self, from: data)
-    print(author)
-    return author.data
 }
