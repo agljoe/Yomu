@@ -66,7 +66,7 @@ public class Request {
     }
 }
 
-public func healthCheck() async throws -> () {
+public func healthCheck() async throws -> String {
     let urlString = "https://api.mangadex.org/ping"
     
     guard let url = URL(string: urlString) else { throw Request.MDApiError.badRequest }
@@ -74,7 +74,7 @@ public func healthCheck() async throws -> () {
     let data = try await Request().get(for: url)
     let response = String(data: data, encoding: .utf8) ?? ""
     
-    if response == "pong" { return } else { throw Request.MDApiError.serviceUnavailable }
+    if response == "pong" { return "healthy" } else { throw Request.MDApiError.serviceUnavailable }
 }
 
 public func getManga(id: String) async throws -> Manga {
