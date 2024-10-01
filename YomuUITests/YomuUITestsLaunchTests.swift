@@ -17,6 +17,7 @@ final class YomuUITestsLaunchTests: XCTestCase {
         continueAfterFailure = false
     }
 
+    @MainActor // Wrap test with main actor macro to remove errors until tests are migrated to Swift Testing
     func testLaunch() throws {
         let app = XCUIApplication()
         app.launch()

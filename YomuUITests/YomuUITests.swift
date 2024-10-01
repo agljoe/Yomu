@@ -2,12 +2,15 @@
 //  YomuUITests.swift
 //  YomuUITests
 //
-//  Created by Andrew Joe on 2024-06-04.
+//  Created by Andrew Joe on 2024-09-30.
 //
+
 
 import XCTest
 
 final class YomuUITests: XCTestCase {
+    
+    private var app : XCUIApplication!
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -24,9 +27,7 @@ final class YomuUITests: XCTestCase {
 
     func testExample() throws {
         // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
-
+       
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
@@ -34,7 +35,7 @@ final class YomuUITests: XCTestCase {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
             measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
+             
             }
         }
     }

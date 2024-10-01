@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		492FB2B82C79703F00F634E1 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2B72C79703F00F634E1 /* Relationship.swift */; };
 		492FB2BC2C7BBB0F00F634E1 /* ScanlationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */; };
-		497405262C9F91B70066B411 /* YomuRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497405252C9F91B70066B411 /* YomuRequestTests.swift */; };
+		4974052A2CAB62FB0066B411 /* YomuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497405292CAB62FB0066B411 /* YomuUITests.swift */; };
+		4974052C2CAB6E4C0066B411 /* YomuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4974052B2CAB6E4C0066B411 /* YomuTests.swift */; };
 		499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929242C0FEBA3003BD29B /* YomuApp.swift */; };
 		499929272C0FEBA3003BD29B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929262C0FEBA3003BD29B /* ContentView.swift */; };
 		499929292C0FEBA5003BD29B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 499929282C0FEBA5003BD29B /* Assets.xcassets */; };
 		4999292C2C0FEBA5003BD29B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4999292B2C0FEBA5003BD29B /* Preview Assets.xcassets */; };
-		499929402C0FEBA5003BD29B /* YomuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999293F2C0FEBA5003BD29B /* YomuUITests.swift */; };
 		499929422C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929412C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift */; };
 		499929542C100B39003BD29B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929532C100B39003BD29B /* User.swift */; };
 		499929562C1054C7003BD29B /* Manga.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929552C1054C7003BD29B /* Manga.swift */; };
@@ -64,8 +64,9 @@
 /* Begin PBXFileReference section */
 		492FB2B72C79703F00F634E1 /* Relationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
 		492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanlationGroup.swift; sourceTree = "<group>"; };
-		497405242C9F91B70066B411 /* YomuTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YomuTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		497405252C9F91B70066B411 /* YomuRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuRequestTests.swift; sourceTree = "<group>"; };
+		497405292CAB62FB0066B411 /* YomuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuUITests.swift; sourceTree = "<group>"; };
+		4974052B2CAB6E4C0066B411 /* YomuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuTests.swift; sourceTree = "<group>"; };
+		4974052D2CAB6F6D0066B411 /* YomuTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YomuTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		499929212C0FEBA3003BD29B /* Yomu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		499929242C0FEBA3003BD29B /* YomuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuApp.swift; sourceTree = "<group>"; };
 		499929262C0FEBA3003BD29B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		4999292B2C0FEBA5003BD29B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		499929312C0FEBA5003BD29B /* YomuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YomuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4999293B2C0FEBA5003BD29B /* YomuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YomuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4999293F2C0FEBA5003BD29B /* YomuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuUITests.swift; sourceTree = "<group>"; };
 		499929412C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		499929532C100B39003BD29B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		499929552C1054C7003BD29B /* Manga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manga.swift; sourceTree = "<group>"; };
@@ -172,8 +172,8 @@
 		499929342C0FEBA5003BD29B /* YomuTests */ = {
 			isa = PBXGroup;
 			children = (
-				497405252C9F91B70066B411 /* YomuRequestTests.swift */,
-				497405242C9F91B70066B411 /* YomuTests-Bridging-Header.h */,
+				4974052B2CAB6E4C0066B411 /* YomuTests.swift */,
+				4974052D2CAB6F6D0066B411 /* YomuTests-Bridging-Header.h */,
 			);
 			path = YomuTests;
 			sourceTree = "<group>";
@@ -181,7 +181,7 @@
 		4999293E2C0FEBA5003BD29B /* YomuUITests */ = {
 			isa = PBXGroup;
 			children = (
-				4999293F2C0FEBA5003BD29B /* YomuUITests.swift */,
+				497405292CAB62FB0066B411 /* YomuUITests.swift */,
 				499929412C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift */,
 			);
 			path = YomuUITests;
@@ -309,7 +309,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					499929202C0FEBA3003BD29B = {
 						CreatedOnToolsVersion = 15.4;
@@ -413,7 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				497405262C9F91B70066B411 /* YomuRequestTests.swift in Sources */,
+				4974052C2CAB6E4C0066B411 /* YomuTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,7 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				499929422C0FEBA5003BD29B /* YomuUITestsLaunchTests.swift in Sources */,
-				499929402C0FEBA5003BD29B /* YomuUITests.swift in Sources */,
+				4974052A2CAB62FB0066B411 /* YomuUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,7 +494,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -502,6 +502,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -551,12 +552,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -569,7 +571,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Yomu/Preview Content\"";
-				DEVELOPMENT_TEAM = 5MHX5FPG48;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -586,7 +588,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -599,7 +601,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Yomu/Preview Content\"";
-				DEVELOPMENT_TEAM = 5MHX5FPG48;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -616,7 +618,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -630,7 +632,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5MHX5FPG48;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joe.andrew.YomuTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -638,7 +640,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "YomuTests/YomuTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yomu.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Yomu";
 			};
@@ -653,14 +655,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5MHX5FPG48;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joe.andrew.YomuTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "YomuTests/YomuTests-Bridging-Header.h";
 				SWIFT_STRICT_CONCURRENCY = complete;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yomu.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Yomu";
 			};
@@ -678,7 +680,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_STRICT_CONCURRENCY = complete;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Yomu;
 			};
@@ -696,7 +698,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_STRICT_CONCURRENCY = complete;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Yomu;
 			};

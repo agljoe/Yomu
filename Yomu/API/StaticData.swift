@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 let languageCodeDictonary: [String: LocalizedStringKey] = [
     "en": "English",
     "sq": "Albanian",

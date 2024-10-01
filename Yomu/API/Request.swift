@@ -74,7 +74,7 @@ public func healthCheck() async throws -> String {
     let data = try await Request().get(for: url)
     let response = String(data: data, encoding: .utf8) ?? ""
     
-    if response == "pong" { return "healthy" } else { throw Request.MDApiError.serviceUnavailable }
+    if response == "pong" { return response } else { throw Request.MDApiError.serviceUnavailable }
 }
 
 public func getManga(id: String) async throws -> Manga {
@@ -116,21 +116,34 @@ public func getChapters(id: String) async throws -> [Chapter] {
     return chapters
 }
 
-public func getCover(id: String) async throws -> () {
+public func getCoversFor(ids: [String]) async throws -> () {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
-    components.path = "/cover/\(id)"
+    components.path = "/cover"
+    
+    components.queryItems = []
+    components.queryItems?.append(URLQueryItem(name: "limit", value: "10"))
+    for id in ids { components.queryItems?.append(URLQueryItem(name: "manga[]", value: id)) }
+    // TODO: allow for asc or desc for returned object order
+    components.queryItems?.append(URLQueryItem(name: "order[createdAt]", value: "asc"))
+    components.queryItems?.append(URLQueryItem(name: "order[updatedAt]", value: "asc"))
+    components.queryItems?.append(URLQueryItem(name: "order[volume]", value: "asc"))
     
     guard let url = components.url else { throw Request.MDApiError.badRequest }
     
-    struct Root: Decodable { let data: Cover }
+    struct Root: Decodable {
+        let data: [Cover]
+        let limit: Int
+        let offset: Int
+        let total: Int
+    }
     
     let data = try await Request().get(for: url)
-    let cover = try JSONDecoder().decode(Root.self, from: data)
+    let covers = try JSONDecoder().decode(Root.self, from: data)
     
     #if DEBUG
-    print(cover.data)
+    print(covers.data)
     #endif
     
 }

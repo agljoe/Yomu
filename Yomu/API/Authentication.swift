@@ -63,7 +63,7 @@ func auth(for credentials: Credentials) async throws -> () {
     
 }
 
-//TODO: implement OAuth session refresh for reAuthorization
+//TODO: implement OAuth session refresh for reAuthorization if API call fails
 
 private func reAuth() async throws -> () {
     guard let token = try? getToken(type: "refresh") else { throw KeychainError.noToken }
