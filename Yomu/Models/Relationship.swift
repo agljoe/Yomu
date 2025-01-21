@@ -48,18 +48,20 @@ enum MangaRelationship: Decodable {
 enum ChapterRelationshipType: String, Decodable {
     case scanlation_group
     case user
+    case manga
 }
 
 enum ChapterRelationship: Decodable {
     case scanlation_group(ScanlationGroup)
     case user(User)
+    case manga(ParentManga)
     
     enum CodingKeys: CodingKey {
-        case id, type, name, attributes, relationships
+        case id, type, attributes, relationships
     }
     
     enum AttributeCodingKeys: CodingKey {
-        case name, username, roles, locked, website, ircServer, ircChannel, discord, contactEmail, description, twitter, mangaUpdates, focusedLanguages, official, verified, inactive, exLisensed, publishDelay, createdAt, updatedAt, version
+        case name, username, roles, locked, website, ircServer, ircChannel, discord, contactEmail, description, twitter, mangaUpdates, focusedLanguages, official, verified, inactive, exLisensed, publishDelay, createdAt, updatedAt, version, title, altTitles, originalLanguage
     }
     
     init(from decoder: any Decoder) throws {
@@ -71,7 +73,8 @@ enum ChapterRelationship: Decodable {
             self = .scanlation_group(try ScanlationGroup(from: decoder))
         case .user:
             self = .user(try User(from: decoder))
+        case .manga:
+            self = .manga(try ParentManga(from: decoder))
         }
     }
 }
-

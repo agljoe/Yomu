@@ -10,13 +10,19 @@ import SwiftUI
 struct SettingsView: View {
     @State private var showingLoginAlert = false
     @State private var query = ""
-    @State var credentials: Credentials
     
     var body: some View {
         NavigationSplitView(columnVisibility: .constant(.all)) {
             Form {
                 Section {
-                    Text("Account")
+                    NavigationLink {
+                        AccountView(credentials: Credentials(username: "", password: "", client_id: "", client_secret: ""))
+                    } label: {
+                        HStack {
+                            Icon(symbol: "person.crop.circle.fill", symbolSize: .large, symbolColor: .white, iconColor: .gray)
+                            Text("Account")
+                        }
+                    }
                 }
                 
                 Section {
@@ -118,5 +124,5 @@ struct SettingsView: View {
 
 
 #Preview {
-    SettingsView(credentials: Credentials(username: "", password: "", client_id: "", client_secret: ""))
+    SettingsView()
 }

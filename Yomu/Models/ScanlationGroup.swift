@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ScanlationGroup: Identifiable, Decodable {
+struct ScanlationGroup: Identifiable, Decodable, Sendable {
     let id: UUID
     let name: String
     let locked: Bool

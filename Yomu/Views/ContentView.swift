@@ -31,7 +31,7 @@ struct ContentView: View {
                     Label("Search", systemImage: "magnifyingglass")
                 }
             
-            SettingsView(credentials: Credentials(username: "", password: "", client_id: "", client_secret: ""))
+            SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }

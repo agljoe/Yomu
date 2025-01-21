@@ -16,21 +16,15 @@ public struct Cover: Decodable, Identifiable, Sendable {
     let version: Int
     let createdAt: String
     let updatedAt: String
-//    let relationships: [Relationship]
+    let relationships: [CoverRelationship]
+    
     
     enum CodingKeys: CodingKey {
-        case id, attributes
-//        case relationships
+        case id, attributes, relationships
     }
     
     enum AttributeCodingKeys: CodingKey {
-        case volume
-        case fileName
-        case description
-        case locale
-        case version
-        case createdAt
-        case updatedAt
+        case volume, fileName, description, locale, version, createdAt, updatedAt
     }
     
     public init(from decoder: any Decoder) throws {
@@ -46,6 +40,12 @@ public struct Cover: Decodable, Identifiable, Sendable {
         self.createdAt = try attributesContainer.decode(String.self, forKey: .createdAt)
         self.updatedAt = try attributesContainer.decode(String.self, forKey: .updatedAt)
         
-//        self.relationships = try container.decode([Relationship].self, forKey: .relationships)
+        self.relationships = try container.decode([CoverRelationship].self, forKey: .relationships)
+        
     }
+}
+
+struct CoverRelationship: Decodable, Identifiable, Sendable {
+    public let id: UUID
+    let type: String
 }

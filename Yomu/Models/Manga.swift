@@ -8,7 +8,7 @@
 import Foundation
 
 //TODO: decode dates as Date? rather than String
-struct MangaEntity: Decodable, Identifiable {
+struct MangaEntity: Decodable, Identifiable, Sendable {
     let id: UUID
     let related: String?
     let title: [String: String]
@@ -30,7 +30,7 @@ struct MangaEntity: Decodable, Identifiable {
     let updatedAt: String
     let version: Int
     let availableTranslatedLanguages: [String]
-    let latestUploadedChapter: UUID? // same as id in Chapter structt
+    let latestUploadedChapter: UUID? // same as id in Chapter struct
     let author: [Author]?
     let artist: [Artist]?
     let cover: Cover?
@@ -50,6 +50,7 @@ struct MangaEntity: Decodable, Identifiable {
         self.related = try container.decodeIfPresent(String.self, forKey: .related)
 
         let attributesContainer = try container.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
+        // TODO: only use user prefered language, en by default
         self.title = try attributesContainer.decode([String: String].self, forKey: .title)
         self.altTitles = try attributesContainer.decode([[String: String]].self, forKey: .altTitles)
         self.description = try attributesContainer.decode([String: String].self, forKey: .description)
@@ -234,7 +235,7 @@ public struct Manga: Decodable, Identifiable, Sendable {
     
 }
 
-struct RelatedManga: Decodable {
+struct RelatedManga: Decodable, Identifiable {
     let id: UUID
     let type: String
     let related: String

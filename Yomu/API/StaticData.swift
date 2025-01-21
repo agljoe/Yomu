@@ -191,7 +191,7 @@ extension LocalizedLanguage {
     }
 }
 
-struct MangaLink: Codable {
+public struct MangaLink: Codable, Sendable {
     let al: String? // anilist, stored as id
     let ap: String? // animeplanet, stored as slug
     let bw: String? // bw, stored as series/
@@ -206,28 +206,37 @@ struct MangaLink: Codable {
     let engtl: String? // stored as full URL, official english licened URL
 }
 
-enum Demographic: String, Codable {
+public enum Demographic: String, Codable, Sendable {
     case shounen
     case shoujo
     case josei
     case seinen
 }
 
-enum Status: String, Codable {
+public enum Status: String, Codable, Sendable {
     case ongoing
     case completed
     case hiatus
     case cancelled
 }
 
-enum Rating: String, Codable {
+public enum ReadingStatus: String, Codable, Sendable {
+    case reading = "reading"
+    case on_hold = "on_hold"
+    case plan_to_read = "plan_to_read"
+    case dropped = "dropped"
+    case re_reading = "re_rereading"
+    case completed = "completed"
+}
+
+public enum Rating: String, Codable, Sendable {
     case safe
     case suggestive
     case erotica
     case pornographic
 }
 
-enum RelationshipType:Codable {
+public enum RelationshipType: Codable, Sendable {
     case manga
     case chapter
     case cover_art
@@ -239,7 +248,7 @@ enum RelationshipType:Codable {
     case custom_list
 }
 
-enum MangaRelated: String, Codable {
+public enum MangaRelated: String, Codable, Sendable {
     case monochrome
     case colored
     case preserialization

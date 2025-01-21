@@ -12,6 +12,7 @@ struct CommunityView: View {
         // TODO: move to testing environment
         VStack {
             Text("Coming Soon")
+            
         }
     }
 }

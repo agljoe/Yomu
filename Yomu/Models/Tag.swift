@@ -55,11 +55,11 @@ public func getTags() async throws -> [Tag] {
     components.host = "api.mangadex.org"
     components.path = "/manga/tag"
     
-    guard let url = components.url else { throw Request.MDApiError.badRequest }
+    guard let url = components.url else { throw MDApiError.badRequest }
     
     struct Root: Decodable { let data: [Tag] }
     
-    let data = try await Request().get(for: url)
+    let data = try await get(for: url)
     let tags = try JSONDecoder().decode(Root.self, from: data)
     #if DEBUG
     print(tags.data)

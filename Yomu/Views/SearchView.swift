@@ -19,15 +19,6 @@ struct SearchView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
-                    Button("Test") {
-                        var components = URLComponents()
-                        components.scheme = "https"
-                        components.host = "api.mangadex.org"
-                        components.path = "/manga/"
-                        components.query = "includes[]=author&includes[]=artist"
-                        
-                        print(components)
-                    }
                 }
             }
             .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always))

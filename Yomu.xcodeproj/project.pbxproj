@@ -42,6 +42,7 @@
 		499929A02C225189003BD29B /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999299F2C225189003BD29B /* Tag.swift */; };
 		499929A22C2A4E0F003BD29B /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A12C2A4E0F003BD29B /* Cover.swift */; };
 		499929A82C324011003BD29B /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A72C324011003BD29B /* Artist.swift */; };
+		49F0F34E2D2F96EB00525902 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34D2D2F96EB00525902 /* AccountView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		4999299F2C225189003BD29B /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		499929A12C2A4E0F003BD29B /* Cover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
 		499929A72C324011003BD29B /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
+		49F0F34D2D2F96EB00525902 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,15 +207,15 @@
 		499929522C100B03003BD29B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				499929532C100B39003BD29B /* User.swift */,
-				499929552C1054C7003BD29B /* Manga.swift */,
-				499929762C192C4A003BD29B /* Chapter.swift */,
-				499929782C192FA4003BD29B /* Author.swift */,
 				499929A72C324011003BD29B /* Artist.swift */,
-				4999299F2C225189003BD29B /* Tag.swift */,
+				499929782C192FA4003BD29B /* Author.swift */,
+				499929762C192C4A003BD29B /* Chapter.swift */,
 				499929A12C2A4E0F003BD29B /* Cover.swift */,
+				499929552C1054C7003BD29B /* Manga.swift */,
 				492FB2B72C79703F00F634E1 /* Relationship.swift */,
 				492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */,
+				4999299F2C225189003BD29B /* Tag.swift */,
+				499929532C100B39003BD29B /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -241,6 +243,7 @@
 				499929932C1BE4F4003BD29B /* SearchSettingsView.swift */,
 				499929952C1E7566003BD29B /* FilterSettingsView.swift */,
 				499929992C21142F003BD29B /* FilterTagsView.swift */,
+				49F0F34D2D2F96EB00525902 /* AccountView.swift */,
 			);
 			path = "Settings Views";
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				TargetAttributes = {
 					499929202C0FEBA3003BD29B = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1610;
 					};
 					499929302C0FEBA5003BD29B = {
 						CreatedOnToolsVersion = 15.4;
@@ -395,6 +399,7 @@
 				499929712C16A3B7003BD29B /* LibraryView.swift in Sources */,
 				499929792C192FA4003BD29B /* Author.swift in Sources */,
 				499929542C100B39003BD29B /* User.swift in Sources */,
+				49F0F34E2D2F96EB00525902 /* AccountView.swift in Sources */,
 				499929732C16A431003BD29B /* UpdatesView.swift in Sources */,
 				499929882C1BB84D003BD29B /* AppearanceView.swift in Sources */,
 				4999295B2C113381003BD29B /* Authentication.swift in Sources */,
@@ -568,6 +573,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Yomu/Preview Content\"";
@@ -587,6 +593,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.joe.andrew.Yomu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Yomu/API/Yomu-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -598,6 +606,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Yomu/Preview Content\"";
@@ -617,6 +626,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.joe.andrew.Yomu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Yomu/API/Yomu-Bridging-Header.h";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

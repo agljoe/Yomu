@@ -50,6 +50,16 @@ struct LibraryView: View {
     }
 }
 
+func getFollowedManga(limit: Int, offset: Int) async throws {
+    
+}
+
+func downloadImage(from url: URL) async throws -> Data {
+    let request = URLRequest(url: url)
+    let (data, _) = try await URLSession.shared.data(for: request)
+    return data
+}
+
 #Preview {
     LibraryView()
 }
