@@ -92,6 +92,7 @@ struct SettingsView: View {
                 }
             }
             .toolbar(removing: .sidebarToggle)
+            .toolbarBackground(.thinMaterial, for: .navigationBar)
             .navigationTitle("Settings")
             .searchable(text: $query)
         } detail: {

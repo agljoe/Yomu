@@ -63,6 +63,9 @@ public func get(for url: URL) async throws -> Data {
     request.httpMethod = "GET"
     
     let (data, response) = try await URLSession.shared.data(for: request)
+//    #if DEBUG
+//    print(String(data: data, encoding: .utf8)!)
+//    #endif
     guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw httpError(for: (response as! HTTPURLResponse)) }
     return data
 }
@@ -101,7 +104,7 @@ public func getManga(id: UUID) async throws -> Manga {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
-    components.path = "/manga/\(id.uuidString)"
+    components.path = "/manga/\(id.uuidString.lowercased())"
     components.queryItems = [
         URLQueryItem(name: "includes[]", value: "cover_art"),
         URLQueryItem(name: "includes[]", value: "artist"),
@@ -126,7 +129,7 @@ public func followManga(for id: UUID) async throws {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.managadex.org"
-    components.path = "/manga/\(id.uuidString)/follow"
+    components.path = "/manga/\(id.uuidString.lowercased())/follow"
     
     guard let url = components.url else { throw MDApiError.invalidURL }
     
@@ -148,7 +151,7 @@ public func updateMangaReadingStatus(id: UUID, status: ReadingStatus) async thro
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.managadex.org"
-    components.path = "/manga/\(id.uuidString)/status"
+    components.path = "/manga/\(id.uuidString.lowercased())/status"
     
     guard let url = components.url else { throw MDApiError.invalidURL }
     
@@ -177,7 +180,7 @@ public func getChapters(id: UUID) async throws -> [Chapter] {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
-    components.path = "/manga/\(id.uuidString)/feed"
+    components.path = "/manga/\(id.uuidString.lowercased())/feed"
     
     guard let url = components.url else { throw MDApiError.invalidURL }
     
@@ -216,7 +219,7 @@ public func getCoverFor(id: UUID) async throws -> Cover {
     var compontents = URLComponents()
     compontents.scheme = "https"
     compontents.host = "api.mangadex.org"
-    compontents.path = "/cover/\(id.uuidString)"
+    compontents.path = "/cover/\(id.uuidString.lowercased())"
     
     guard let url = compontents.url else { throw MDApiError.invalidURL }
     
@@ -266,7 +269,7 @@ public func getAuthor(id: UUID) async throws -> Author {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
-    components.path = "/author/\(id.uuidString)"
+    components.path = "/author/\(id.uuidString.lowercased())"
     components.queryItems = [URLQueryItem(name: "includes[]", value: "manga")]
     
     guard let url = components.url else { throw MDApiError.invalidURL }

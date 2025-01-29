@@ -33,69 +33,89 @@ struct ChapterListView: View {
     let chapters: [Chapter]
     
     var body: some View {
-        VStack {
-            Text(chapters.first!.parentManga?.title["en"] ?? "")
-                .padding(.top, 10)
-                .font(.title3)
-            
-            Rectangle()
-                .frame(height: 1)
-                .padding(.trailing)
-                .foregroundStyle(.secondary)
-            
-            List(chapters) {
-                VStack {
+        List(chapters) { chapter in
+            Section {
+                NavigationLink {
+                    ReaderView(chapterId: chapter.id, title: "Ch. " + chapter.chapter  + " " + (chapter.title ?? ""))
+                        .lineLimit(1)
+                        .navigationBarBackButtonHidden(true)
+                } label: {
                     HStack {
-                        Image(systemName: "eye")
-                        Text("Ch. " + $0.chapter  + " " + ($0.title ?? ""))
-                    }
-                    
-                    HStack {
-                        Image(systemName: "person.3")
+                        VStack(alignment: .center) {
+                            Button {
+                                // TODO
+                            } label : {
+                                Image(systemName: "eye")
+                            }
+                            
+                            Image(systemName: "person.3")
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            Text("Ch. " + chapter.chapter  + " " + (chapter.title ?? ""))
+                                .lineLimit(1)
+                            Text(chapter.scanlationGroup?.name ?? "No group")
+                                .lineLimit(1)
+                        }
                     }
                 }
             }
-            .listStyle(.plain)
-            
-            Spacer()
+            .listRowBackground(Color.clear)
         }
+        .scrollIndicators(.never)
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
     }
 }
 
 struct MangaUpdateView: View {
-    let chapters: [Chapter]
-    let cover: Cover
+    let update: Update
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: "https://uploads.mangadex.org/covers/\(chapters.first!.parentManga!.id.uuidString.lowercased())/\(cover.fileName)")) { image in
+            AsyncImage(url: URL(string: "https://uploads.mangadex.org/covers/\(update.chapters.first!.parentManga!.id.uuidString.lowercased())/\(update.cover.fileName)")) { image in
                 image.resizable()
             } placeholder: {
                 ProgressView()
             }
             .scaledToFit()
-            .frame(height: 150, alignment: .leading)
-            
-            ChapterListView(chapters: chapters)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .frame(height: 150 , alignment: .top)
+            .padding(.leading, 8)
+            .padding(.top, 10)
+            .padding(.bottom, 30)
+
+            VStack {
+                Text(update.chapters.first!.parentManga?.title["en"] ?? "")
+                    .lineLimit(1)
+                    .padding(.top, 10)
+                    .font(.title3)
+                
+                Rectangle()
+                    .frame(height: 1)
+                    .padding(.top, 0)
+                    .foregroundStyle(.secondary)
+                
+                ChapterListView(chapters: update.chapters)
+            }
+            .frame(alignment: .leading)
         }
-        .background(
-            .thinMaterial
-        )
+        .frame(height: 200)
+        .background(.thinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 8))
-        .frame(height: 150)
-        .padding(7)
     }
 }
 
 struct UpdatesView: View {
     @State private var mangaUpdatesLogger: MangaUpdatesLogger = MangaUpdatesLogger(updates: [Update](), limit: 25, offset: 0, total: 0, latestUpdate: Date.now)
     @State private var isLoading: Bool = false
+    
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 LazyVStack {
                     ForEach(mangaUpdatesLogger.updates) { update in
-                        MangaUpdateView(chapters: update.chapters, cover: update.cover)
+                        MangaUpdateView(update: update)
                     }
                     Color.clear
                         .frame(height: 1)
@@ -128,28 +148,7 @@ struct UpdatesView: View {
                 }
             }
             .navigationTitle("Updates")
-//            .task {
-//                do {
-//                    isLoading = true
-//                    let (updates, offset) = try await getUserFollowedFeed(limit: mangaUpdatesLogger.limit, offset: mangaUpdatesLogger.offset)
-//                    mangaUpdatesLogger.updates.append(contentsOf: updates)
-//                    mangaUpdatesLogger.offset = mangaUpdatesLogger.limit + offset
-//                } catch let DecodingError.dataCorrupted(context) {
-//                    print(context)
-//                } catch let DecodingError.keyNotFound(key, context) {
-//                    print("Key '\(key)' not found:", context.debugDescription)
-//                    print("codingPath:", context.codingPath)
-//                } catch let DecodingError.valueNotFound(value, context) {
-//                    print("Value '\(value)' not found:", context.debugDescription)
-//                    print("codingPath:", context.codingPath)
-//                } catch let DecodingError.typeMismatch(type, context)  {
-//                    print("Type '\(type)' mismatch:", context.debugDescription)
-//                    print("codingPath:", context.codingPath)
-//                } catch {
-//                    print("error: ", error.localizedDescription)
-//                }
-//                isLoading = false
-//            }
+            .scrollIndicators(.never)
         }
     }
 }
@@ -204,7 +203,7 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
         cursor += 1
     }
     
-    let covers = try await getCovers(for: filtered.map { $0.first!.parentManga!.id }, total: filtered.map { Int($0.first!.volume ?? "1") ?? 0}.reduce(25, +))
+    let covers = try await getCovers(for: filtered.map { $0.first!.parentManga!.id }, total: filtered.map { Int($0.first!.volume ?? "1") ?? 0}.reduce(0, +))
     
     for i in 0..<filtered.count {
         updates.append(Update(id: i + offset, chapters: filtered[i], cover: covers[i]))
@@ -214,8 +213,9 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
 }
 
 func getCovers(for chapters: [UUID], total: Int) async throws -> [Cover] {
+    let limit = total > 100 ? 100 : total
     
-    let data = try await getCoversFor(ids: chapters, limit: total)
+    let data = try await getCoversFor(ids: chapters, limit: limit)
     
     var covers = [Cover]()
     

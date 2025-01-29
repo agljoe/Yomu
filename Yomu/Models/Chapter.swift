@@ -104,3 +104,39 @@ struct ParentManga: Decodable, Identifiable, Sendable {
         self.originalLanuage = try attributesContainer.decode(String.self, forKey: .originalLanguage)
     }
 }
+
+struct AtHomeChapterComponents: Decodable, Sendable {
+    let result: String
+    let baseUrl: String
+    let hash: String
+    let data: [String]
+    let dataSaver: [String]
+    
+    enum CodingKeys: String, CodingKey {
+        case result, baseUrl, chapter
+    }
+    
+    enum ChapterCodingKeys: String, CodingKey {
+        case hash, data, dataSaver
+    }
+    
+    init() {
+        self.result = ""
+        self.baseUrl = ""
+        self.hash = ""
+        self.data = []
+        self.dataSaver = []
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.result = try container.decode(String.self, forKey: .result)
+        self.baseUrl = try container.decode(String.self, forKey: .baseUrl)
+        
+        let chapterContainer = try container.nestedContainer(keyedBy: ChapterCodingKeys.self, forKey: .chapter)
+        self.hash = try chapterContainer.decode(String.self, forKey: .hash)
+        self.data = try chapterContainer.decode([String].self, forKey: .data)
+        self.dataSaver = try chapterContainer.decode([String].self, forKey: .dataSaver)
+        
+    }
+}

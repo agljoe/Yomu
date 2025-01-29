@@ -32,6 +32,7 @@ struct LibraryView: View {
                     ForEach(data) { item in
                         AsyncImage(url:  URL(string: item.urlString)) { image in
                             image.resizable()
+                                .scaledToFit()
                         } placeholder: {
                             ProgressView()
                         }

@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49217E6F2D48B8AE00FFE8F1 /* iPadReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49217E6E2D48B8AE00FFE8F1 /* iPadReaderView.swift */; };
 		492FB2B82C79703F00F634E1 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2B72C79703F00F634E1 /* Relationship.swift */; };
 		492FB2BC2C7BBB0F00F634E1 /* ScanlationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */; };
 		4974052A2CAB62FB0066B411 /* YomuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497405292CAB62FB0066B411 /* YomuUITests.swift */; };
@@ -43,6 +44,7 @@
 		499929A22C2A4E0F003BD29B /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A12C2A4E0F003BD29B /* Cover.swift */; };
 		499929A82C324011003BD29B /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A72C324011003BD29B /* Artist.swift */; };
 		49F0F34E2D2F96EB00525902 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34D2D2F96EB00525902 /* AccountView.swift */; };
+		49F0F3502D40700000525902 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34F2D40700000525902 /* ReaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		49217E6E2D48B8AE00FFE8F1 /* iPadReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadReaderView.swift; sourceTree = "<group>"; };
 		492FB2B72C79703F00F634E1 /* Relationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
 		492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanlationGroup.swift; sourceTree = "<group>"; };
 		497405292CAB62FB0066B411 /* YomuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuUITests.swift; sourceTree = "<group>"; };
@@ -103,7 +106,12 @@
 		499929A12C2A4E0F003BD29B /* Cover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
 		499929A72C324011003BD29B /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		49F0F34D2D2F96EB00525902 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		49F0F34F2D40700000525902 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		49217E672D42FEC400FFE8F1 /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		4999291E2C0FEBA3003BD29B /* Frameworks */ = {
@@ -153,6 +161,7 @@
 		499929232C0FEBA3003BD29B /* Yomu */ = {
 			isa = PBXGroup;
 			children = (
+				49217E672D42FEC400FFE8F1 /* Helpers */,
 				499929572C105D60003BD29B /* API */,
 				499929522C100B03003BD29B /* Models */,
 				499929502C100ADB003BD29B /* Views */,
@@ -200,6 +209,8 @@
 				4999296C2C16A1D6003BD29B /* SettingsView.swift */,
 				499929842C1BB5CD003BD29B /* Settings Views */,
 				4999298B2C1BCCE3003BD29B /* Icon.swift */,
+				49F0F34F2D40700000525902 /* ReaderView.swift */,
+				49217E6E2D48B8AE00FFE8F1 /* iPadReaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -262,6 +273,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				49217E672D42FEC400FFE8F1 /* Helpers */,
 			);
 			name = Yomu;
 			productName = Yomu;
@@ -383,6 +397,7 @@
 				4999296F2C16A219003BD29B /* SearchView.swift in Sources */,
 				499929A22C2A4E0F003BD29B /* Cover.swift in Sources */,
 				499929592C105D71003BD29B /* StaticData.swift in Sources */,
+				49217E6F2D48B8AE00FFE8F1 /* iPadReaderView.swift in Sources */,
 				499929672C1306C2003BD29B /* Request.swift in Sources */,
 				499929272C0FEBA3003BD29B /* ContentView.swift in Sources */,
 				499929902C1BE2EE003BD29B /* ReaderSettingsView.swift in Sources */,
@@ -405,6 +420,7 @@
 				4999295B2C113381003BD29B /* Authentication.swift in Sources */,
 				499929642C13049A003BD29B /* Account.swift in Sources */,
 				4999298E2C1BCFB3003BD29B /* AccessibilityView.swift in Sources */,
+				49F0F3502D40700000525902 /* ReaderView.swift in Sources */,
 				499929772C192C4A003BD29B /* Chapter.swift in Sources */,
 				499929962C1E7566003BD29B /* FilterSettingsView.swift in Sources */,
 				499929862C1BB5DB003BD29B /* GeneralView.swift in Sources */,
@@ -577,14 +593,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Yomu/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5MHX5FPG48;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -610,14 +627,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Yomu/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5MHX5FPG48;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
