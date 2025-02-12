@@ -13,6 +13,18 @@ struct CommunityView: View {
         VStack {
             Text("Coming Soon")
             
+            Button {
+                Task {
+                    do {
+                        let result = try await getStatisticsFor(chapter: UUID(uuidString: "9b17c530-9023-408a-837d-d59cabe8d312")!)
+                        print(result)
+                    } catch let error as DecodingError {
+                        handleDecodingError(error)
+                    } catch { print(error.localizedDescription) }
+                }
+            } label: {
+                Text("Test button")
+            }
         }
     }
 }

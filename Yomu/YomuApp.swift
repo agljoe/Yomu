@@ -14,6 +14,5 @@ struct YomuApp: App {
         WindowGroup {
             ContentView()
         }
-//        .modelContainer(for: FilterTag.self)
     }
 }

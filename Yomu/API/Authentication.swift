@@ -7,28 +7,81 @@
 
 import Foundation
 
+/// A collection of identifiers used to get OAuth tokens for a  user
+///
+/// A `Credentials` value encapsulates all user information required to login using the MangaDexApi.
+///
+/// The MangaDexApi requies users to login in order to create the associated OAuth access and refresh tokens.
+///
+/// For more information see [Personal Clients](https://api.mangadex.org/docs/02-authentication/personal-clients/).
 struct Credentials: Codable {
     var username: String
     var password: String
     var client_id: String
     var client_secret: String
     
+    /// Creates a ``Credentials`` instance initialized with placeholder values.
+    init() {
+        self.username = ""
+        self.password = ""
+        self.client_id = ""
+        self.client_secret = ""
+    }
+    
+    /// Creates a ``Credentials`` instance by the given values.
+    init(username: String, password: String, client_id: String, client_secret: String) {
+        self.username = username
+        self.password = password
+        self.client_id = client_id
+        self.client_secret = client_secret
+    }
+    
+    /// Sets the value of all members to empty strings.
     mutating func reset() {
+        username = ""
         password = ""
+        client_id = ""
         client_secret = ""
     }
 }
 
-private struct Token: Hashable, Codable {
+
+/// A value passed in the `authorization` header of a HTTP request for authenticated OAuth calls.
+///
+///  MangaDex specifies that ``Token/access`` is  used for all endpoints requiring authorization headers, except when generating new access tokens.
+///
+///    For more information on authentication using the MangaDexApi see [Personal Clients](https://api.mangadex.org/docs/02-authentication/personal-clients/).
+struct Token: Hashable, Codable {
     let access: String
     let refresh: String?
+
+    /// Creates a Token value with access initalized as an empty string.
+    init() {
+        self.access = ""
+        self.refresh = nil
+    }
     
+    /// Create a Token value given a specified access.
+    init(access: String, refresh: String?) {
+        self.access = access
+        self.refresh = refresh
+    }
+
+    /// Keys used to decode JSON data returned from MangaDex servers.
     private enum CodingKeys: String, CodingKey {
         case access = "access_token"
         case refresh = "refresh_token"
     }
+    
+    /// Creates new instance by decoding from any decoder.
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.access = try container.decode(String.self, forKey: .access)
+        self.refresh = try container.decodeIfPresent(String.self, forKey: .refresh)
+    }
 }
 
+/// An error that occurs when making authenticated requests.
 public enum AuthenticationError: Error {
     case invalidCredentials
     case failedToAuthenticate
@@ -40,11 +93,12 @@ extension AuthenticationError: LocalizedError {
         case .invalidCredentials:
             return String(localized: "Invalid credentials")
         case .failedToAuthenticate:
-            return String(localized: "Failed to login")
+            return String(localized: "Failed to login, context")
         }
     }
 }
 
+/// An error that occurs when storing, or retriving values from a KeyChain.
 public enum KeychainError: Error {
     case noPassword
     case noToken
@@ -70,68 +124,82 @@ extension KeychainError: LocalizedError {
     }
 }
 
-func auth(for credentials: Credentials) async throws {
+/// Login with provided credentials.
+///
+///  >Note: Credentials are provided in the format `application/x-www-form-urlencoded` not `JSON`.
+///
+/// - Parameter credentials: the  username, password, client id, and client secret for a user.
+///
+/// - Throws: `MDApiError.invalidURL` if a URL cannot be constructed from urlString.
+/// - Throws: `AuthenticationError.invalidCredentials` if provided credentials cannot be encoded.
+func auth(with credentials: Credentials) async throws {
     let urlString = "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token"
     
-    guard let url = URL(string: urlString) else { throw AuthenticationError.invalidCredentials }
+    guard let url = URL(string: urlString) else { throw MDApiError.invalidURL(context: "could not create URL at \(urlString)") }
     
     let value = "application/x-www-form-urlencoded"
     
-    guard let content = "grant_type=password&username=\(credentials.username)&password=\(credentials.password)&client_id=\(credentials.client_id)&client_secret=\(credentials.client_secret)".data(using: .utf8) else { throw AuthenticationError.failedToAuthenticate }
+    guard let content = "grant_type=password&username=\(credentials.username)&password=\(credentials.password)&client_id=\(credentials.client_id)&client_secret=\(credentials.client_secret)".data(using: .utf8) else { throw AuthenticationError.invalidCredentials }
     
     do {
-        let data = try await post(url: url, value: value, content: content)
+        let data = try await post(at: url, value: value, content: content)
         let token = try JSONDecoder().decode(Token.self, from: data)
-        #if DEBUG
-        print(token)
-        #endif
-        
-        try handleToken(username: credentials.username, type: "access", token: token.access)
-        try handleToken(username: credentials.username, type: "refresh", token: token.refresh!)
-
-    } catch let error {
-        #if DEBUG
-        print("Failed to store token(s) in keychain")
-        #endif
-        throw error
-    }
+        try storeToken(credentials.username, token.access, ofType: "access")
+        if let refresh = token.refresh { try storeToken(credentials.username, refresh, ofType: "refresh") }
+    } catch let decodingError as DecodingError {
+        handleDecodingError(decodingError)
+    } catch let keychainError { print(keychainError.localizedDescription) }
     
     do {
-        try storeCredentials(username: credentials.username, password: credentials.password, server: "https://mangadex.org")
-        try storeCredentials(username: credentials.client_id, password: credentials.client_secret, server: "https://auth.mangadex.org")
-    } catch let error {
-        #if DEBUG
+        try storeCredentials(credentials.username, credentials.password, for: "https://mangadex.org")
+        try storeCredentials(credentials.client_id, credentials.client_secret, for: "https://auth.mangadex.org")
+    } catch let keychainError {
         print("Failed to store credentials in keychain")
-        print(error.localizedDescription)
-        #endif
+        print(keychainError.localizedDescription)
     }
-    
 }
 
+/// Generates a new access token using the refresh token.
+///
+/// >Note: Credentials are provided in the format `application/x-www-form-urlencoded` not `JSON`.
+///
+/// - Throws: `KeychainError.noToken` if a refresh token cannot be found.
+/// - Throws: `KeyChainError.noPassword` if credentials cannot be found.
 func reAuth() async throws {
-    guard let token = try? getToken(type: "refresh") else { throw KeychainError.noToken }
+    guard let token = try? getToken(ofType: "refresh") else { throw KeychainError.noToken }
     guard let credentials = try? getCredentials(for: "https://auth.mangadex.org") else { throw KeychainError.noPassword }
     
     let urlString = "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token"
     
-    guard let url = URL(string: urlString) else { throw AuthenticationError.invalidCredentials }
+    guard let url = URL(string: urlString) else { throw MDApiError.invalidURL(context: "could not create URL at \(urlString)") }
     
     let value = "application/x-www-form-urlencoded"
     
     guard let content = "grant_type=refresh_token&refresh_token=\(token)&client_id=\(credentials.client_id)&client_secret=\(credentials.client_secret)".data(using: .utf8) else { throw AuthenticationError.invalidCredentials }
     
     do {
-        let data = try await post(url: url, value: value, content: content)
+        let data = try await post(at: url, value: value, content: content)
         let token = try JSONDecoder().decode(Token.self, from: data)
+        try updateToken(for: credentials.username, ofType: "access", token.access)
         #if DEBUG
         print(token)
         #endif
-        try updateToken(username: credentials.username, type: "access", token: token.access)
-    } catch { throw AuthenticationError.failedToAuthenticate }
-    
+    } catch let decodingError as DecodingError {
+        handleDecodingError(decodingError)
+    } catch let KeyChainError {
+        print(KeyChainError.localizedDescription)
+    }
 }
 
-private func storeCredentials(username: String, password: String, server: String) throws {
+/// Stores a user's credentials in the Keychain.
+///
+/// - Parameters:
+///     - username: the  username of a user .
+///     - password: the password of a user.
+///     - server: a server for credentials to be stored.
+///
+/// - Throws: `KeyhchainError.unhandleError` if storing credentials fails.
+private func storeCredentials(_ username: String, _ password: String, for server: String) throws {
     let password = password.data(using: String.Encoding.utf8)!
     
     let query: [String: Any] = [
@@ -148,6 +216,15 @@ private func storeCredentials(username: String, password: String, server: String
     }
 }
 
+/// Retrives a user's credentials from the Keychain.
+///
+/// - Parameter server: a server for the credentials to be retrived.
+///
+/// - Throws: `KeyhchainError.noPassword` if no associated password is found.
+/// - Throws: `KeyhchainError.unhandledError` if retrival fails.
+/// - Throws: `KeyhchainError.unexpectedPasswordData` if returned password is not associated with the specified server.
+///
+/// - Returns: A ``Credentials`` value associated with the specified server.
 private func getCredentials(for server: String) throws -> Credentials {
     let query: [String: Any] = [
         kSecClass as String: kSecClassInternetPassword,
@@ -175,7 +252,15 @@ private func getCredentials(for server: String) throws -> Credentials {
     } else { throw KeychainError.noPassword }
 }
 
-private func handleToken(username: String, type: String, token: String) throws {
+/// Stores a token associated with an account, and its type.
+///
+/// - Parameters:
+///     - username: the user associated with a token.
+///     - type: the type for a given token.
+///     - token: the value of an OAuth token.
+///
+/// - Throws:- Throws: `KeyhchainError.unhandleError` if storing a token fails.
+private func storeToken(_ username: String, _ token: String, ofType type: String) throws {
     let tokenData = token.data(using: String.Encoding.utf8)!
     let query: [String: Any] = [
         kSecClass as String: kSecClassGenericPassword,
@@ -189,11 +274,21 @@ private func handleToken(username: String, type: String, token: String) throws {
         let status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
     } else {
-        try updateToken(username: username, type: type, token: token)
+        try updateToken(for: username, ofType: type, token)
     }
 }
 
-private func getToken(type: String) throws -> String {
+/// Retrives a type of token associated with an account.
+///
+/// - Parameters:
+///     - type: the type for a given token.
+///
+/// - Throws: `KeyhchainError.noToken` if no associated token is found.
+/// - Throws: `KeyhchainError.unhandledError` if retrival fails.
+/// - Throws: `KeyhchainError.unexpectedPasswordData` if returned token is not the correct type.
+///
+/// - Returns: A unencoded token string.
+private func getToken(ofType type: String) throws -> String {
     let query: [String: Any] = [
         kSecClass as String: kSecClassGenericPassword,
         kSecAttrLabel as String: type,
@@ -204,7 +299,7 @@ private func getToken(type: String) throws -> String {
     
     var item: CFTypeRef?
     let status = SecItemCopyMatching(query as CFDictionary, &item)
-    guard status != errSecItemNotFound else { throw KeychainError.noPassword }
+    guard status != errSecItemNotFound else { throw KeychainError.noToken }
     guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
     
     guard let existingItem = item as? [String : Any],
@@ -216,7 +311,16 @@ private func getToken(type: String) throws -> String {
     return token
 }
 
-private func updateToken(username: String, type: String, token: String) throws {
+/// Updates the value of a token in Keychain.
+///
+/// - Parameters:
+///     - username: the user associated with a token.
+///     - type: the type for a given token.
+///     - token: the value of an OAuth token.
+///
+/// - Throws: `KeyhchainError.noToken` if no associated token is found.
+/// - Throws: `KeyhchainError.unhandledError` if updating fails.
+private func updateToken(for username: String, ofType type: String, _ token: String) throws {
     let query: [String: Any] = [
         kSecClass as String: kSecClassGenericPassword,
         kSecAttrLabel as String: type
@@ -234,12 +338,18 @@ private func updateToken(username: String, type: String, token: String) throws {
     guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
 }
 
-private func deleteKeyChainItem(query: [String: Any]) throws {
+/// Removes an item from the Keychain.
+///
+/// - Parameter query: a Keychain query for a specified item.
+///
+/// - Throws: `KeychainError.unhandledError`if the item at the query does not exist.
+private func deleteKeyChainItem(_ query: [String: Any]) throws {
     let status = SecItemDelete(query as CFDictionary)
     guard status == errSecSuccess || status == errSecItemNotFound else { throw KeychainError.unhandledError(status: status) }
 }
 
-func resetCredentials() {
+/// Removes a users credentials from the Keychain.
+public func resetCredentials() {
     do {
         let credentials = try getCredentials(for: "https://mangadex.org")
         
@@ -249,7 +359,7 @@ func resetCredentials() {
             kSecAttrLabel as String: "access",
         ]
         
-        try deleteKeyChainItem(query: access)
+        try deleteKeyChainItem(access)
     } catch let error { print("Error deleting access token from keychain: \(error.localizedDescription)") }
     
     do {
@@ -257,11 +367,11 @@ func resetCredentials() {
         
         let refresh: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: "c\(credentials.username)/refresh",
+            kSecAttrAccount as String: "\(credentials.username)/refresh",
             kSecAttrLabel as String: "refresh",
         ]
         
-        try deleteKeyChainItem(query: refresh)
+        try deleteKeyChainItem(refresh)
     } catch let error { print("Error deleting refresh token from keychain: \(error.localizedDescription)") }
     
     
@@ -274,7 +384,7 @@ func resetCredentials() {
             kSecAttrServer as String: "https://mangadex.org",
         ]
         
-        try deleteKeyChainItem(query: user)
+        try deleteKeyChainItem(user)
     } catch let error { print("Error deleting user from keychain: \(error.localizedDescription)") }
     
     do {
@@ -286,17 +396,41 @@ func resetCredentials() {
             kSecAttrServer as String: "https://auth.mangadex.org",
         ]
         
-        try deleteKeyChainItem(query: client)
+        try deleteKeyChainItem(client)
     } catch let error { print("Error deleting client from keychain: \(error.localizedDescription)") }
 }
 
-// Requests w/ authentication headers
-func authGet(for url: URL) async throws -> Data {
-    guard let token = try? getToken(type: "access") else { throw KeychainError.noToken }
+/// Removes all items from the Keychain.
+/// >Warning: This action cannot be undone.
+public func resetKeychain() {
+    [kSecClassGenericPassword, kSecClassInternetPassword, kSecClassCertificate, kSecClassKey, kSecClassIdentity].forEach {
+        let status = SecItemDelete([
+            kSecClass: $0,
+            kSecAttrSynchronizable: kSecAttrSynchronizableAny
+        ] as CFDictionary)
+        if status != errSecSuccess && status != errSecItemNotFound {
+            print("Error deleting user from keychain")
+        }
+    }
+}
+
+/// Performs an OAuth authenticated HTTP GET request from a server for the given `url`.
+///
+/// OAuth authenticated Api calls requires using the authentication header which is normally a reserved by URLSession, however Apple has stated that setting this header is the
+/// only way to make OAuth requests.
+///
+/// - Parameter url: the url for a specific sever.
+///
+/// - Throws: `KeychainError.noToken` if an access token cannot be found.
+/// - Throws: ``httpError(_:context:)``  if returned status code is not 200.
+///
+/// - Returns: a data value from the specified server.
+public func authGet(from url: URL) async throws -> Data {
+    guard let token = try? getToken(ofType: "access") else { throw KeychainError.noToken }
     
     var request = URLRequest(url: url)
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("application/json", forHTTPHeaderField: "accept")
     request.httpShouldHandleCookies = true
     request.timeoutInterval = 90
     
@@ -307,26 +441,38 @@ func authGet(for url: URL) async throws -> Data {
     if (response as? HTTPURLResponse)?.statusCode == 401 {
         do {
             try await reAuth()
-            guard let token = try? getToken(type: "access") else { throw KeychainError.noToken }
+            guard let token = try? getToken(ofType: "access") else { throw KeychainError.noToken }
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             (data, response) = try await URLSession.shared.data(for: request)
-        } catch KeychainError.noToken {
+        }  catch let keychainError as KeychainError {
             // promt user to login
-        } catch KeychainError.noPassword {
-            // promt user to login
+            print(keychainError.localizedDescription)
         } catch AuthenticationError.invalidCredentials {
-            // unable to login / not logged in alert
-        } catch {
-            throw AuthenticationError.failedToAuthenticate
-        }
+            // unable to login alert
+        } catch { throw AuthenticationError.failedToAuthenticate }
     }
     
-    guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw httpError(for: (response as! HTTPURLResponse)) }
+    guard (response as? HTTPURLResponse)?.statusCode == 200 else {  throw httpError((response as! HTTPURLResponse), context: String(data: data, encoding: .utf8) ?? "no context available") }
     return data
 }
 
-func authPost(url: URL, value: String?, content: Data?) async throws {
-    guard let token = try? getToken(type: "access") else { throw KeychainError.noToken }
+/// Performs an OAuth authenticated HTTP POST  request from a server for the given `url`.
+///
+/// OAuth authenticated Api calls requires using the authentication header which is normally a reserved by URLSession, however Apple has stated that setting this header is the
+/// only way to make OAuth requests.
+///
+/// - Parameters:
+///     - url: the url for a specific sever.
+///     - value: a string specifying the value for the `Content-Type` header field.
+///     - content: an encoded data value passed to a specific server as the request's body.
+/// > Important: The caller is responsible for encoding the data in the correct format, ensure that the data you are passing is correctly configured for the specified server.
+///
+/// > Note: Unlike ``post(at:value:content:)``, ``authPost(at:for:with:)`` defaults to using `application/json` for `Content-Type`
+///
+/// - Throws: `KeychainError.noToken` if an access token cannot be found.
+/// - Throws: ``httpError(_:context:)``  if returned status code is not 200.
+public func authPost(at url: URL, for value: String? = nil, with content: Data? = nil) async throws {
+    guard let token = try? getToken(ofType: "access") else { throw KeychainError.noToken }
     
     var request = URLRequest(url: url)
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -338,30 +484,39 @@ func authPost(url: URL, value: String?, content: Data?) async throws {
     
     request.httpMethod = "POST"
     
-    var (_, response) = try await URLSession.shared.data(for: request)
+    var (data, response) = try await URLSession.shared.data(for: request)
     
     if (response as? HTTPURLResponse)?.statusCode == 401 {
         do {
             try await reAuth()
-            guard let token = try? getToken(type: "access") else { throw KeychainError.noToken }
+            guard let token = try? getToken(ofType: "access") else { throw KeychainError.noToken }
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-            (_, response) = try await URLSession.shared.data(for: request)
-        } catch KeychainError.noToken {
-            // promt user to login or try auth with credentials
-        } catch KeychainError.noPassword {
+            (data, response) = try await URLSession.shared.data(for: request)
+        } catch let keychainError as KeychainError {
             // promt user to login
+            print(keychainError.localizedDescription)
         } catch AuthenticationError.invalidCredentials {
             // unable to login alert
-        } catch {
-            throw AuthenticationError.failedToAuthenticate
-        }
+        } catch { throw AuthenticationError.failedToAuthenticate }
     }
     
-    guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw httpError(for: (response as! HTTPURLResponse)) }
+    guard (response as? HTTPURLResponse)?.statusCode == 200 else {  throw httpError((response as! HTTPURLResponse), context: String(data: data, encoding: .utf8) ?? "no context available") }
 }
 
-func authDelete(for url: URL) async throws {
-    guard let token = try? getToken(type: "access") else { throw KeychainError.noToken }
+/// Performs an OAuth authenticated HTTP DELETE  at a server for the given `url`.
+///
+/// OAuth authenticated Api calls requires using the authentication header which is normally a reserved by URLSession, however Apple has stated that setting this header is the
+/// only way to make OAuth requests.
+///
+/// - Parameters:
+///     - url: the url for a specifc sever.
+///
+/// >Warning: This may irreversibly delete data on a live server, ensure you know the endpoint requirements.
+///
+/// - Throws: `KeychainError.noToken` if an access token cannot be found.
+/// - Throws: ``httpError(_:context:)``  if returned status code is not 200.
+public func authDelete(at url: URL) async throws {
+    guard let token = try? getToken(ofType: "access") else { throw KeychainError.noToken }
     
     var request = URLRequest(url: url)
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -371,24 +526,21 @@ func authDelete(for url: URL) async throws {
     
     request.httpMethod = "DELETE"
     
-    var (_, response) = try await URLSession.shared.data(for: request)
+    var (data, response) = try await URLSession.shared.data(for: request)
     
     if (response as? HTTPURLResponse)?.statusCode == 401 {
         do {
             try await reAuth()
-            guard let token = try? getToken(type: "access") else { throw KeychainError.noToken }
+            guard let token = try? getToken(ofType: "access") else { throw KeychainError.noToken }
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-            (_, response) = try await URLSession.shared.data(for: request)
-        } catch KeychainError.noToken {
-            // promt user to login or try auth with credentials
-        } catch KeychainError.noPassword {
+            (data, response) = try await URLSession.shared.data(for: request)
+        } catch let keychainError as KeychainError {
             // promt user to login
+            print(keychainError.localizedDescription)
         } catch AuthenticationError.invalidCredentials {
             // unable to login alert
-        } catch {
-            throw AuthenticationError.failedToAuthenticate
-        }
+        } catch { throw AuthenticationError.failedToAuthenticate }
     }
+    
+    guard (response as? HTTPURLResponse)?.statusCode == 200 else {  throw httpError((response as! HTTPURLResponse), context: String(data: data, encoding: .utf8) ?? "no context available") }
 }
-
-

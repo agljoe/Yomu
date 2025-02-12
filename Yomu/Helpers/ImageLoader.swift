@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+///
 actor ImageLoader {
     public func fetch(_ urlRequest: URLRequest) async throws -> UIImage {
         let task: Task<UIImage, Error> = Task {

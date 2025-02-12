@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49217E6F2D48B8AE00FFE8F1 /* iPadReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49217E6E2D48B8AE00FFE8F1 /* iPadReaderView.swift */; };
+		49217EB52D50849400FFE8F1 /* MangaRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49217EB42D50849400FFE8F1 /* MangaRequests.swift */; };
+		49217EB72D5084B900FFE8F1 /* ChapterRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49217EB62D5084B900FFE8F1 /* ChapterRequests.swift */; };
+		49217EB92D50850400FFE8F1 /* CoverRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49217EB82D50850400FFE8F1 /* CoverRequests.swift */; };
+		49217EBB2D50852F00FFE8F1 /* AuthorRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49217EBA2D50852F00FFE8F1 /* AuthorRequests.swift */; };
 		492FB2B82C79703F00F634E1 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2B72C79703F00F634E1 /* Relationship.swift */; };
 		492FB2BC2C7BBB0F00F634E1 /* ScanlationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */; };
 		4974052A2CAB62FB0066B411 /* YomuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497405292CAB62FB0066B411 /* YomuUITests.swift */; };
@@ -21,7 +24,6 @@
 		499929562C1054C7003BD29B /* Manga.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929552C1054C7003BD29B /* Manga.swift */; };
 		499929592C105D71003BD29B /* StaticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929582C105D71003BD29B /* StaticData.swift */; };
 		4999295B2C113381003BD29B /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999295A2C113381003BD29B /* Authentication.swift */; };
-		499929642C13049A003BD29B /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929632C13049A003BD29B /* Account.swift */; };
 		499929672C1306C2003BD29B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929662C1306C2003BD29B /* Request.swift */; };
 		4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999296C2C16A1D6003BD29B /* SettingsView.swift */; };
 		4999296F2C16A219003BD29B /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999296E2C16A219003BD29B /* SearchView.swift */; };
@@ -42,7 +44,10 @@
 		4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929992C21142F003BD29B /* FilterTagsView.swift */; };
 		499929A02C225189003BD29B /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999299F2C225189003BD29B /* Tag.swift */; };
 		499929A22C2A4E0F003BD29B /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A12C2A4E0F003BD29B /* Cover.swift */; };
-		499929A82C324011003BD29B /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A72C324011003BD29B /* Artist.swift */; };
+		499D3F972D5AF40200D89386 /* ScanlationGroupRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D3F962D5AF40200D89386 /* ScanlationGroupRequests.swift */; };
+		499D3F992D5B2E7B00D89386 /* UserRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D3F982D5B2E7B00D89386 /* UserRequests.swift */; };
+		499D3F9B2D5B317300D89386 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D3F9A2D5B317300D89386 /* Statistics.swift */; };
+		499D3F9D2D5B351A00D89386 /* StatisticsRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D3F9C2D5B351A00D89386 /* StatisticsRequests.swift */; };
 		49F0F34E2D2F96EB00525902 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34D2D2F96EB00525902 /* AccountView.swift */; };
 		49F0F3502D40700000525902 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34F2D40700000525902 /* ReaderView.swift */; };
 /* End PBXBuildFile section */
@@ -65,7 +70,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		49217E6E2D48B8AE00FFE8F1 /* iPadReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadReaderView.swift; sourceTree = "<group>"; };
+		49217EB42D50849400FFE8F1 /* MangaRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaRequests.swift; sourceTree = "<group>"; };
+		49217EB62D5084B900FFE8F1 /* ChapterRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterRequests.swift; sourceTree = "<group>"; };
+		49217EB82D50850400FFE8F1 /* CoverRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverRequests.swift; sourceTree = "<group>"; };
+		49217EBA2D50852F00FFE8F1 /* AuthorRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorRequests.swift; sourceTree = "<group>"; };
 		492FB2B72C79703F00F634E1 /* Relationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
 		492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanlationGroup.swift; sourceTree = "<group>"; };
 		497405292CAB62FB0066B411 /* YomuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuUITests.swift; sourceTree = "<group>"; };
@@ -83,7 +91,6 @@
 		499929552C1054C7003BD29B /* Manga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manga.swift; sourceTree = "<group>"; };
 		499929582C105D71003BD29B /* StaticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticData.swift; sourceTree = "<group>"; };
 		4999295A2C113381003BD29B /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
-		499929632C13049A003BD29B /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		499929662C1306C2003BD29B /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		4999296C2C16A1D6003BD29B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4999296E2C16A219003BD29B /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -104,7 +111,10 @@
 		499929992C21142F003BD29B /* FilterTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTagsView.swift; sourceTree = "<group>"; };
 		4999299F2C225189003BD29B /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		499929A12C2A4E0F003BD29B /* Cover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
-		499929A72C324011003BD29B /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
+		499D3F962D5AF40200D89386 /* ScanlationGroupRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanlationGroupRequests.swift; sourceTree = "<group>"; };
+		499D3F982D5B2E7B00D89386 /* UserRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequests.swift; sourceTree = "<group>"; };
+		499D3F9A2D5B317300D89386 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		499D3F9C2D5B351A00D89386 /* StatisticsRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsRequests.swift; sourceTree = "<group>"; };
 		49F0F34D2D2F96EB00525902 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		49F0F34F2D40700000525902 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -210,7 +220,6 @@
 				499929842C1BB5CD003BD29B /* Settings Views */,
 				4999298B2C1BCCE3003BD29B /* Icon.swift */,
 				49F0F34F2D40700000525902 /* ReaderView.swift */,
-				49217E6E2D48B8AE00FFE8F1 /* iPadReaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -218,13 +227,13 @@
 		499929522C100B03003BD29B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				499929A72C324011003BD29B /* Artist.swift */,
 				499929782C192FA4003BD29B /* Author.swift */,
 				499929762C192C4A003BD29B /* Chapter.swift */,
 				499929A12C2A4E0F003BD29B /* Cover.swift */,
 				499929552C1054C7003BD29B /* Manga.swift */,
 				492FB2B72C79703F00F634E1 /* Relationship.swift */,
 				492FB2BB2C7BBB0F00F634E1 /* ScanlationGroup.swift */,
+				499D3F9A2D5B317300D89386 /* Statistics.swift */,
 				4999299F2C225189003BD29B /* Tag.swift */,
 				499929532C100B39003BD29B /* User.swift */,
 			);
@@ -234,10 +243,16 @@
 		499929572C105D60003BD29B /* API */ = {
 			isa = PBXGroup;
 			children = (
-				499929632C13049A003BD29B /* Account.swift */,
 				4999295A2C113381003BD29B /* Authentication.swift */,
-				499929582C105D71003BD29B /* StaticData.swift */,
+				49217EBA2D50852F00FFE8F1 /* AuthorRequests.swift */,
+				49217EB62D5084B900FFE8F1 /* ChapterRequests.swift */,
+				49217EB82D50850400FFE8F1 /* CoverRequests.swift */,
+				49217EB42D50849400FFE8F1 /* MangaRequests.swift */,
 				499929662C1306C2003BD29B /* Request.swift */,
+				499D3F962D5AF40200D89386 /* ScanlationGroupRequests.swift */,
+				499929582C105D71003BD29B /* StaticData.swift */,
+				499D3F982D5B2E7B00D89386 /* UserRequests.swift */,
+				499D3F9C2D5B351A00D89386 /* StatisticsRequests.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -395,18 +410,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				4999296F2C16A219003BD29B /* SearchView.swift in Sources */,
+				499D3F972D5AF40200D89386 /* ScanlationGroupRequests.swift in Sources */,
 				499929A22C2A4E0F003BD29B /* Cover.swift in Sources */,
 				499929592C105D71003BD29B /* StaticData.swift in Sources */,
-				49217E6F2D48B8AE00FFE8F1 /* iPadReaderView.swift in Sources */,
 				499929672C1306C2003BD29B /* Request.swift in Sources */,
 				499929272C0FEBA3003BD29B /* ContentView.swift in Sources */,
+				49217EBB2D50852F00FFE8F1 /* AuthorRequests.swift in Sources */,
 				499929902C1BE2EE003BD29B /* ReaderSettingsView.swift in Sources */,
-				499929A82C324011003BD29B /* Artist.swift in Sources */,
 				4999298A2C1BBE52003BD29B /* AboutView.swift in Sources */,
+				49217EB92D50850400FFE8F1 /* CoverRequests.swift in Sources */,
+				499D3F9D2D5B351A00D89386 /* StatisticsRequests.swift in Sources */,
 				4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */,
 				4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */,
 				499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */,
+				49217EB52D50849400FFE8F1 /* MangaRequests.swift in Sources */,
 				492FB2BC2C7BBB0F00F634E1 /* ScanlationGroup.swift in Sources */,
+				49217EB72D5084B900FFE8F1 /* ChapterRequests.swift in Sources */,
 				499929752C16A466003BD29B /* CommunityView.swift in Sources */,
 				499929562C1054C7003BD29B /* Manga.swift in Sources */,
 				4999298C2C1BCCE3003BD29B /* Icon.swift in Sources */,
@@ -418,10 +437,11 @@
 				499929732C16A431003BD29B /* UpdatesView.swift in Sources */,
 				499929882C1BB84D003BD29B /* AppearanceView.swift in Sources */,
 				4999295B2C113381003BD29B /* Authentication.swift in Sources */,
-				499929642C13049A003BD29B /* Account.swift in Sources */,
 				4999298E2C1BCFB3003BD29B /* AccessibilityView.swift in Sources */,
+				499D3F992D5B2E7B00D89386 /* UserRequests.swift in Sources */,
 				49F0F3502D40700000525902 /* ReaderView.swift in Sources */,
 				499929772C192C4A003BD29B /* Chapter.swift in Sources */,
+				499D3F9B2D5B317300D89386 /* Statistics.swift in Sources */,
 				499929962C1E7566003BD29B /* FilterSettingsView.swift in Sources */,
 				499929862C1BB5DB003BD29B /* GeneralView.swift in Sources */,
 				499929922C1BE438003BD29B /* LibrarySettingsView.swift in Sources */,
@@ -520,6 +540,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				RUN_DOCUMENTATION_COMPILER = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -577,6 +598,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				RUN_DOCUMENTATION_COMPILER = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 6.0;
@@ -596,11 +618,12 @@
 				DEVELOPMENT_TEAM = 5MHX5FPG48;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -630,11 +653,12 @@
 				DEVELOPMENT_TEAM = 5MHX5FPG48;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

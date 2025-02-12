@@ -29,7 +29,7 @@ struct AccountView: View {
                 Button("Login") {
                     Task {
                         do {
-                            try await auth(for: credentials)
+                            try await auth(with: credentials)
                         } catch let error { print(error.localizedDescription) }
                         credentials.reset()
                     }

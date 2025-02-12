@@ -7,19 +7,79 @@
 
 import SwiftUI
 
+struct DeviceRotationViewModifier: ViewModifier {
+    let action: (UIDeviceOrientation) -> Void
+    
+    func body(content: Content) -> some View {
+        content
+            .onAppear()
+            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+                action(UIDevice.current.orientation)
+            }
+    }
+}
+
+extension View {
+    func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
+        self.modifier(DeviceRotationViewModifier(action: action))
+    }
+}
+
+struct SizeReader: ViewModifier {
+    @Binding var size: CGSize
+    func body(content: Content) -> some View {
+        content
+            .background(GeometryReader { proxy in
+                Color.clear
+                    .onAppear{
+                        size = proxy.size
+                    }
+            }
+            )
+    }
+}
+
+extension View {
+    func readSize(size: Binding<CGSize>) -> some View {
+        modifier(SizeReader(size: size))
+    }
+}
+
 struct PageView: View {
     let imageUrl: URL
     
     var body: some View {
         RemoteImage(source: imageUrl)
             .aspectRatio(contentMode: .fit)
+            .ignoresSafeArea()
+    }
+}
+
+struct DoublePageView: View {
+    let imageUrl: URL
+    @State var pageSize: CGSize = .zero
+    @Binding var width: CGFloat
+    @Binding var height: CGFloat
+    
+    var body: some View {
+        RemoteImage(source: imageUrl)
+            .aspectRatio(contentMode: .fit)
+            .scaledToFit()
+            .readSize(size: $pageSize)
+            .onChange(of: pageSize) {
+                width = pageSize.width
+                height = pageSize.height
+            }
     }
 }
 
 struct ReaderView: View {
     @Environment(\.presentationMode) var presentationMode
+    @State private var orientation = UIDevice.current.orientation
     @State private var navBarVisisble: Bool = true
     @State private var chapterComponents: AtHomeChapterComponents = AtHomeChapterComponents()
+    @State private var pageWidths = [CGFloat]()
+    @State private var pageHeights = [CGFloat]()
     let chapterId: UUID
     let title: String
     
@@ -28,15 +88,32 @@ struct ReaderView: View {
             GeometryReader { proxy in
                 ScrollView(.horizontal) {
                     LazyHStack {
-                        ForEach(Array(chapterComponents.data.enumerated()), id: \.offset) { index, page in
-                            PageView(imageUrl: urlBuilder(for: chapterComponents, page: page))
-                                .scaleEffect(x: -1)
-                                .frame(width: proxy.size.width, alignment: .center)
-                                .frame(width: proxy.size.width, height: proxy.size.height)
+                        if orientation.isLandscape {
+                            ForEach(Array(chapterComponents.data.enumerated()), id: \.offset) { index, page in
+                                DoublePageView(imageUrl: urlBuilder(for: chapterComponents, page: page), width: $pageWidths[index], height: $pageHeights[index])
+                                    .scaleEffect(x: -1)
+                                    .frame(width: pageWidths[index] > pageHeights[index] ? proxy.size.width : proxy.size.width/2, height: proxy.size.height, alignment: .center)
+                                    .padding()
+                                    .containerRelativeFrame(.horizontal, count:  pageWidths[index] > pageHeights[index] ? 1 : 2, spacing: 0)
+                            }
+                            .onAppear {
+                                print("Landscape")
+                            }
+                        } else {
+                            ForEach(Array(chapterComponents.data.enumerated()), id: \.offset) { index, page in
+                                PageView(imageUrl: urlBuilder(for: chapterComponents, page: page))
+                                    .scaleEffect(x: -1)
+                                    .frame(width: proxy.size.width, alignment: .center)
+                                    .frame(width: proxy.size.width, height: proxy.size.height)
+                                    .safeAreaPadding(0)
+                                    .containerRelativeFrame(.horizontal, count: 1,  spacing: 0)
+                            }
+                            .onAppear {
+                                print("Portrait")
+                            }
+                            
                         }
-                        .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                     }
-                    .ignoresSafeArea()
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)
@@ -46,11 +123,14 @@ struct ReaderView: View {
                 .task {
                     do {
                         chapterComponents = try await getChapterData(for: chapterId)
+                        pageWidths = Array(Array(repeating: CGFloat.zero, count: chapterComponents.data.count))
+                        pageHeights = Array(Array(repeating: CGFloat.zero, count: chapterComponents.data.count))
                     } catch {
                         print(error.localizedDescription)
                     }
                 }
             }
+            .ignoresSafeArea()
             .onTapGesture {
                 navBarVisisble.toggle()
             }
@@ -97,9 +177,9 @@ func getChapterData(for chapterId: UUID) async throws -> AtHomeChapterComponents
     components.path = "/at-home/server/\(chapterId.uuidString.lowercased())"
     //TODO: force port 443 if selected
     
-    guard let url = components.url else { throw MDApiError.badRequest }
+    guard let url = components.url else { throw MDApiError.invalidURL(context: "Url could not be constructed from components: \(components.string ?? "Unknown")") }
     
-    let data = try await get(for: url)
+    let data = try await get(from: url)
     let chapter = try JSONDecoder().decode(AtHomeChapterComponents.self, from: data)
     
     return chapter
@@ -128,11 +208,10 @@ func atHomeReport(url: String, response: URLResponse, duration: Int) async {
     
     do {
         let data = try JSONEncoder().encode(report)
-        let _ = try await post(url: URL(string: "https://api.mangadex.network/report")!, value: "application/json", content: data)
+        let _ = try await post(at: URL(string: "https://api.mangadex.network/report")!, value: "application/json", content: data)
     } catch {
         print(error.localizedDescription)
     }
-    
 }
 
 #Preview {

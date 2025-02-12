@@ -7,24 +7,45 @@
 
 import Foundation
 
+/// A tag of a manga.
+///
+/// Tags describe a manga's format, genre, theme, and content
+///
+/// ### See Also
+/// [MangaDex Api Documentation](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-tag)
 public struct Tag: Codable, Identifiable, Sendable {
     public let id: UUID
     let name: String
     let group: String
     
-    enum CodingKeys: CodingKey {
+    private enum CodingKeys: CodingKey {
         case id
         case attributes
     }
     
-    enum AttributeCodingKeys: CodingKey {
+    private enum AttributeCodingKeys: CodingKey {
         case name, group
     }
     
-    enum NameCodingKeys: CodingKey {
+    private enum NameCodingKeys: CodingKey {
         case en
     }
+    
+    /// Creates a ``Tag`` instance initialized with placeholder values.
+    public init() {
+        self.id = UUID()
+        self.name = ""
+        self.group = ""
+    }
 
+    /// Creates a ``Tag`` instance initialized by the given values.
+    public init(id: UUID = UUID(), name: String = "", group: String = "") {
+        self.id = id
+        self.name = name
+        self.group = group
+    }
+    
+    /// Creates a new instance by decoding from the given decoder.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -36,6 +57,7 @@ public struct Tag: Codable, Identifiable, Sendable {
         self.group = try attributeContainer.decode(String.self, forKey: .group)
     }
     
+    /// Encodes a single value with the given encoder.
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
@@ -47,25 +69,6 @@ public struct Tag: Codable, Identifiable, Sendable {
         try attributeContainer.encode(group, forKey: .group)
         
     }
-}
-
-public func getTags() async throws -> [Tag] {
-    var components = URLComponents()
-    components.scheme = "https"
-    components.host = "api.mangadex.org"
-    components.path = "/manga/tag"
-    
-    guard let url = components.url else { throw MDApiError.badRequest }
-    
-    struct Root: Decodable { let data: [Tag] }
-    
-    let data = try await get(for: url)
-    let tags = try JSONDecoder().decode(Root.self, from: data)
-    #if DEBUG
-    print(tags.data)
-    #endif
-    
-    return tags.data
 }
 
 

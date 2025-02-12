@@ -7,21 +7,24 @@
 
 import Foundation
 
-struct User: Identifiable, Decodable, Sendable {
-    let id: UUID
+/// A MangaDex user.
+///
+/// 
+public struct User: Identifiable, Decodable, Sendable {
+    public let id: UUID
     let username: String
     let roles: [String]
     let version: Int
     
-    enum CodingKeys: CodingKey {
+    private enum CodingKeys: CodingKey {
         case id, attributes
     }
     
-    enum AttributeCodingKeys: CodingKey {
+    private enum AttributeCodingKeys: CodingKey {
         case username, roles, version
     }
     
-    init(from decoder: any Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
         

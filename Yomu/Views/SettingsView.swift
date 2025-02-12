@@ -66,7 +66,7 @@ struct SettingsView: View {
                         }
                     }
                 }
-                        
+                
                 Section {
                     NavigationLink {
                         ReaderSettingsView()
@@ -100,27 +100,27 @@ struct SettingsView: View {
         }
         .navigationSplitViewStyle(.balanced)
     }
-//            .alert("Login", isPresented: $showingLoginAlert) {
-//                TextField("Username", text: $credentials.username)
-//                    .autocorrectionDisabled()
-//                SecureField("Password", text: $credentials.password)
-//                    .autocorrectionDisabled()
-//                TextField("Client ID", text: $credentials.client_id)
-//                    .autocorrectionDisabled()
-//                SecureField("Secret", text: $credentials.client_secret)
-//                    .autocorrectionDisabled()
-//                
-//                Button("Cancel", role: .cancel) { }
-//                Button("OK") {
-//                    Task {
-//                        try? await auth(for: credentials)
-//                        credentials.reset()
-//                    }
-//                }
-//            } message: {
-//                Text("Login to Mangadex")
-//            }
-//    }
+    //            .alert("Login", isPresented: $showingLoginAlert) {
+    //                TextField("Username", text: $credentials.username)
+    //                    .autocorrectionDisabled()
+    //                SecureField("Password", text: $credentials.password)
+    //                    .autocorrectionDisabled()
+    //                TextField("Client ID", text: $credentials.client_id)
+    //                    .autocorrectionDisabled()
+    //                SecureField("Secret", text: $credentials.client_secret)
+    //                    .autocorrectionDisabled()
+    //
+    //                Button("Cancel", role: .cancel) { }
+    //                Button("OK") {
+    //                    Task {
+    //                        try? await auth(for: credentials)
+    //                        credentials.reset()
+    //                    }
+    //                }
+    //            } message: {
+    //                Text("Login to Mangadex")
+    //            }
+    //    }
 }
 
 

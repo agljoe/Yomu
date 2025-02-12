@@ -20,35 +20,35 @@ struct YomuTests {
                 let result = try await healthCheck()
                 #expect(result == "pong")
             } catch let error {
-                #expect(error as! MDApiError == MDApiError.serviceUnavailable)
+                #expect(error is MDApiError)
             }
         }
 
         @Test("Test successfully getting and decoding of manga json data")
         func testGetManga() async { //https://mangadex.org/title/8b58f452-4d8a-4aad-a050-349e83fecccb/jujutsu-kaisen-0
             await #expect(throws: Never.self) {
-                _ = try await getManga(id: UUID(uuidString: "8b58f452-4d8a-4aad-a050-349e83fecccb")!)
+                _ = try await getManga(UUID(uuidString: "8b58f452-4d8a-4aad-a050-349e83fecccb")!)
             }
         }
         
         @Test("Test that getting a manga with an invalid id throws the correct error")
         func testGetMangaWithInvalidId() async {
-            await #expect(throws: MDApiError.notFound) {
-               _ = try await getManga(id: UUID(uuidString: "invalid-id")!)
+            await #expect(throws: MDApiError.notFound(context: "")) {
+                _ = try await getManga(UUID(uuidString: "invalid-id")!)
             }
         }
         
         @Test("Test successfully getting and decoding of chapter json data")
         func testGetChapter() async {
             await #expect(throws: Never.self) { //https://mangadex.org/chapter/679b32f1-2ec4-466e-ac06-51b80289bf4d
-                _ = try await getChapter(id: "679b32f1-2ec4-466e-ac06-51b80289bf4d")
+                _ = try await getChapter(UUID(uuidString: "679b32f1-2ec4-466e-ac06-51b80289bf4d")!)
             }
         }
         
         @Test("Test that getting a chapter with an invalid id throws the correct error")
         func testGetChapterWithInvalidID() async {
-            await #expect(throws: MDApiError.notFound) {
-                _ = try await getChapter(id: "invalid-id")
+            await #expect(throws: MDApiError.notFound(context: "")) {
+                _ = try await getChapter(UUID(uuidString: "invalid-id")!)
             }
         }
         

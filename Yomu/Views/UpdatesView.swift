@@ -5,6 +5,7 @@
 //  Created by Andrew Joe on 2024-06-09.
 //
 
+import Foundation
 import SwiftUI
 
 struct Update: Identifiable {
@@ -36,8 +37,8 @@ struct ChapterListView: View {
         List(chapters) { chapter in
             Section {
                 NavigationLink {
-                    ReaderView(chapterId: chapter.id, title: "Ch. " + chapter.chapter  + " " + (chapter.title ?? ""))
-                        .lineLimit(1)
+                    // TODO: link to external website if chapter has externalLink
+                    ReaderView(chapterId: chapter.id, title: "Ch. \(chapter.chapter ?? "0") \(chapter.title ?? "")")
                         .navigationBarBackButtonHidden(true)
                 } label: {
                     HStack {
@@ -52,7 +53,7 @@ struct ChapterListView: View {
                         }
                         
                         VStack(alignment: .leading) {
-                            Text("Ch. " + chapter.chapter  + " " + (chapter.title ?? ""))
+                            Text("\(chapter.volume != nil ? "Vol. \(chapter.volume ?? "0")" : "") Ch. \(chapter.chapter ?? "0") \(chapter.title ?? "")")
                                 .lineLimit(1)
                             Text(chapter.scanlationGroup?.name ?? "No group")
                                 .lineLimit(1)
@@ -80,9 +81,9 @@ struct MangaUpdateView: View {
             }
             .scaledToFit()
             .clipShape(RoundedRectangle(cornerRadius: 8))
-            .frame(height: 150 , alignment: .top)
-            .padding(.leading, 8)
-            .padding(.top, 10)
+            .frame(width: 100 , alignment: .top)
+            .padding(.leading, 10)
+            .padding(.top, 0)
             .padding(.bottom, 30)
 
             VStack {
@@ -111,7 +112,7 @@ struct UpdatesView: View {
     @State private var isLoading: Bool = false
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView {
                 LazyVStack {
                     ForEach(mangaUpdatesLogger.updates) { update in
@@ -122,22 +123,13 @@ struct UpdatesView: View {
                         .onAppear {
                             if !isLoading {
                                 Task {
+                                    isLoading = true
                                     do {
-                                        isLoading = true
                                         let (updates, offset) = try await getUserFollowedFeed(limit: mangaUpdatesLogger.limit, offset: mangaUpdatesLogger.offset)
                                         mangaUpdatesLogger.updates.append(contentsOf: updates)
                                         mangaUpdatesLogger.offset = mangaUpdatesLogger.limit + offset
-                                    } catch let DecodingError.dataCorrupted(context) {
-                                        print(context)
-                                    } catch let DecodingError.keyNotFound(key, context) {
-                                        print("Key '\(key)' not found:", context.debugDescription)
-                                        print("codingPath:", context.codingPath)
-                                    } catch let DecodingError.valueNotFound(value, context) {
-                                        print("Value '\(value)' not found:", context.debugDescription)
-                                        print("codingPath:", context.codingPath)
-                                    } catch let DecodingError.typeMismatch(type, context)  {
-                                        print("Type '\(type)' mismatch:", context.debugDescription)
-                                        print("codingPath:", context.codingPath)
+                                    } catch let error as DecodingError {
+                                        handleDecodingError(error)
                                     } catch {
                                         print("error: ", error.localizedDescription)
                                     }
@@ -165,6 +157,10 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
         URLQueryItem(name: "limit", value: "\(limit)"),
         URLQueryItem(name: "offset", value: "\(offset)"),
         URLQueryItem(name: "translatedLanguage[]", value: "en"), // TODO: change to load from userDefaults
+        URLQueryItem(name: "contentRating[]", value: "safe"),
+        URLQueryItem(name: "contentRating[]", value: "suggestive"),
+        URLQueryItem(name: "contentRating[]", value: "erotica"),
+        URLQueryItem(name: "contentRating[]", value: "pornographic"),
         URLQueryItem(name: "order[createdAt]", value: order),
         URLQueryItem(name: "order[updatedAt]", value: order),
         URLQueryItem(name: "order[publishAt]", value: order),
@@ -176,7 +172,7 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
         URLQueryItem(name: "includes[]", value: "scanlation_group")
     ]
     
-    guard let url = components.url else { throw MDApiError.invalidURL }
+    guard let url = components.url else { throw MDApiError.invalidURL(context: "Url could not be constructed from components: \(components.string ?? "Unknown")") }
     
     struct Root: Decodable {
         let data: [Chapter]
@@ -185,25 +181,22 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
         let total: Int
     }
     
-    let data = try await authGet(for: url)
+    let data = try await authGet(from: url)
     let chapters = try JSONDecoder().decode(Root.self, from: data)
     
     var updates = [Update]()
     var filtered = [[Chapter]]()
+    var ids = [UUID]()
     
-    var index = 0
-    var cursor = 0
-    
-    while(index < chapters.data.count) {
-        filtered.append(chapters.data.filter{ chapters.data[index].parentManga!.id == $0.parentManga!.id })
-        index += filtered[cursor].count
-        
-        if filtered[cursor].count + index >= chapters.data.count { break }
-        
-        cursor += 1
+    for chapter in chapters.data {
+        let id = chapter.parentManga!.id
+        if (!ids.contains(id)) {
+            filtered.append(chapters.data.filter{ id == $0.parentManga!.id} )
+            ids.append(id)
+        }
     }
     
-    let covers = try await getCovers(for: filtered.map { $0.first!.parentManga!.id }, total: filtered.map { Int($0.first!.volume ?? "1") ?? 0}.reduce(0, +))
+    let covers = try await getCovers(for: filtered.map { $0.first!.parentManga!.id })
     
     for i in 0..<filtered.count {
         updates.append(Update(id: i + offset, chapters: filtered[i], cover: covers[i]))
@@ -212,10 +205,8 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
     return (updates: updates , offset: chapters.offset)
 }
 
-func getCovers(for chapters: [UUID], total: Int) async throws -> [Cover] {
-    let limit = total > 100 ? 100 : total
-    
-    let data = try await getCoversFor(ids: chapters, limit: limit)
+func getCovers(for chapters: [UUID]) async throws -> [Cover] {
+    let data = try await getCoversFor(ids: chapters)?.covers ?? []
     
     var covers = [Cover]()
     
@@ -224,38 +215,16 @@ func getCovers(for chapters: [UUID], total: Int) async throws -> [Cover] {
             covers.append(cover)
         } else {
             do {
-                let cover = try await getCoversFor(ids: [id], limit: 1)
-                covers.append(cover.first!)
-            } catch {
-                print(error.localizedDescription)
-            }
+                let cover = try await getCoversFor(ids: [id])
+                covers.append(cover!.covers.first!)
+            } catch let error as DecodingError {
+                print(handleDecodingError(error))
+            } catch { print(error.localizedDescription) }
         }
     }
     
     return covers
 }
-
-func updateFeed(for logger: inout MangaUpdatesLogger) async {
-    do {
-        let (updates, offset) = try await getUserFollowedFeed(limit: logger.limit, offset: logger.offset)
-        logger.updates.append(contentsOf: updates)
-        logger.offset = logger.limit + offset
-    } catch let DecodingError.dataCorrupted(context) {
-        print(context)
-    } catch let DecodingError.keyNotFound(key, context) {
-        print("Key '\(key)' not found:", context.debugDescription)
-        print("codingPath:", context.codingPath)
-    } catch let DecodingError.valueNotFound(value, context) {
-        print("Value '\(value)' not found:", context.debugDescription)
-        print("codingPath:", context.codingPath)
-    } catch let DecodingError.typeMismatch(type, context)  {
-        print("Type '\(type)' mismatch:", context.debugDescription)
-        print("codingPath:", context.codingPath)
-    } catch {
-        print("error: ", error.localizedDescription)
-    }
-}
-
 
 #Preview {
     UpdatesView()

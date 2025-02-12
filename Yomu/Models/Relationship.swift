@@ -7,27 +7,47 @@
 
 import Foundation
 
+/// All possible types in a manga's reference expansion collection.
+///
+/// ### See
+/// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
 enum MangaRelationshipType: String, Decodable {
+    /// An ``Author``
     case author
+    
+    /// An ``Author``
     case artist
+    
+    /// A ``Cover``
     case cover_art
+    
+    /// A ``RelatedManga``
     case manga
 }
 
+/// Maps a ``MangaRelationshipType`` to its respective struct.
 enum MangaRelationship: Decodable {
+    /// ``MangaRelationshipType/author``
     case author(Author)
-    case artist(Artist)
+    
+    /// ``MangaRelationshipType/artist``
+    case artist(Author)
+    
+    /// ``MangaRelationshipType/cover_art``
     case cover_art(Cover)
+    
+    /// ``MangaRelationshipType/manga``
     case manga(RelatedManga)
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id, type, attributes, relationships, related
     }
     
-    enum AttributesCodingKeys: CodingKey {
+    private enum AttributesCodingKeys: CodingKey {
         case name, imageUrl, biography, twitter, pixiv, melonBook, fanBox, booth, nicoVideo, skeb, fantia, tumblr, youtube, weibo, naver, namicomi, website, volume, fileName, description, locale, createdAt, updatedAt, version
     }
     
+    /// Creates a new instance by decoding from the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let relationshipType = try container.decode(MangaRelationshipType.self, forKey: .type)
@@ -36,7 +56,7 @@ enum MangaRelationship: Decodable {
         case .author:
             self = .author(try Author(from: decoder))
         case .artist:
-            self = .artist(try Artist(from: decoder))
+            self = .artist(try Author(from: decoder))
         case .cover_art:
             self = .cover_art(try Cover(from: decoder))
         case .manga:
@@ -45,25 +65,43 @@ enum MangaRelationship: Decodable {
     }
 }
 
+
+/// All possible types in a chapters' reference expansion collection.
+///
+/// ### See
+/// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
 enum ChapterRelationshipType: String, Decodable {
+    /// A ``ScanlationGroup``
     case scanlation_group
+    
+    /// A ``User``
     case user
+    
+    /// A ``ParentManga``
     case manga
 }
 
+/// Maps a ``ChapterRelationshipType`` to its respective struct.
 enum ChapterRelationship: Decodable {
+    /// ``ChapterRelationshipType/scanlation_group``
     case scanlation_group(ScanlationGroup)
+    
+    /// ``ChapterRelationshipType/user``
     case user(User)
+    
+    /// ``ChapterRelationshipType/manga``
     case manga(ParentManga)
     
-    enum CodingKeys: CodingKey {
+    private enum CodingKeys: CodingKey {
         case id, type, attributes, relationships
     }
     
-    enum AttributeCodingKeys: CodingKey {
+    private enum AttributeCodingKeys: CodingKey {
         case name, username, roles, locked, website, ircServer, ircChannel, discord, contactEmail, description, twitter, mangaUpdates, focusedLanguages, official, verified, inactive, exLisensed, publishDelay, createdAt, updatedAt, version, title, altTitles, originalLanguage
     }
     
+    
+    /// Creates a new instance by decoding from the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let relationshipType = try container.decode(ChapterRelationshipType.self, forKey: .type)

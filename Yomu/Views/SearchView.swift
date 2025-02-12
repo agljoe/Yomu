@@ -16,7 +16,7 @@ struct SearchView: View {
     ]
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
                 }
@@ -33,10 +33,9 @@ struct SearchView: View {
                     .toolbarRole(.navigationStack)
                 }
             }
-            
-        }
-        .sheet(isPresented: $showingSheet) {
-            FilterSettingsView()
+            .sheet(isPresented: $showingSheet) {
+                FilterSettingsView()
+            }
         }
     }
 }
