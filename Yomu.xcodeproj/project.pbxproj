@@ -48,6 +48,7 @@
 		499D3F992D5B2E7B00D89386 /* UserRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D3F982D5B2E7B00D89386 /* UserRequests.swift */; };
 		499D3F9B2D5B317300D89386 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D3F9A2D5B317300D89386 /* Statistics.swift */; };
 		499D3F9D2D5B351A00D89386 /* StatisticsRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D3F9C2D5B351A00D89386 /* StatisticsRequests.swift */; };
+		499D3FB22D606DBE00D89386 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 499D3FB12D606DBE00D89386 /* Algorithms */; };
 		49F0F34E2D2F96EB00525902 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34D2D2F96EB00525902 /* AccountView.swift */; };
 		49F0F3502D40700000525902 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34F2D40700000525902 /* ReaderView.swift */; };
 /* End PBXBuildFile section */
@@ -121,6 +122,9 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		49217E672D42FEC400FFE8F1 /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
+		493A70662D6589FF000BF18E /* MangaViews */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MangaViews; sourceTree = "<group>"; };
+		493A706B2D6AAEA2000BF18E /* Materials */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Materials; sourceTree = "<group>"; };
+		493A70842D73F4A6000BF18E /* API */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = API; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				499D3FB22D606DBE00D89386 /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,7 +177,8 @@
 			isa = PBXGroup;
 			children = (
 				49217E672D42FEC400FFE8F1 /* Helpers */,
-				499929572C105D60003BD29B /* API */,
+				493A70842D73F4A6000BF18E /* API */,
+				499929572C105D60003BD29B /* API - Old */,
 				499929522C100B03003BD29B /* Models */,
 				499929502C100ADB003BD29B /* Views */,
 				499929242C0FEBA3003BD29B /* YomuApp.swift */,
@@ -211,15 +217,17 @@
 		499929502C100ADB003BD29B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				499929262C0FEBA3003BD29B /* ContentView.swift */,
-				499929722C16A431003BD29B /* UpdatesView.swift */,
-				499929702C16A3B7003BD29B /* LibraryView.swift */,
+				493A706B2D6AAEA2000BF18E /* Materials */,
 				499929742C16A465003BD29B /* CommunityView.swift */,
+				499929262C0FEBA3003BD29B /* ContentView.swift */,
+				4999298B2C1BCCE3003BD29B /* Icon.swift */,
+				499929702C16A3B7003BD29B /* LibraryView.swift */,
+				493A70662D6589FF000BF18E /* MangaViews */,
+				49F0F34F2D40700000525902 /* ReaderView.swift */,
 				4999296E2C16A219003BD29B /* SearchView.swift */,
 				4999296C2C16A1D6003BD29B /* SettingsView.swift */,
 				499929842C1BB5CD003BD29B /* Settings Views */,
-				4999298B2C1BCCE3003BD29B /* Icon.swift */,
-				49F0F34F2D40700000525902 /* ReaderView.swift */,
+				499929722C16A431003BD29B /* UpdatesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,7 +248,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		499929572C105D60003BD29B /* API */ = {
+		499929572C105D60003BD29B /* API - Old */ = {
 			isa = PBXGroup;
 			children = (
 				4999295A2C113381003BD29B /* Authentication.swift */,
@@ -251,10 +259,10 @@
 				499929662C1306C2003BD29B /* Request.swift */,
 				499D3F962D5AF40200D89386 /* ScanlationGroupRequests.swift */,
 				499929582C105D71003BD29B /* StaticData.swift */,
-				499D3F982D5B2E7B00D89386 /* UserRequests.swift */,
 				499D3F9C2D5B351A00D89386 /* StatisticsRequests.swift */,
+				499D3F982D5B2E7B00D89386 /* UserRequests.swift */,
 			);
-			path = API;
+			path = "API - Old";
 			sourceTree = "<group>";
 		};
 		499929842C1BB5CD003BD29B /* Settings Views */ = {
@@ -291,6 +299,9 @@
 			);
 			fileSystemSynchronizedGroups = (
 				49217E672D42FEC400FFE8F1 /* Helpers */,
+				493A70662D6589FF000BF18E /* MangaViews */,
+				493A706B2D6AAEA2000BF18E /* Materials */,
+				493A70842D73F4A6000BF18E /* API */,
 			);
 			name = Yomu;
 			productName = Yomu;
@@ -367,6 +378,9 @@
 				Base,
 			);
 			mainGroup = 499929182C0FEBA3003BD29B;
+			packageReferences = (
+				499D3FB02D606C5C00D89386 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+			);
 			productRefGroup = 499929222C0FEBA3003BD29B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -796,6 +810,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		499D3FB02D606C5C00D89386 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		499D3FB12D606DBE00D89386 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 499D3FB02D606C5C00D89386 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 499929192C0FEBA3003BD29B /* Project object */;
 }

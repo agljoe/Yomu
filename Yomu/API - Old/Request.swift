@@ -75,7 +75,7 @@ public func get(from url: URL) async throws -> Data {
 /// - Returns: a data value from the specified server.
 ///
 /// - Throws: ``httpError(_:context:)`` if the returned status code is not 200.
-public func post(at url: URL, value: String?, content: Data?) async throws -> Data {
+public func post(at url: URL, value: String? = nil, content: Data? = nil) async throws -> Data {
     var request = URLRequest(url: url)
     if (value != nil) { request.setValue(value, forHTTPHeaderField: "Content-Type") }
     request.httpShouldHandleCookies = true
@@ -88,6 +88,7 @@ public func post(at url: URL, value: String?, content: Data?) async throws -> Da
     guard (response as? HTTPURLResponse)?.statusCode == 200 else {
         throw httpError((response as! HTTPURLResponse), context: "\(String(data: data, encoding: .utf8) ?? "no context available").")
     }
+    
     return data
 }
 

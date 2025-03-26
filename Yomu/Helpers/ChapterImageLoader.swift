@@ -1,5 +1,5 @@
 //
-//  ImageLoader.swift
+//  ChapterImageLoader.swift
 //  Yomu
 //
 //  Created by Andrew Joe on 2025-01-23.
@@ -43,7 +43,7 @@ extension EnvironmentValues {
     }
 }
 
-struct RemoteImage: View {
+struct ChapterPageImage: View {
     private let source: URLRequest
     @State private var image: UIImage?
 

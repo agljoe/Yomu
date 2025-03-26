@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GeneralView: View {
     @State private var defaultLanguage = ["English", "French", "Japanese", "Chinese"] //update for all languages
+    @State private var cacheSize = Double(URLCache.shared.currentDiskUsage) / (1024 * 1024)
     
     var body: some View {
         NavigationStack {
@@ -26,6 +27,15 @@ struct GeneralView: View {
                 }
                 
                 Section {
+                    Button(role: .destructive) {
+                        URLCache.shared.removeAllCachedResponses()
+                    } label: {
+                        HStack {
+                            Image(systemName: "trash")
+                            Text("Clear Cache \(cacheSize) mb")
+                        }
+                    }
+                    
                     Button("Reset", role: .destructive) {
                         //reset app
                     }

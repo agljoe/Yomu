@@ -33,9 +33,9 @@ import Foundation
 /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
 ///
 /// [Pagnation](https://api.mangadex.org/docs/01-concepts/pagination/)
-public func getAuthors(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "includes[]", value: "manga")]) async throws -> (authors: [Author], offset: Int)? {
+public func getAuthors(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "includes[]", value: "manga")]) async throws -> (authors: [Author], offset: Int) {
     if ids.count > 100 { throw MDApiError.badRequest(context: "Items are limited to 100 per request.") }
-    if ids.isEmpty { return nil }
+    if ids.isEmpty { return ([], 0) }
     
     var components = URLComponents()
     components.scheme = "https"
@@ -57,7 +57,6 @@ public func getAuthors(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryI
     
     let data = try await get(from: url)
     let authors = try JSONDecoder().decode(Root.self, from: data)
-    
     return (authors.data, authors.offset)
 }
 
@@ -98,6 +97,5 @@ public func getAuthor(_ id: UUID, queryParameters: [URLQueryItem] = [URLQueryIte
     
     let data = try await get(from: url)
     let author = try JSONDecoder().decode(Root.self, from: data)
-
     return author.data
 }

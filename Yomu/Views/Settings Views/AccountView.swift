@@ -13,18 +13,20 @@ struct AccountView: View {
     var body: some View {
         VStack {
             Form {
-                TextField("Username", text: $credentials.username)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                SecureField("Password", text: $credentials.password)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                TextField("Client ID", text: $credentials.client_id)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                SecureField("Client Secret", text: $credentials.client_secret)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
+                Section {
+                    TextField("Username", text: $credentials.username)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                    SecureField("Password", text: $credentials.password)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                    TextField("Client ID", text: $credentials.client_id)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                    SecureField("Client Secret", text: $credentials.client_secret)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                }
                 
                 Button("Login") {
                     Task {
@@ -35,22 +37,29 @@ struct AccountView: View {
                     }
                 }
             }
-            .padding()
-        }
-        
-        Button("ReAuth") {
-            Task {
-                do {
-                    try await reAuth()
-                } catch let error { print(error.localizedDescription) }
+            
+            Form {
+                Section {
+                    Button("ReAuth") {
+                        Task {
+                            do {
+                                try await reAuth()
+                            } catch let error { print(error.localizedDescription) }
+                        }
+                    }
+                }
+                
+                Section {
+                    Button("Reset Credentials") {
+                        resetCredentials()
+                    }
+                    
+                    Button("Reset KeyChain") {
+                        resetKeychain()
+                    }
+                }
             }
         }
-
-        
-        Button("Reset Credentials") {
-            resetCredentials()
-        }
-
     }
 }
 

@@ -38,7 +38,6 @@ struct ContentView: View {
                     }
             }
         } else {
-            NavigationStack {
                 TabView {
                     UpdatesView()
                         .tabItem {
@@ -64,7 +63,6 @@ struct ContentView: View {
                         .tabItem {
                             Label("Settings", systemImage: "gear")
                         }
-                }
             }
         }
     }

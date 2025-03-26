@@ -31,7 +31,7 @@ struct MangaUpdatesLogger {
 }
 
 struct ChapterListView: View {
-    let chapters: [Chapter]
+    @State var chapters: [Chapter]
     
     var body: some View {
         List(chapters) { chapter in
@@ -42,13 +42,8 @@ struct ChapterListView: View {
                         .navigationBarBackButtonHidden(true)
                 } label: {
                     HStack {
-                        VStack(alignment: .center) {
-                            Button {
-                                // TODO
-                            } label : {
-                                Image(systemName: "eye")
-                            }
-                            
+                        LazyVStack(alignment: .center) {
+                            Image(systemName: chapter.hasBeenRead ? "eye.slash" : "eye")
                             Image(systemName: "person.3")
                         }
                         
@@ -70,26 +65,14 @@ struct ChapterListView: View {
 }
 
 struct MangaUpdateView: View {
-    let update: Update
+    @State var update: Update
     
     var body: some View {
-        HStack {
-            AsyncImage(url: URL(string: "https://uploads.mangadex.org/covers/\(update.chapters.first!.parentManga!.id.uuidString.lowercased())/\(update.cover.fileName)")) { image in
-                image.resizable()
-            } placeholder: {
-                ProgressView()
-            }
-            .scaledToFit()
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-            .frame(width: 100 , alignment: .top)
-            .padding(.leading, 10)
-            .padding(.top, 0)
-            .padding(.bottom, 30)
-
-            VStack {
-                Text(update.chapters.first!.parentManga?.title["en"] ?? "")
+            VStack(alignment: .leading) {
+                Text(update.chapters.first!.parentManga?.title?["en"] ?? "")
                     .lineLimit(1)
-                    .padding(.top, 10)
+                    .padding(.top)
+                    .padding(.horizontal)
                     .font(.title3)
                 
                 Rectangle()
@@ -97,13 +80,30 @@ struct MangaUpdateView: View {
                     .padding(.top, 0)
                     .foregroundStyle(.secondary)
                 
-                ChapterListView(chapters: update.chapters)
+                HStack {
+                    NavigationLink {
+                        DeferView {
+                            MangaView(cover: update.cover, id: update.chapters.first!.parentManga!.id)
+                        }
+                    } label : {
+                        CachedAsyncImage(url: URL(string: "https://uploads.mangadex.org/covers/\(update.chapters.first!.parentManga!.id.uuidString.lowercased())/\(update.cover.fileName).512.jpg")) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 9))
+                        .frame(width: 125 , alignment: .center)
+                    }
+                    
+                    ChapterListView(chapters: update.chapters)
             }
-            .frame(alignment: .leading)
         }
-        .frame(height: 200)
-        .background(.thinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .frame(height: 250)
+        .padding(.horizontal, 5)
+        .cardStyle()
+        
     }
 }
 
@@ -112,12 +112,21 @@ struct UpdatesView: View {
     @State private var isLoading: Bool = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 LazyVStack {
                     ForEach(mangaUpdatesLogger.updates) { update in
                         MangaUpdateView(update: update)
+                            .padding(.horizontal)
                     }
+                    .overlay(
+                        Group {
+                            if isLoading {
+                                ProgressView()
+                            }
+                        }
+                    )
+                    
                     Color.clear
                         .frame(height: 1)
                         .onAppear {
@@ -131,7 +140,7 @@ struct UpdatesView: View {
                                     } catch let error as DecodingError {
                                         handleDecodingError(error)
                                     } catch {
-                                        print("error: ", error.localizedDescription)
+                                        print("Error: ", error.localizedDescription)
                                     }
                                     isLoading = false
                                 }
@@ -139,6 +148,7 @@ struct UpdatesView: View {
                         }
                 }
             }
+            .background(Color(UIColor.systemGroupedBackground))
             .navigationTitle("Updates")
             .scrollIndicators(.never)
         }
@@ -172,7 +182,9 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
         URLQueryItem(name: "includes[]", value: "scanlation_group")
     ]
     
-    guard let url = components.url else { throw MDApiError.invalidURL(context: "Url could not be constructed from components: \(components.string ?? "Unknown")") }
+    guard let url = components.url else {
+        throw MDApiError.invalidURL(context: "URL could not be constructed from components: \(components.string ?? "no components").")
+    }
     
     struct Root: Decodable {
         let data: [Chapter]
@@ -196,7 +208,18 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
         }
     }
     
-    let covers = try await getCovers(for: filtered.map { $0.first!.parentManga!.id })
+    ids = filtered.map { $0.first!.parentManga!.id }
+    
+    let covers = try await getCovers(for: ids)
+    let markers = try await getReadMarkers(for: ids)
+    
+    for chapters in filtered {
+        if let readChapters = markers[chapters.first!.parentManga!.id.uuidString.lowercased()] {
+            for var chapter in chapters {
+                chapter.updateReadMarker(to: readChapters.contains(chapter.id.uuidString.lowercased()))
+            }
+        }
+    }
     
     for i in 0..<filtered.count {
         updates.append(Update(id: i + offset, chapters: filtered[i], cover: covers[i]))
@@ -206,24 +229,42 @@ func getUserFollowedFeed(limit: Int, offset: Int) async throws -> (updates: [Upd
 }
 
 func getCovers(for chapters: [UUID]) async throws -> [Cover] {
-    let data = try await getCoversFor(ids: chapters)?.covers ?? []
-    
+    let data = try await getCoversFor(ids: chapters).covers
     var covers = [Cover]()
     
     for id in chapters {
-        if let cover = data.first(where: { $0.relationships.first!.id == id }) {
+        if let cover = data.first(where: { $0.relationships!.first!.id == id }) {
             covers.append(cover)
         } else {
-            do {
-                let cover = try await getCoversFor(ids: [id])
-                covers.append(cover!.covers.first!)
-            } catch let error as DecodingError {
-                print(handleDecodingError(error))
-            } catch { print(error.localizedDescription) }
+            try await covers.append(contentsOf: getCovers(for: [id]))
         }
     }
     
     return covers
+}
+
+func getReadMarkers(for mangaIds: [UUID]) async throws -> [String: [String]] {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "api.mangadex.org"
+    components.path = "/manga/read"
+    components.queryItems = []
+    
+    for id in mangaIds {
+        components.queryItems?.append(URLQueryItem(name: "ids[]", value: id.uuidString.lowercased()))
+    }
+    
+    components.queryItems?.append(URLQueryItem(name: "grouped", value: "true"))
+    
+    guard let url = components.url else {
+        throw MDApiError.invalidURL(context: "URL could not be constructed from components: \(components.string ?? "no components").")
+    }
+    
+    struct Root: Decodable { let data: [String: [String]] }
+    
+    let data = try await authGet(from: url)
+    let markers = try JSONDecoder().decode(Root.self, from: data)
+    return markers.data
 }
 
 #Preview {

@@ -59,6 +59,9 @@ public struct Chapter: Decodable, Identifiable, Sendable {
     /// The manga a chapter is from.
     let parentManga: ParentManga?
     
+    /// Sets the read marker for a chapter to false by default.
+    var hasBeenRead: Bool = false
+    
     private enum CodingKeys: String, CodingKey {
         case id, attributes, relationships
     }
@@ -69,7 +72,7 @@ public struct Chapter: Decodable, Identifiable, Sendable {
     
     /// Creates a ``Chapter`` instance initialized with placeholder values.
     public init() {
-        self.id = UUID()
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
         self.title = nil
         self.volume = nil
         self.chapter = nil
@@ -151,6 +154,10 @@ public struct Chapter: Decodable, Identifiable, Sendable {
         self.user = uploader ?? nil
         self.parentManga = parentManga ?? nil
     }
+    
+    mutating func updateReadMarker(to marker: Bool) {
+        self.hasBeenRead = marker
+    }
 }
 
 /// A value obtained from the reference expansion of a ``Chapter``.
@@ -165,10 +172,10 @@ public struct ParentManga: Decodable, Identifiable, Sendable {
     ///
     /// >Note
     ///     This value may only be romanized.
-    let title: [String: String] // TODO: flatten to just string
+    let title: [String: String]? // TODO: flatten to just string
     
     /// The original language of this manga.
-    let originalLanuage: String
+    let originalLanuage: String?
     
     enum CodingKeys: String, CodingKey {
         case id, attributes
@@ -180,7 +187,7 @@ public struct ParentManga: Decodable, Identifiable, Sendable {
     
     /// Creates a ``ParentManga`` instance initialized with placeholder values.
     private init() {
-        self.id = UUID()
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
         self.title = [:]
         self.originalLanuage = ""
     }
@@ -198,9 +205,14 @@ public struct ParentManga: Decodable, Identifiable, Sendable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
         
-        let attributesContainer = try container.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
-        self.title = try attributesContainer.decode([String: String].self, forKey: .title)
-        self.originalLanuage = try attributesContainer.decode(String.self, forKey: .originalLanguage)
+        if container.contains(.attributes) {
+            let attributesContainer = try container.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
+            self.title = try attributesContainer.decode([String: String].self, forKey: .title)
+            self.originalLanuage = try attributesContainer.decode(String.self, forKey: .originalLanguage)
+        } else {
+            self.title = nil
+            self.originalLanuage = nil
+        }
     }
 }
 

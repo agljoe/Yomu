@@ -85,7 +85,7 @@ public struct ScanlationGroup: Identifiable, Decodable, Sendable {
     
     /// Creates a ``ScanlationGroup`` instance initialized with placeholder values.
     public init() {
-        self.id = UUID()
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
         self.name = ""
         self.locked = false
         self.website = nil

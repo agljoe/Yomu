@@ -19,8 +19,7 @@ public struct Tag: Codable, Identifiable, Sendable {
     let group: String
     
     private enum CodingKeys: CodingKey {
-        case id
-        case attributes
+        case id, attributes
     }
     
     private enum AttributeCodingKeys: CodingKey {
@@ -33,7 +32,7 @@ public struct Tag: Codable, Identifiable, Sendable {
     
     /// Creates a ``Tag`` instance initialized with placeholder values.
     public init() {
-        self.id = UUID()
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
         self.name = ""
         self.group = ""
     }
@@ -67,7 +66,6 @@ public struct Tag: Codable, Identifiable, Sendable {
         try nameContainer.encode(name, forKey: .en)
         
         try attributeContainer.encode(group, forKey: .group)
-        
     }
 }
 

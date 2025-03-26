@@ -6,124 +6,6 @@
 //
 
 import Foundation
-
-/// A collection of identifiers used to get OAuth tokens for a  user
-///
-/// A `Credentials` value encapsulates all user information required to login using the MangaDexApi.
-///
-/// The MangaDexApi requies users to login in order to create the associated OAuth access and refresh tokens.
-///
-/// For more information see [Personal Clients](https://api.mangadex.org/docs/02-authentication/personal-clients/).
-struct Credentials: Codable {
-    var username: String
-    var password: String
-    var client_id: String
-    var client_secret: String
-    
-    /// Creates a ``Credentials`` instance initialized with placeholder values.
-    init() {
-        self.username = ""
-        self.password = ""
-        self.client_id = ""
-        self.client_secret = ""
-    }
-    
-    /// Creates a ``Credentials`` instance by the given values.
-    init(username: String, password: String, client_id: String, client_secret: String) {
-        self.username = username
-        self.password = password
-        self.client_id = client_id
-        self.client_secret = client_secret
-    }
-    
-    /// Sets the value of all members to empty strings.
-    mutating func reset() {
-        username = ""
-        password = ""
-        client_id = ""
-        client_secret = ""
-    }
-}
-
-
-/// A value passed in the `authorization` header of a HTTP request for authenticated OAuth calls.
-///
-///  MangaDex specifies that ``Token/access`` is  used for all endpoints requiring authorization headers, except when generating new access tokens.
-///
-///    For more information on authentication using the MangaDexApi see [Personal Clients](https://api.mangadex.org/docs/02-authentication/personal-clients/).
-struct Token: Hashable, Codable {
-    let access: String
-    let refresh: String?
-
-    /// Creates a Token value with access initalized as an empty string.
-    init() {
-        self.access = ""
-        self.refresh = nil
-    }
-    
-    /// Create a Token value given a specified access.
-    init(access: String, refresh: String?) {
-        self.access = access
-        self.refresh = refresh
-    }
-
-    /// Keys used to decode JSON data returned from MangaDex servers.
-    private enum CodingKeys: String, CodingKey {
-        case access = "access_token"
-        case refresh = "refresh_token"
-    }
-    
-    /// Creates new instance by decoding from any decoder.
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.access = try container.decode(String.self, forKey: .access)
-        self.refresh = try container.decodeIfPresent(String.self, forKey: .refresh)
-    }
-}
-
-/// An error that occurs when making authenticated requests.
-public enum AuthenticationError: Error {
-    case invalidCredentials
-    case failedToAuthenticate
-}
-
-extension AuthenticationError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .invalidCredentials:
-            return String(localized: "Invalid credentials")
-        case .failedToAuthenticate:
-            return String(localized: "Failed to login, context")
-        }
-    }
-}
-
-/// An error that occurs when storing, or retriving values from a KeyChain.
-public enum KeychainError: Error {
-    case noPassword
-    case noToken
-    case unexpectedPasswordData
-    case unexpecetedTokenData
-    case unhandledError(status: OSStatus)
-}
-
-extension KeychainError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .noPassword:
-            return String(localized: "No password found for user.")
-        case .noToken:
-            return String(localized: "No token found for user.")
-        case .unexpectedPasswordData:
-            return String(localized: "Unexpected or incorrectly formatted password data found.")
-        case .unexpecetedTokenData:
-            return String(localized: "Unexpected or incorrectly formatted token data found.")
-        case .unhandledError(status: let status):
-            return String(localized: "Uhandled error thrown: \(SecCopyErrorMessageString(status, nil)!)")
-        }
-    }
-}
-
 /// Login with provided credentials.
 ///
 ///  >Note: Credentials are provided in the format `application/x-www-form-urlencoded` not `JSON`.
@@ -452,7 +334,10 @@ public func authGet(from url: URL) async throws -> Data {
         } catch { throw AuthenticationError.failedToAuthenticate }
     }
     
-    guard (response as? HTTPURLResponse)?.statusCode == 200 else {  throw httpError((response as! HTTPURLResponse), context: String(data: data, encoding: .utf8) ?? "no context available") }
+    guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+        throw httpError((response as! HTTPURLResponse), context: "\(String(data: data, encoding: .utf8) ?? "no context available").")
+    }
+    
     return data
 }
 
@@ -500,7 +385,9 @@ public func authPost(at url: URL, for value: String? = nil, with content: Data? 
         } catch { throw AuthenticationError.failedToAuthenticate }
     }
     
-    guard (response as? HTTPURLResponse)?.statusCode == 200 else {  throw httpError((response as! HTTPURLResponse), context: String(data: data, encoding: .utf8) ?? "no context available") }
+    guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+        throw httpError((response as! HTTPURLResponse), context: "\(String(data: data, encoding: .utf8) ?? "no context available").")
+    }
 }
 
 /// Performs an OAuth authenticated HTTP DELETE  at a server for the given `url`.
@@ -542,5 +429,7 @@ public func authDelete(at url: URL) async throws {
         } catch { throw AuthenticationError.failedToAuthenticate }
     }
     
-    guard (response as? HTTPURLResponse)?.statusCode == 200 else {  throw httpError((response as! HTTPURLResponse), context: String(data: data, encoding: .utf8) ?? "no context available") }
+    guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+        throw httpError((response as! HTTPURLResponse), context: "\(String(data: data, encoding: .utf8) ?? "no context available").")
+    }
 }

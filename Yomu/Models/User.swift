@@ -9,7 +9,7 @@ import Foundation
 
 /// A MangaDex user.
 ///
-/// 
+///
 public struct User: Identifiable, Decodable, Sendable {
     public let id: UUID
     let username: String
@@ -22,6 +22,20 @@ public struct User: Identifiable, Decodable, Sendable {
     
     private enum AttributeCodingKeys: CodingKey {
         case username, roles, version
+    }
+    
+    public init() {
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
+        self.username = ""
+        self.roles = []
+        self.version = 0
+    }
+    
+    public init(id: UUID, username: String, roles: [String], version: Int) {
+        self.id = id
+        self.username = username
+        self.roles = roles
+        self.version = version
     }
     
     public init(from decoder: any Decoder) throws {

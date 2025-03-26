@@ -23,9 +23,9 @@ import Foundation
 ///
 ///  ### Endpoint
 ///     /cover/
-public func getCoversFor(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "order[createdAt]", value: "desc"), URLQueryItem(name: "order[updatedAt]", value: "desc"), URLQueryItem(name: "order[volume]", value: "desc")]) async throws -> (covers: [Cover], offest: Int)? {
+public func getCoversFor(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "order[createdAt]", value: "desc"), URLQueryItem(name: "order[updatedAt]", value: "desc"), URLQueryItem(name: "order[volume]", value: "desc")]) async throws -> (covers: [Cover], offest: Int) {
     if (ids.count > 100) { throw MDApiError.badRequest(context: "Ids are limited to 100 per request.")}
-    if (ids.isEmpty) { return nil }
+    if (ids.isEmpty) { return ([], 0) }
     
     var components = URLComponents()
     components.scheme = "https"
@@ -49,7 +49,6 @@ public func getCoversFor(ids: [UUID], queryParameters: [URLQueryItem] = [URLQuer
     
     let data = try await get(from: url)
     let covers = try JSONDecoder().decode(Root.self, from: data)
-
     return (covers.data, covers.offset)
 }
 

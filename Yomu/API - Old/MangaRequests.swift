@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Retrives and decodes  a collection of ``Manga`` for the given `ids`.
+/// Retrives and decodes a collection of ``Manga`` for the given `ids`.
 ///
 /// - Parameters:
 ///     - ids: a collection of manga `UUIDs`
@@ -30,9 +30,9 @@ import Foundation
 ///
 /// [Pagnation](https://api.mangadex.org/docs/01-concepts/pagination/)
 
-public func getManga(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "contentRating", value: Rating.safe.rawValue), URLQueryItem(name: "includes[]", value: "cover_art"), URLQueryItem(name: "includes[]", value: "cover_art")]) async throws -> (manga: [Manga], offset: Int)? {
+public func getManga(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "contentRating", value: Rating.safe.rawValue), URLQueryItem(name: "includes[]", value: "cover_art")]) async throws -> (manga: [Manga], offset: Int) {
     if ids.count > 100 { throw MDApiError.badRequest(context: "Items are limited to 100 per request.")}
-    if ids.isEmpty { return nil }
+    if ids.isEmpty { return ([], 0) }
     
     var components = URLComponents()
     components.scheme = "https"
@@ -61,7 +61,9 @@ public func getManga(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryIte
 
 /// Retrives and decodes  a ``Manga`` for the given `id`.
 ///
-/// - Parameter id: the`UUID`of a specific manga.
+/// - Parameters:
+///     - id: the`UUID`of a specific manga.
+///     - queryParameters: an array of `URLQueryItems` for this request.
 ///
 /// - Throws: `MDApiError.invalidUrl` if a url could not be constructed from `components`.
 /// - Throws: Some `DeocdingError`if the recived JSON data could not be decoded.
@@ -73,22 +75,22 @@ public func getManga(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryIte
 ///
 ///  ### Endpoint
 ///     /manga/{id}
-public func getManga(_ id: UUID ) async throws -> Manga {
+///     
+/// ### See Also
+/// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
+public func getManga(_ id: UUID, queryParameters: [URLQueryItem] = [URLQueryItem(name: "includes[]", value: "manga"), URLQueryItem(name: "includes[]", value: "cover_art"), URLQueryItem(name: "includes[]", value: "author"), URLQueryItem(name: "includes[]", value: "artist"),  URLQueryItem(name: "includes[]", value: "creator")]) async throws -> Manga {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
     components.path = "/manga/\(id.uuidString.lowercased())"
-    components.queryItems = [
-        URLQueryItem(name: "includes[]", value: "cover_art"),
-        URLQueryItem(name: "includes[]", value: "artist"),
-        URLQueryItem(name: "includes[]", value: "author")
-    ]
+    components.queryItems = queryParameters
     
     struct Root: Decodable { let data: Manga }
     
     guard let url = components.url else{
         throw MDApiError.invalidURL(context: "URL could not be constructed from components: \(components.string ?? "no components").")
     }
+    
     let data = try await get(from: url)
     let manga = try JSONDecoder().decode(Root.self, from: data)
     return manga.data
@@ -167,7 +169,9 @@ public func updateMangaReadingStatus(for id: UUID, to status: ReadingStatus) asy
 
 /// Retrives and decodes a collection of ``Chapter`` for the given manga's `id`.
 ///
-/// - Parameter id: the `UUID` of a specific manga.
+/// - Parameters:
+///     - id: the `UUID` of a specific manga.
+///     - queryParameters: an array of `URLQueryItems` for this request.
 ///
 /// - Throws: `MDApiError.invalidUrl` if a url could not be constructed from `components`.
 /// - Throws: Some `DeocdingError`if the recived JSON data could not be decoded.
@@ -176,19 +180,23 @@ public func updateMangaReadingStatus(for id: UUID, to status: ReadingStatus) asy
 ///
 ///  ### Endpoint
 ///     /manga/{id]/feed
-public func getChapters(for id: UUID) async throws -> [Chapter] {
+public func getChapters(for id: UUID, queryParameters: [URLQueryItem] = [URLQueryItem(name: "translatedLanguage[]", value: "en"), URLQueryItem(name: "contentRating[]", value: Rating.safe.rawValue), URLQueryItem(name: "contentRating[]", value: Rating.suggestive.rawValue), URLQueryItem(name: "contentRating[]", value: Rating.erotica.rawValue), URLQueryItem(name: "contentRating[]", value: Rating.pornographic.rawValue), URLQueryItem(name: "order[volume]", value: Order.desc.rawValue), URLQueryItem(name: "order[chapter]", value: Order.desc.rawValue), URLQueryItem(name: "includes[]", value: "manga"), URLQueryItem(name: "includes[]", value: "scanlation_group"), URLQueryItem(name: "includes[]", value: "user")]) async throws -> [Chapter] {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
     components.path = "/manga/\(id.uuidString.lowercased())/feed"
+    components.queryItems = queryParameters
     
     guard let url = components.url else{
         throw MDApiError.invalidURL(context: "URL could not be constructed from components: \(components.string ?? "no components").")
     }
     
+    struct Root: Decodable { let data: [Chapter] }
+    
     let data = try await get(from: url)
-    let chapters = try JSONDecoder().decode([Chapter].self, from: data)
-    return chapters
+
+    let chapters = try JSONDecoder().decode(Root.self, from: data)
+    return chapters.data
 }
 
 /// Gets a random manga.
@@ -285,4 +293,33 @@ public func getMangaForUserReadingStatus(_ status: ReadingStatus? = nil) async t
     let data = try await authGet(from: url)
     let result = try JSONDecoder().decode(Root.self, from: data)
     return result.statuses
+}
+
+/// Gets a collection of chapter ids that have been read for the manga given by `id`.
+///
+///
+/// - Parameter id: The `UUID` of a specific manga.
+///
+/// - Throws: `MDApiError.invalidUrl` if a url could not be constructed from `components`.
+/// - Throws: Some `DeocdingError`if the recived JSON data could not be decoded.
+///
+/// - Returns: An array of `UUID`.
+///
+/// ### Endpoint
+///     /manga/{id}/read
+public func getReadMarkers(for id: UUID) async throws -> [UUID] {
+    var components = URLComponents()
+    components.scheme = "https"
+    components.host = "api.mangadex.org"
+    components.path = "/manga/\(id.uuidString.lowercased())/read"
+    
+    guard let url = components.url else {
+        throw MDApiError.invalidURL(context: "URL could not be constructed from components: \(components.string ?? "no components").")
+    }
+    
+    struct Root: Decodable { let data: [UUID] }
+    
+    let data = try await authGet(from: url)
+    let markters = try JSONDecoder().decode(Root.self, from: data)
+    return markters.data
 }

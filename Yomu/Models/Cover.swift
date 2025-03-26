@@ -43,7 +43,7 @@ public struct Cover: Decodable, Identifiable, Sendable {
     ///
     /// Unlike other structures, objects found in a cover's reference expainsion all have the same structure.
     ///  See ``CoverRelationship``.
-    let relationships: [CoverRelationship]
+    let relationships: [CoverRelationship]?
     
     private enum CodingKeys: CodingKey {
         case id, attributes, relationships
@@ -55,7 +55,7 @@ public struct Cover: Decodable, Identifiable, Sendable {
     
     /// Creates a ``Cover`` instance initialized with placeholder values.
     public init() {
-        self.id = UUID()
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
         self.volume = nil
         self.fileName = ""
         self.description = nil
@@ -98,8 +98,7 @@ public struct Cover: Decodable, Identifiable, Sendable {
         self.createdAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
         self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
         
-        self.relationships = try container.decode([CoverRelationship].self, forKey: .relationships)
-        
+        self.relationships = try container.decodeIfPresent([CoverRelationship].self, forKey: .relationships)
     }
 }
 

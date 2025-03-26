@@ -16,8 +16,8 @@ struct MangaCoverURL: Identifiable {
 struct LibraryView: View {
     @State private var query = ""
     
-    let data: [MangaCoverURL] = [
-        MangaCoverURL(title: "Warui ga Watashi wa Yuri ja nai", urlString: "https://uploads.mangadex.org/covers/8f3e1818-a015-491d-bd81-3addc4d7d56a/26dd2770-d383-42e9-a42b-32765a4d99c8.png"), MangaCoverURL(title: "[Oshi no Ko]", urlString: "https://uploads.mangadex.org/covers/296cbc31-af1a-4b5b-a34b-fee2b4cad542/6a60b4c5-1c23-4106-8500-d9a478db9b0e.jpg")
+    let data: [UUID] = [
+        UUID(uuidString: "9faba8cf-60df-4894-9370-22571592c8d3")!
     ]
     
     let columns = [
@@ -29,36 +29,25 @@ struct LibraryView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(data) { item in
-                        AsyncImage(url:  URL(string: item.urlString)) { image in
-                            image.resizable()
-                                .scaledToFit()
-                        } placeholder: {
-                            ProgressView()
+                    ForEach(data, id: \.self) { item in
+                        NavigationLink {
+                          
+                        } label: {
+                            Text("Test")
                         }
-                        .clipShape(RoundedRectangle(cornerRadius: 7))
-                        .frame(height: 200)
-
                     }
-                    .padding(.horizontal)
                 }
+                .padding()
+                .scrollIndicators(.hidden)
+                .navigationTitle("Library")
             }
-            .padding()
-            .scrollIndicators(.hidden)
-            .navigationTitle("Library")
+            .searchable(text: $query, prompt: Text("Search Library"))
         }
-        .searchable(text: $query, prompt: Text("Search Library"))
     }
 }
 
 func getFollowedManga(limit: Int, offset: Int) async throws {
     
-}
-
-func downloadImage(from url: URL) async throws -> Data {
-    let request = URLRequest(url: url)
-    let (data, _) = try await URLSession.shared.data(for: request)
-    return data
 }
 
 #Preview {

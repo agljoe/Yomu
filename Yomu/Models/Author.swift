@@ -102,7 +102,7 @@ public struct Author: Decodable, Identifiable, Sendable {
     
     /// Creates an ``Author``instance initialized with placeholder values.
     public init() {
-        self.id = UUID()
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
         self.type = ""
         self.name = ""
         self.imageUrl = nil

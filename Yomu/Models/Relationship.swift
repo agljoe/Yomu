@@ -23,6 +23,9 @@ enum MangaRelationshipType: String, Decodable {
     
     /// A ``RelatedManga``
     case manga
+    
+    /// A ``User``
+    case creator
 }
 
 /// Maps a ``MangaRelationshipType`` to its respective struct.
@@ -39,12 +42,15 @@ enum MangaRelationship: Decodable {
     /// ``MangaRelationshipType/manga``
     case manga(RelatedManga)
     
+    /// ``MangaRelationshipType/creator``
+    case creator(User)
+    
     private enum CodingKeys: String, CodingKey {
         case id, type, attributes, relationships, related
     }
     
     private enum AttributesCodingKeys: CodingKey {
-        case name, imageUrl, biography, twitter, pixiv, melonBook, fanBox, booth, nicoVideo, skeb, fantia, tumblr, youtube, weibo, naver, namicomi, website, volume, fileName, description, locale, createdAt, updatedAt, version
+        case name, imageUrl, biography, twitter, pixiv, melonBook, fanBox, booth, nicoVideo, skeb, fantia, tumblr, youtube, weibo, naver, namicomi, website, volume, fileName, description, locale, createdAt, updatedAt, version, username, roles
     }
     
     /// Creates a new instance by decoding from the given decoder.
@@ -61,6 +67,8 @@ enum MangaRelationship: Decodable {
             self = .cover_art(try Cover(from: decoder))
         case .manga:
             self = .manga(try RelatedManga(from: decoder))
+        case .creator:
+            self = .creator(try User(from: decoder))
         }
     }
 }
@@ -70,7 +78,7 @@ enum MangaRelationship: Decodable {
 ///
 /// ### See
 /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
-enum ChapterRelationshipType: String, Decodable {
+enum ChapterRelationshipType: String, Decodable, Sendable {
     /// A ``ScanlationGroup``
     case scanlation_group
     
@@ -99,7 +107,6 @@ enum ChapterRelationship: Decodable {
     private enum AttributeCodingKeys: CodingKey {
         case name, username, roles, locked, website, ircServer, ircChannel, discord, contactEmail, description, twitter, mangaUpdates, focusedLanguages, official, verified, inactive, exLisensed, publishDelay, createdAt, updatedAt, version, title, altTitles, originalLanguage
     }
-    
     
     /// Creates a new instance by decoding from the given decoder.
     init(from decoder: any Decoder) throws {

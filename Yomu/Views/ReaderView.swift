@@ -49,7 +49,7 @@ struct PageView: View {
     let imageUrl: URL
     
     var body: some View {
-        RemoteImage(source: imageUrl)
+        ChapterPageImage(source: imageUrl)
             .aspectRatio(contentMode: .fit)
             .ignoresSafeArea()
     }
@@ -62,7 +62,7 @@ struct DoublePageView: View {
     @Binding var height: CGFloat
     
     var body: some View {
-        RemoteImage(source: imageUrl)
+        ChapterPageImage(source: imageUrl)
             .aspectRatio(contentMode: .fit)
             .scaledToFit()
             .readSize(size: $pageSize)

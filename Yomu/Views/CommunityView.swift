@@ -16,14 +16,30 @@ struct CommunityView: View {
             Button {
                 Task {
                     do {
-                        let result = try await getStatisticsFor(chapter: UUID(uuidString: "9b17c530-9023-408a-837d-d59cabe8d312")!)
+                        let result = try await MangaRequest(entity: MangaEntity(id: UUID(uuidString: "9faba8cf-60df-4894-9370-22571592c8d3")!)).execute()
                         print(result)
                     } catch let error as DecodingError {
                         handleDecodingError(error)
                     } catch { print(error.localizedDescription) }
                 }
             } label: {
-                Text("Test button")
+                Text("Test button ")
+            }
+            
+            Button {
+                Task {
+                    do {
+                        let result = try await getStatisticsFor(manga: [
+                            UUID(uuidString: "c5d731f9-c1cf-4a69-a797-cd9c2a58316b")!,
+                            UUID(uuidString: "d7576e72-0301-4ed3-9137-722ed768bfda")!
+                            ])
+                        print(result)
+                    } catch let error as DecodingError {
+                        handleDecodingError(error)
+                    } catch { print(error.localizedDescription) }
+                }
+            } label: {
+                Text("Test button 2")
             }
         }
     }

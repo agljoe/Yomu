@@ -25,7 +25,7 @@ public struct Manga: Decodable, Identifiable, Sendable {
     let altTitles: [[String: String]]
     
     /// A collection of localized descriptions of a manga.
-    let description: [[String: String]]
+    let description: [String: String]
     
     /// Whether of not this manga is locked.
     let isLocked: Bool
@@ -103,6 +103,9 @@ public struct Manga: Decodable, Identifiable, Sendable {
     /// A collection fo manga related to a manga.
     let relatedManga: [RelatedManga]?
     
+    /// The user who created this manga's page.
+    let creator: User?
+    
     private enum CodingKeys: CodingKey {
         case id, attributes, relationships
     }
@@ -113,10 +116,10 @@ public struct Manga: Decodable, Identifiable, Sendable {
     
     /// Creates a ``Manga`` instance initialized with placeholder values.
     public init() {
-        self.id = UUID()
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
         self.title = [:]
         self.altTitles = [[:]]
-        self.description = [[:]]
+        self.description = [:]
         self.isLocked = false
         self.links = MangaLink(al: "", ap: "", bw: "", mu: "", nu: "", kt: "", amz: "", ebj: "", mal: "", cdj: "", raw: "", engtl: "")
         self.originalLanguage = ""
@@ -138,10 +141,11 @@ public struct Manga: Decodable, Identifiable, Sendable {
         self.artist = []
         self.cover = nil
         self.relatedManga = nil
+        self.creator = nil
     }
     
     /// Creates a ``Manga`` instance initialized by the given values.
-    public init(id: UUID, title: [String : String], altTitles: [[String : String]], description: [[String : String]], isLocked: Bool, links: MangaLink, originalLanguage: String, lastVolume: String?, lastChapter: String?, publicationDemographic: Demographic?, status: Status, year: Int?, contentRating: Rating, tags: [Tag], state: String, chapterNumbersResetOnNewVolume: Bool, createdAt: Date, updatedAt: Date, version: Int, availableTranslatedLanguages: [String], latestUploadedChapter: UUID?, author: [Author]?, artist: [Author]?, cover: Cover?, relatedManga: [RelatedManga]?) {
+    public init(id: UUID, title: [String : String], altTitles: [[String : String]], description: [String : String], isLocked: Bool, links: MangaLink, originalLanguage: String, lastVolume: String?, lastChapter: String?, publicationDemographic: Demographic?, status: Status, year: Int?, contentRating: Rating, tags: [Tag], state: String, chapterNumbersResetOnNewVolume: Bool, createdAt: Date, updatedAt: Date, version: Int, availableTranslatedLanguages: [String], latestUploadedChapter: UUID?, author: [Author]?, artist: [Author]?, cover: Cover?, relatedManga: [RelatedManga]?, creator: User?) {
         self.id = id
         self.title = title
         self.altTitles = altTitles
@@ -167,6 +171,7 @@ public struct Manga: Decodable, Identifiable, Sendable {
         self.artist = artist
         self.cover = cover
         self.relatedManga = relatedManga
+        self.creator = creator
     }
     
     /// Creates a new instance by decoding from the given decoder.
@@ -177,12 +182,12 @@ public struct Manga: Decodable, Identifiable, Sendable {
         let attributesContainer = try container.nestedContainer(keyedBy: AttributeCodingKeys.self, forKey: .attributes)
         self.title = try attributesContainer.decode([String: String].self, forKey: .title)
         self.altTitles = try attributesContainer.decode([[String: String]].self, forKey: .altTitles)
-        self.description = try attributesContainer.decode([[String: String]].self, forKey: .description)
+        self.description = try attributesContainer.decode([String: String].self, forKey: .description)
         self.isLocked = try attributesContainer.decode(Bool.self, forKey: .isLocked)
         self.links = try attributesContainer.decode(MangaLink.self, forKey: .links)
         self.originalLanguage = try attributesContainer.decode(String.self, forKey: .originalLanguage)
-        self.lastVolume = try attributesContainer.decode(String.self, forKey: .lastVolume)
-        self.lastChapter = try attributesContainer.decode(String.self, forKey: .lastChapter)
+        self.lastVolume = try attributesContainer.decodeIfPresent(String.self, forKey: .lastVolume)
+        self.lastChapter = try attributesContainer.decodeIfPresent(String.self, forKey: .lastChapter)
         self.publicationDemographic = try attributesContainer.decodeIfPresent(Demographic.self, forKey: .publicationDemographic)
         self.status = try attributesContainer.decode(Status.self, forKey: .status)
         self.year = try attributesContainer.decodeIfPresent(Int.self, forKey: .year)
@@ -207,6 +212,7 @@ public struct Manga: Decodable, Identifiable, Sendable {
         var artists: [Author] = []
         var coverArt: Cover?
         var relatedManga: [RelatedManga] = []
+        var creator: User?
         
         do {
             let relationships = try container.decodeIfPresent([MangaRelationship].self, forKey: .relationships)
@@ -220,6 +226,8 @@ public struct Manga: Decodable, Identifiable, Sendable {
                     coverArt = cover
                 case .manga(let manga):
                     relatedManga.append(manga)
+                case .creator(let user):
+                    creator = user
                 }
             }
         }
@@ -228,6 +236,7 @@ public struct Manga: Decodable, Identifiable, Sendable {
         self.artist = artists
         self.cover = coverArt
         self.relatedManga = relatedManga
+        self.creator = creator
     }
 }
 
@@ -253,7 +262,7 @@ public struct RelatedManga: Decodable, Identifiable, Sendable {
     
     /// Creates a ``RelatedManga`` instance initialized with placeholder values.
     public init() {
-        self.id = UUID()
+        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
         self.type = ""
         self.related = ""
     }
