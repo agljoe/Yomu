@@ -63,9 +63,9 @@ func reAuth() async throws {
         let data = try await post(at: url, value: value, content: content)
         let token = try JSONDecoder().decode(Token.self, from: data)
         try updateToken(for: credentials.username, ofType: "access", token.access)
-        #if DEBUG
-        print(token)
-        #endif
+//        #if DEBUG
+//        print(token)
+//        #endif
     } catch let decodingError as DecodingError {
         handleDecodingError(decodingError)
     } catch let KeyChainError {
@@ -230,71 +230,7 @@ private func deleteKeyChainItem(_ query: [String: Any]) throws {
     guard status == errSecSuccess || status == errSecItemNotFound else { throw KeychainError.unhandledError(status: status) }
 }
 
-/// Removes a users credentials from the Keychain.
-public func resetCredentials() {
-    do {
-        let credentials = try getCredentials(for: "https://mangadex.org")
-        
-        let access: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: "\(credentials.username)/access",
-            kSecAttrLabel as String: "access",
-        ]
-        
-        try deleteKeyChainItem(access)
-    } catch let error { print("Error deleting access token from keychain: \(error.localizedDescription)") }
-    
-    do {
-        let credentials = try getCredentials(for: "https://mangadex.org")
-        
-        let refresh: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: "\(credentials.username)/refresh",
-            kSecAttrLabel as String: "refresh",
-        ]
-        
-        try deleteKeyChainItem(refresh)
-    } catch let error { print("Error deleting refresh token from keychain: \(error.localizedDescription)") }
-    
-    
-    do {
-        let credentials = try getCredentials(for: "https://mangadex.org")
-        
-        let user: [String: Any] = [
-            kSecClass as String: kSecClassInternetPassword,
-            kSecAttrPath as String: credentials.username,
-            kSecAttrServer as String: "https://mangadex.org",
-        ]
-        
-        try deleteKeyChainItem(user)
-    } catch let error { print("Error deleting user from keychain: \(error.localizedDescription)") }
-    
-    do {
-        let credentials = try getCredentials(for: "https://auth.mangadex.org")
-        
-        let client: [String: Any] = [
-            kSecClass as String: kSecClassInternetPassword,
-            kSecAttrPath as String: credentials.client_id,
-            kSecAttrServer as String: "https://auth.mangadex.org",
-        ]
-        
-        try deleteKeyChainItem(client)
-    } catch let error { print("Error deleting client from keychain: \(error.localizedDescription)") }
-}
 
-/// Removes all items from the Keychain.
-/// >Warning: This action cannot be undone.
-public func resetKeychain() {
-    [kSecClassGenericPassword, kSecClassInternetPassword, kSecClassCertificate, kSecClassKey, kSecClassIdentity].forEach {
-        let status = SecItemDelete([
-            kSecClass: $0,
-            kSecAttrSynchronizable: kSecAttrSynchronizableAny
-        ] as CFDictionary)
-        if status != errSecSuccess && status != errSecItemNotFound {
-            print("Error deleting user from keychain")
-        }
-    }
-}
 
 /// Performs an OAuth authenticated HTTP GET request from a server for the given `url`.
 ///

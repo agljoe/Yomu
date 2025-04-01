@@ -16,7 +16,8 @@ struct CommunityView: View {
             Button {
                 Task {
                     do {
-                        let result = try await MangaRequest(entity: MangaEntity(id: UUID(uuidString: "9faba8cf-60df-4894-9370-22571592c8d3")!)).execute()
+                        let entity = MangaEntity(id: UUID(uuidString: "9faba8cf-60df-4894-9370-22571592c8d3")!)
+                        let result = try await Request<MangaEntity>(entity).execute()
                         print(result)
                     } catch let error as DecodingError {
                         handleDecodingError(error)

@@ -339,7 +339,7 @@ public enum ReadingStatus: String, Codable, Sendable {
 
 /// A content rating for a given manga.
 @frozen
-public enum Rating: String, Codable, Sendable {
+public enum Rating: Codable, Sendable {
     /// Includes no nudity, and makes to direct references to any R18 content.
     case safe
     
@@ -357,6 +357,19 @@ public enum Rating: String, Codable, Sendable {
     /// > Important:
     ///  This content is not fit for minors, and may not be sutable for certain environments.
     case pornographic
+    
+    var value: [URLQueryItem] {
+        switch self {
+        case .safe:
+            return [URLQueryItem(name: "contentRating[]", value: "safe")]
+        case .suggestive:
+            return [URLQueryItem(name: "contentRating[]", value: "safe"), URLQueryItem(name: "contentRating[]", value: "suggestive")]
+        case .erotica:
+            return [URLQueryItem(name: "contentRating[]", value: "safe"), URLQueryItem(name: "contentRating[]", value: "suggestive"), URLQueryItem(name: "contentRating[]", value: "erotica")]
+        case .pornographic:
+            return [URLQueryItem(name: "contentRating[]", value: "safe"), URLQueryItem(name: "contentRating[]", value: "suggestive"), URLQueryItem(name: "contentRating[]", value: "erotica"), URLQueryItem(name: "contentRating[]", value: "pornographic")]
+        }
+    }
 }
 
 /// A brief description of a relationship
@@ -453,4 +466,40 @@ public enum Order: String {
     
     /// Descending order, largest or oldest first.
     case desc = "desc"
+}
+
+/// The available base URLs for making calls to the MangaDexAPI.
+@frozen
+public enum Server: String {
+    /// The base URL of almost every endpoint, use this unless expliciity stated otherwise.
+    case standard = "api.mangadex.org"
+    
+    /// This base URL is only to be used for reporting the sucess or failiure of fetching chapter images.
+    case network = "api.mangadex.network"
+    
+    /// This base URL is only used for initial authentication to obtain a users OAuth token.
+    ///
+    /// - Important: Do not use this URL of OAuth authenticated API calls, authenticated requests should be done with the
+    ///              with the ``Server/standard`` base url and pass the access token in the requests authorization header.
+    case auth = "auth.mangadex.org"
+}
+
+/// The logical operator for how tags will be included in a search query.
+@frozen
+public enum IncludedTagsMode: String {
+    /// Will only return manga with all included tags.
+    case and = "AND"
+    
+    /// Will return manga with any of the included tags.
+    case or = "OR"
+}
+
+/// The logical operator for how tags will be excluede in a search query.
+@frozen
+public enum ExcludedTagsMode: String {
+    /// Will only filter out manga with all excluded tags.
+    case and = "AND"
+    
+    /// Will filter out manga with any of the excluded tags.
+    case or = "OR"
 }

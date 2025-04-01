@@ -13,7 +13,13 @@ protocol MangaDexAPIEntity {
     associatedtype ModelType: Decodable
     
     /// The endpoint where the associated ``ModelType`` can  be fetched from.
-    var path: String { get }
+    ///
+    /// Some endpoints have an available list of query parameters, for more information check the `See Also` section
+    /// or the documentation for the specified endpoint at [MangaDexAPI Documentation](https://api.mangadex.org/docs/redoc.html)
+    ///
+    /// ### See Also
+    /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
+    var url: URL { get }
 }
 
 /// A request to the MangaDex API.
@@ -23,14 +29,14 @@ protocol MangaDexAPIRequest {
     
     /// Decodes the given data as the associated model type.
     ///
-    /// - Parameter data: some JSON data to be decoded as ``ModelType``.
+    /// - Parameter data: some JSON data to be decoded as `ModelType`.
     ///
     /// - Throws: some 'DecodingError'  if `data` cannot be decoded.
     ///
     /// - Returns: the decoded data as the specified model type.
     func decode(_ data: Data) throws -> ModelType
     
-    /// Requests data.
+    /// Executes this request
     func execute() async throws -> ModelType
 }
 
@@ -41,8 +47,14 @@ protocol MangaDexAPIRequest {
 struct Wrapper<T: Decodable>: Decodable {
     ///
     let data: T
+    
+    /// The size limit of collections returned by some endpoint.
     let limit: Int?
+    
+    /// The item offset of this collection.
     let offset: Int?
+    
+    /// The total number of items in returned in this collection.
     let total: Int?
 }
 
@@ -81,14 +93,14 @@ extension MangaDexAPIRequest {
     /// - Returns: a data value from the specified server.
     ///
     /// - Throws: ``httpError(_:context:)`` if the returned status code is not 200.
-    func post(at url: URL, forConentType value: String? = nil, with content: Data? = nil) async throws -> Data {
+    func post(at url: URL, forContentType value: String = "application/json", with content: Data? = nil) async throws -> Data {
         var request = URLRequest(url: url)
-        if (value != nil) { request.setValue(value, forHTTPHeaderField: "Content-Type") }
+        request.setValue(value, forHTTPHeaderField: "Content-Type")
         request.httpShouldHandleCookies = true
         request.timeoutInterval = 90
         request.httpMethod = "POST"
         
-        if let body = content { request.httpBody = content }
+        if let body = content { request.httpBody = body }
         
         let (data, response) = try await URLSession.shared.data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
@@ -97,5 +109,26 @@ extension MangaDexAPIRequest {
         
         return data
     }
-
 }
+
+/// A generic request that fetches the entity specified by `T`.
+struct Request<T: MangaDexAPIEntity> {
+    /// The entity to be fetched by this request.
+    let entity: T
+    
+    /// Creates a new request for the given entity.
+    init(_ entity: T) {
+        self.entity = entity
+    }
+}
+
+extension Request: MangaDexAPIRequest {
+    func decode(_ data: Data) throws -> T.ModelType {
+        return try JSONDecoder().decode(Wrapper<T.ModelType>.self, from: data).data
+    }
+    
+    func execute() async throws -> T.ModelType {
+        return try await get(from: entity.url)
+    }
+}
+
