@@ -14,15 +14,15 @@ struct CommunityView: View {
             Text("Coming Soon")
             
             Button {
-                Task {
-                    do {
-                        let entity = MangaEntity(id: UUID(uuidString: "9faba8cf-60df-4894-9370-22571592c8d3")!)
-                        let result = try await Request<MangaEntity>(entity).execute()
-                        print(result)
-                    } catch let error as DecodingError {
-                        handleDecodingError(error)
-                    } catch { print(error.localizedDescription) }
-                }
+//                Task {
+//                    do {
+//                        let entity = MangaEntity(id: UUID(uuidString: "9faba8cf-60df-4894-9370-22571592c8d3")!)
+//                        let result = try await Request<MangaEntity>(entity).execute()
+//                        print(result)
+//                    } catch let error as DecodingError {
+//                        handleDecodingError(error)
+//                    } catch { print(error.localizedDescription) }
+//                }
             } label: {
                 Text("Test button ")
             }

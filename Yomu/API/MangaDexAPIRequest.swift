@@ -111,6 +111,24 @@ extension MangaDexAPIRequest {
     }
 }
 
+///
+struct MangaDexAPIErrorResponse: Decodable {
+    let id: String
+    let status: Int
+    let title: String
+    let detail: String?
+    let context: String?
+}
+
+///
+struct ErrorResponse: Decodable {
+    let result: String
+    let errors: [MangaDexAPIErrorResponse]
+}
+
+///
+struct Response: Decodable { let result: String }
+
 /// A generic request that fetches the entity specified by `T`.
 struct Request<T: MangaDexAPIEntity> {
     /// The entity to be fetched by this request.

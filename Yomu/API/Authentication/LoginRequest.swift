@@ -491,6 +491,10 @@ extension MangaDexAPIRequest {
             } catch { throw AuthenticationError.failedToAuthenticate }
         }
         
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            throw httpError((response as! HTTPURLResponse), context: "\(String(data: data, encoding: .utf8) ?? "no context available").")
+        }
+        
         return try decode(data)
     }
 }
