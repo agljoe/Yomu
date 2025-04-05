@@ -30,7 +30,7 @@ import Foundation
 /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
 ///
 /// [Pagnation](https://api.mangadex.org/docs/01-concepts/pagination/)
-public func getChapters(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "translatedLanguage[]", value: "en"), URLQueryItem(name: "contentRating[]", value: Rating.safe.rawValue), URLQueryItem(name: "order", value: Order.desc.rawValue), URLQueryItem(name: "includes[]", value: "manga"), URLQueryItem(name: "includes[]", value: "scanlation_group"), URLQueryItem(name: "includes[]", value: "user")] ) async throws -> (chapters: [Chapter], offset: Int) {
+public func getChapters(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "translatedLanguage[]", value: "en"), URLQueryItem(name: "contentRating[]", value: "safe"), URLQueryItem(name: "order", value: Order.desc.rawValue), URLQueryItem(name: "includes[]", value: "manga"), URLQueryItem(name: "includes[]", value: "scanlation_group"), URLQueryItem(name: "includes[]", value: "user")] ) async throws -> (chapters: [Chapter], offset: Int) {
     if ids.count > 100 { throw MDApiError.badRequest(context: "Items are limited to 100 per request.")}
     if ids.isEmpty { return ([], 0) }
     

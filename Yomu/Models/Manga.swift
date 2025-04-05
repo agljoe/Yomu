@@ -11,7 +11,7 @@ import Foundation
 ///
 /// ### See Also
 /// [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-id)
-public struct Manga: Decodable, Identifiable, Sendable {
+public struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id assigned to a manga.
     public let id: UUID
     
@@ -244,7 +244,7 @@ public struct Manga: Decodable, Identifiable, Sendable {
 ///
 /// ### See
 /// ``MangaRelated``
-public struct RelatedManga: Decodable, Identifiable, Sendable {
+public struct RelatedManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id assigned to a manga.
     public let id: UUID
     

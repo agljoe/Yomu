@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AccountView: View {
-    @State var credentials: Credentials
+    @State var credentials: Credentials = Credentials()
     
     var body: some View {
         VStack {
@@ -31,7 +31,7 @@ struct AccountView: View {
                 Button("Login") {
                     Task {
                         do {
-                            try await auth(with: credentials)
+                            let _ = try await LoginRequest(credentials: credentials).execute()
                         } catch let error { print(error.localizedDescription) }
                         credentials.reset()
                     }
@@ -43,7 +43,7 @@ struct AccountView: View {
                     Button("ReAuth") {
                         Task {
                             do {
-                                try await reAuth()
+                                let _ = try await ReAuthenticationRequest().execute()
                             } catch let error { print(error.localizedDescription) }
                         }
                     }
@@ -64,5 +64,5 @@ struct AccountView: View {
 }
 
 #Preview {
-    AccountView(credentials: Credentials(username: "", password: "", client_id: "", client_secret: ""))
+    AccountView()
 }

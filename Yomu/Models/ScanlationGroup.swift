@@ -11,7 +11,7 @@ import Foundation
 ///
 /// ### See Also
 /// [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/ScanlationGroup/operation/get-group-id)
-public struct ScanlationGroup: Identifiable, Decodable, Sendable {
+public struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sendable {
     /// A unique id assigned to a scanlation group.
     public let id: UUID
     

@@ -29,7 +29,7 @@ enum MangaRelationshipType: String, Decodable {
 }
 
 /// Maps a ``MangaRelationshipType`` to its respective struct.
-enum MangaRelationship: Decodable {
+enum MangaRelationship: Decodable, Equatable, Hashable {
     /// ``MangaRelationshipType/author``
     case author(Author)
     

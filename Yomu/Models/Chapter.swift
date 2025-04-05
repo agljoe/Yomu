@@ -70,25 +70,6 @@ public struct Chapter: Decodable, Identifiable, Sendable {
         case title, volume, chapter, pages, translatedLanguage, externalUrl, version, createdAt, updatedAt, publishAt, readableAt
     }
     
-    /// Creates a ``Chapter`` instance initialized with placeholder values.
-    public init() {
-        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
-        self.title = nil
-        self.volume = nil
-        self.chapter = nil
-        self.pages = 0
-        self.translatedLanguage = ""
-        self.externalUrl = nil
-        self.version = 0
-        self.createdAt = Date()
-        self.updatedAt = Date()
-        self.publishAt = Date()
-        self.readableAt = Date()
-        self.scanlationGroup = nil
-        self.parentManga = nil
-        self.user = nil
-    }
-    
     /// Creates a ``Chapter`` instance initialized by the given values.
     init(id: UUID, title: String?, volume: String?, chapter: String?, pages: Int, translatedLanguage: String, exteranUrl: String?, version: Int, createdAt: Date, updatedAt: Date, publishAt: Date, readableAt: Date, scanlationGroup: ScanlationGroup?, user: User?, parentManga: ParentManga?) {
         self.id = id
@@ -164,7 +145,7 @@ public struct Chapter: Decodable, Identifiable, Sendable {
 ///
 /// ### See Also
 /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
-public struct ParentManga: Decodable, Identifiable, Sendable {
+public struct ParentManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique UUID assinged to a ``Manga``.
     public let id: UUID
     
@@ -224,7 +205,7 @@ public struct ParentManga: Decodable, Identifiable, Sendable {
 ///
 /// ### See Also
 /// [Retreving a chapter's images](https://api.mangadex.org/docs/04-chapter/retrieving-chapter/)
-public struct AtHomeChapterComponents: Decodable, Sendable {
+public struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
     /// A string describing the result of retriving this data, "ok" if successful.
     let result: String
     

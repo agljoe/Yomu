@@ -10,7 +10,7 @@ import Foundation
 /// A MangaDex user.
 ///
 ///
-public struct User: Identifiable, Decodable, Sendable {
+public struct User: Identifiable, Equatable, Hashable, Decodable, Sendable {
     public let id: UUID
     let username: String
     let roles: [String]

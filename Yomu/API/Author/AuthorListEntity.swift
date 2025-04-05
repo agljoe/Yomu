@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// An entity that represents the components needed to fetch a list of specificed authors.
+/// An entityrepresenting the necessary components for fetching a specifed collection of authors.
 ///
 /// The returned data will be an array of `Author`
 ///
@@ -30,6 +30,13 @@ struct AuthorListEntity: MangaDexAPIEntity {
     /// - Note: This collection can only be sorted alphabetically by author name.
     var order: Order
     
+    /// Creates a new instance for some given manga, or  cover ids.
+    ///
+    /// - Parameters:
+    ///     - ids: the UUIDs of some manga whose covers are to be fetched.
+    ///     - limit: the number of authors, or artists to fetch, 10 by default.
+    ///     - offset: the starting index of the collection to be fetched, 0 by default.
+    ///     - order: the direction of the sorted collection, descending alphabetically by default.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
         self.ids = ids
         self.limit = limit
@@ -49,4 +56,6 @@ struct AuthorListEntity: MangaDexAPIEntity {
         components.queryItems?.append(URLQueryItem(name: "order[name]", value: self.order.rawValue))
         return components.url!
     }
+    
+    var requiresAuthentication: Bool { false }
 }

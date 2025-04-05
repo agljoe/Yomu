@@ -207,7 +207,7 @@ extension LocalizedLanguage {
 ///
 /// ### See Also
 /// [Static Data](https://api.mangadex.org/docs/3-enumerations/)
-public struct MangaLink: Codable, Sendable {
+public struct MangaLink: Codable, Equatable, Hashable, Sendable {
     /// anilist: stored as id
     /// ### Format
     /// https://anilist.co/manga/{id}

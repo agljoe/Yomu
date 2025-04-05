@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// An entity that represents the components needed to fetch a collection of specifed chapters.
+/// An entity representing the necessary components for fetching a specifed collection of chapters.
 struct ChapterListEntity: MangaDexAPIEntity {
     /// The UUIDs of the chapters to be fetches.
     var ids: [UUID]
@@ -26,6 +26,13 @@ struct ChapterListEntity: MangaDexAPIEntity {
     /// This collection can be sorted by creation date, most recently updated, publish date, readable at date, volume number, or chapter number.
     var order: Order
     
+    /// Creates a new instance with the given ids.
+    ///
+    /// - Parameters:
+    ///     - ids: An array of UUIDs for each chapter to fetch
+    ///     - limit: the number of chapters to fetch, 10 by default.
+    ///     - offset: the amount this collection is shifted, 0 by default.
+    ///     - order: the direction of this collection's sort.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
         self.ids = ids
         self.limit = limit
@@ -63,4 +70,6 @@ struct ChapterListEntity: MangaDexAPIEntity {
 
         return components.url!
     }
+    
+    var requiresAuthentication: Bool { false }
 }

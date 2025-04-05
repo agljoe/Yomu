@@ -7,21 +7,35 @@
 
 import Foundation
 
-/// An entity that represents the needed to fetch a random manga.
+/// An entity representing the necessary components for fetching a random manga.
 struct RandomMangaEntity: MangaDexAPIEntity {
-    typealias ModelType = Manga
-    
+    /// The UUIDs of all tags the returned manga can include.
     let includedTags: [UUID]
+    
+    /// How tag inclusion is applied.
     let includedTagsMode: IncludedTagsMode
+    
+    /// The UUIDs of all tags the returned manga cannot include.
     let excludedTags: [UUID]
+    
+    /// How tag exclusion is applied.
     let excludedTagsMode: ExcludedTagsMode
     
+    /// Creates a new instance with the given tag filters, defaults both tag modes to `AND`.
+    ///
+    /// - Parameters:
+    ///     - includedTags: The tags to include with this query.
+    ///     - includedTagsMode: How the included tags are applied to the query.
+    ///     - excludedTags: The tags excluded by this query.
+    ///     - excludedTagsMode: How the excluded tags are applied to the query.
     init(includedTags: [UUID] = [], includedTagsMode: IncludedTagsMode = .and, excludedTags: [UUID] = [], excludedTagsMode: ExcludedTagsMode = .and) {
         self.includedTags = includedTags
         self.includedTagsMode = includedTagsMode
         self.excludedTags = excludedTags
         self.excludedTagsMode = excludedTagsMode
     }
+    
+    typealias ModelType = Manga
     
     var url: URL {
         var components = URLComponents()
@@ -52,4 +66,6 @@ struct RandomMangaEntity: MangaDexAPIEntity {
         
         return components.url!
     }
+    
+    var requiresAuthentication: Bool { false }
 }

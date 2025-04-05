@@ -14,7 +14,7 @@ import Foundation
 ///
 /// ### See Also
 /// [MangaDex Api Documentation](https://api.mangadex.org/docs/redoc.html#tag/Author/operation/get-author-id)
-public struct Author: Decodable, Identifiable, Sendable {
+public struct Author: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id assigned to an author or arist.
     public let id: UUID
     

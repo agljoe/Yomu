@@ -16,7 +16,7 @@ struct SettingsView: View {
             Form {
                 Section {
                     NavigationLink {
-                        AccountView(credentials: Credentials(username: "", password: "", client_id: "", client_secret: ""))
+                        AccountView()
                     } label: {
                         HStack {
                             Icon(symbol: "person.crop.circle.fill", symbolSize: .large, symbolColor: .white, iconColor: .gray)

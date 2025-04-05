@@ -13,7 +13,7 @@ import Foundation
 ///
 /// ### See Also
 /// [MangaDex Api Documentation](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-tag)
-public struct Tag: Codable, Identifiable, Sendable {
+public struct Tag: Codable, Equatable, Hashable, Identifiable, Sendable {
     public let id: UUID
     let name: String
     let group: String

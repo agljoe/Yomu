@@ -510,9 +510,14 @@ struct TokenEntity: MangaDexAPIEntity {
         components.path = "/realms/mangadex/protocol/openid-connect/token"
         return components.url!
     }
+    
+    var requiresAuthentication: Bool { true }
 }
 
 /// A request that fetches an access and refresh token for a given user.
+/// 
+/// - Important: This entity has a custom request type, passing it with the generic request type
+///              will leading to a decoding error.
 struct LoginRequest: MangaDexAPIRequest {
     /// The credentials of the user logging in.
     ///

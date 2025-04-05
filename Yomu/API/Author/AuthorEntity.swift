@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// An entity that represents the compontents needed to fetch a specific author.
+/// An entity representing the necessary components for fetching a specifed author.
 ///
 /// - Note: This can also be used to fetch an artist.
 struct AuthorEntity: MangaDexAPIEntity {
@@ -26,4 +26,6 @@ struct AuthorEntity: MangaDexAPIEntity {
         ]
         return compontents.url!
     }
+    
+    var requiresAuthentication: Bool { false }
 }

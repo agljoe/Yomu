@@ -20,6 +20,9 @@ protocol MangaDexAPIEntity {
     /// ### See Also
     /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
     var url: URL { get }
+    
+    /// Indicates if a user's access token will be passed in the Bearer(token) Authorization header.
+    var requiresAuthentication: Bool { get }
 }
 
 /// A request to the MangaDex API.
@@ -111,7 +114,7 @@ extension MangaDexAPIRequest {
     }
 }
 
-///
+/// Nested error context found in a error response JSON payload.
 struct MangaDexAPIErrorResponse: Decodable {
     let id: String
     let status: Int
@@ -120,13 +123,13 @@ struct MangaDexAPIErrorResponse: Decodable {
     let context: String?
 }
 
-///
+/// A generic error response from the MangaDexAPI.
 struct ErrorResponse: Decodable {
     let result: String
     let errors: [MangaDexAPIErrorResponse]
 }
 
-///
+/// A generic response found at endpoints that do not return data.
 struct Response: Decodable { let result: String }
 
 /// A generic request that fetches the entity specified by `T`.
@@ -146,7 +149,36 @@ extension Request: MangaDexAPIRequest {
     }
     
     func execute() async throws -> T.ModelType {
+        if entity.requiresAuthentication { return try await authenticatedGet(from: entity.url) }
         return try await get(from: entity.url)
     }
 }
+
+/// A generic request that fetches a list from the entity specified by `T`.
+///
+/// - Important: List requests should be made with this request type, unless the offset of the collection can be discarded.
+struct ListRequest<T: MangaDexAPIEntity> {
+    /// The entity to be fetched by this request.
+    let entity: T
+    
+    /// Creates a new request for the given entity.
+    init(_ entity: T) {
+        self.entity = entity
+    }
+}
+
+extension ListRequest: MangaDexAPIRequest {
+    typealias ModelType = (T.ModelType, Int, Int)
+    
+    func decode(_ data: Data) throws -> (T.ModelType, Int, Int) {
+        let result = try JSONDecoder().decode(Wrapper<T.ModelType>.self, from: data)
+        return (result.data, result.offset ?? 0, result.total ?? 0)
+    }
+    
+    func execute() async throws -> (T.ModelType, Int, Int) {
+        if entity.requiresAuthentication { return try await authenticatedGet(from: entity.url) }
+        return try await get(from: entity.url)
+    }
+}
+
 

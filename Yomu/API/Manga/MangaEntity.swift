@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// An entity that represents the needed to fetch a specified manga.
+/// An entity representing the necessary components for fetching a specifed manga.
 struct MangaEntity: MangaDexAPIEntity {
     /// The UUID of the manga to be fetched.
     var id: UUID
@@ -28,4 +28,6 @@ struct MangaEntity: MangaDexAPIEntity {
         ]
         return components.url!
     }
+    
+    var requiresAuthentication: Bool { false }
 }

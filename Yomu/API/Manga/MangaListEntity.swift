@@ -67,4 +67,6 @@ struct MangaListEntity: MangaDexAPIEntity {
                                  
         return components.url!
     }
+    
+    var requiresAuthentication: Bool { false }
 }

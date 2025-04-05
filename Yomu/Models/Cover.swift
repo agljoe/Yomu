@@ -14,7 +14,7 @@ import Foundation
 ///
 /// ### See Also
 /// [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/Cover)
-public struct Cover: Decodable, Identifiable, Sendable {
+public struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id assigned to a cover.
     public let id: UUID
     
@@ -106,7 +106,7 @@ public struct Cover: Decodable, Identifiable, Sendable {
 ///
 /// ### See Also
 /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
-public struct CoverRelationship: Decodable, Identifiable, Sendable {
+public struct CoverRelationship: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id.
     ///
     /// >Note:

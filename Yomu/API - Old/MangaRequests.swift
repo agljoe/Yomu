@@ -30,7 +30,7 @@ import Foundation
 ///
 /// [Pagnation](https://api.mangadex.org/docs/01-concepts/pagination/)
 
-public func getManga(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "contentRating", value: Rating.safe.rawValue), URLQueryItem(name: "includes[]", value: "cover_art")]) async throws -> (manga: [Manga], offset: Int) {
+public func getManga(ids: [UUID], queryParameters: [URLQueryItem] = [URLQueryItem(name: "contentRating", value: "safe"), URLQueryItem(name: "includes[]", value: "cover_art")]) async throws -> (manga: [Manga], offset: Int) {
     if ids.count > 100 { throw MDApiError.badRequest(context: "Items are limited to 100 per request.")}
     if ids.isEmpty { return ([], 0) }
     
@@ -180,7 +180,7 @@ public func updateMangaReadingStatus(for id: UUID, to status: ReadingStatus) asy
 ///
 ///  ### Endpoint
 ///     /manga/{id]/feed
-public func getChapters(for id: UUID, queryParameters: [URLQueryItem] = [URLQueryItem(name: "translatedLanguage[]", value: "en"), URLQueryItem(name: "contentRating[]", value: Rating.safe.rawValue), URLQueryItem(name: "contentRating[]", value: Rating.suggestive.rawValue), URLQueryItem(name: "contentRating[]", value: Rating.erotica.rawValue), URLQueryItem(name: "contentRating[]", value: Rating.pornographic.rawValue), URLQueryItem(name: "order[volume]", value: Order.desc.rawValue), URLQueryItem(name: "order[chapter]", value: Order.desc.rawValue), URLQueryItem(name: "includes[]", value: "manga"), URLQueryItem(name: "includes[]", value: "scanlation_group"), URLQueryItem(name: "includes[]", value: "user")]) async throws -> [Chapter] {
+public func getChapters(for id: UUID, queryParameters: [URLQueryItem] = [URLQueryItem(name: "translatedLanguage[]", value: "en"), URLQueryItem(name: "contentRating[]", value: "safe"), URLQueryItem(name: "contentRating[]", value: "suggestive"), URLQueryItem(name: "contentRating[]", value: "erotica"), URLQueryItem(name: "contentRating[]", value: "pornographic"), URLQueryItem(name: "order[volume]", value: Order.desc.rawValue), URLQueryItem(name: "order[chapter]", value: Order.desc.rawValue), URLQueryItem(name: "includes[]", value: "manga"), URLQueryItem(name: "includes[]", value: "scanlation_group"), URLQueryItem(name: "includes[]", value: "user")]) async throws -> [Chapter] {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
@@ -213,7 +213,7 @@ public func getChapters(for id: UUID, queryParameters: [URLQueryItem] = [URLQuer
 ///
 /// ### Endpoint
 ///     /random
-public func getRandomManga(queryParameters: [URLQueryItem] = [URLQueryItem(name: "includes[]", value: "manga"), URLQueryItem(name: "includes[]", value: "cover_art"), URLQueryItem(name: "includes[]", value: "author"), URLQueryItem(name: "includes[]", value: "artist"), URLQueryItem(name: "includes[]", value: "tag"), URLQueryItem(name: "contentRating[]", value: Rating.safe.rawValue)]) async throws -> Manga {
+public func getRandomManga(queryParameters: [URLQueryItem] = [URLQueryItem(name: "includes[]", value: "manga"), URLQueryItem(name: "includes[]", value: "cover_art"), URLQueryItem(name: "includes[]", value: "author"), URLQueryItem(name: "includes[]", value: "artist"), URLQueryItem(name: "includes[]", value: "tag"), URLQueryItem(name: "contentRating[]", value: "safe")]) async throws -> Manga {
     var components = URLComponents()
     components.scheme = "https"
     components.host = "api.mangadex.org"
