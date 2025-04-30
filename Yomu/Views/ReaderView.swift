@@ -7,9 +7,12 @@
 
 import SwiftUI
 
+/// Modifies the reader based on the current device rotation.
 struct DeviceRotationViewModifier: ViewModifier {
+    /// A closure that wraps the device orientation..
     let action: (UIDeviceOrientation) -> Void
     
+    /// Notifies content when the view is rotated.
     func body(content: Content) -> some View {
         content
             .onAppear()
@@ -20,13 +23,22 @@ struct DeviceRotationViewModifier: ViewModifier {
 }
 
 extension View {
+    /// Sets the view modifier to the device's current orientation.
+    ///
+    /// - Parameter action: an escaping closure that exectutes when a device roatation is detected.
+    ///
+    /// - Returns: The view this modifier was placed on, updating its device roataion modifier with action.
     func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
         self.modifier(DeviceRotationViewModifier(action: action))
     }
 }
 
+/// Reads the size of a view.
 struct SizeReader: ViewModifier {
+    /// The size of the view being read.
     @Binding var size: CGSize
+    
+    /// Returns the modified view with a binding vairable containing its size.
     func body(content: Content) -> some View {
         content
             .background(GeometryReader { proxy in
@@ -34,20 +46,27 @@ struct SizeReader: ViewModifier {
                     .onAppear{
                         size = proxy.size
                     }
-            }
-            )
+            })
     }
 }
 
 extension View {
+    /// Reads the size of the view this modifier is placed on.
+    ///
+    /// - Parameter size: a binding variable that is updated to the size of the view being read.
+    ///
+    /// - Returns: The the view this modifier was placed on, with its size.
     func readSize(size: Binding<CGSize>) -> some View {
         modifier(SizeReader(size: size))
     }
 }
 
+/// A single page of a manga.
 struct PageView: View {
+    /// The url  his page's image is downloaded form.
     let imageUrl: URL
     
+    /// Displays a single page scaled to fit the user's device.
     var body: some View {
         ChapterPageImage(source: imageUrl)
             .aspectRatio(contentMode: .fit)
@@ -55,12 +74,24 @@ struct PageView: View {
     }
 }
 
+/// A single page of a manga that is displayed beside another page.
+///
+/// This view stores the size of its page.
 struct DoublePageView: View {
+    /// The url  his page's image is downloaded form.
     let imageUrl: URL
+    
+    /// The size of this image, initalized to zero since pages need to load asynchronously.
     @State var pageSize: CGSize = .zero
+    
+    /// The wdith of this page.
     @Binding var width: CGFloat
+    
+    /// The height of this page.
     @Binding var height: CGFloat
     
+    /// Displays a single page scaled to fit next to another page, and updates its size variables
+    /// passed by its parent view.
     var body: some View {
         ChapterPageImage(source: imageUrl)
             .aspectRatio(contentMode: .fit)
@@ -73,15 +104,50 @@ struct DoublePageView: View {
     }
 }
 
+extension AtHomeChapterComponents {
+    /// Returns the complete URL for downloading a chapter image.
+    ///
+    /// A page's number minus one is equivalent to its index in the 'data' array.
+    ///
+    /// - Parameter index: the index of a page.
+    ///
+    /// - Returns: a complete URL that can be used to download a chapter image.
+    ///
+    /// - Note: Image URLs are constructed using the structure '$.baseUrl / $QUALITY / $.chapter.hash / $.chapter.$QUALITY[*]'
+    subscript(dataIndex index: Int) -> URL {
+        return URL(string: "\(baseUrl)/data/\(hash)/\(data[index])")!
+    }
+    
+    /// Returns the complete URL for downloading a lower quality chapter image.
+    ///
+    /// A page's number minus one is equivalent to its index in the 'dataSaver' array.
+    ///
+    /// - Parameter index: the index of a page.
+    ///
+    /// - Returns: a complete URL that can be used to download a chapter image.
+    ///
+    /// - Note: Image URLs are constructed using the structure '$.baseUrl / $QUALITY / $.chapter.hash / $.chapter.$QUALITY[*]'
+    subscript(dataSaverIndex index: Int) -> URL {
+        return URL(string: "\(baseUrl)/data-saver/\(hash)/\(dataSaver[index])")!
+    }
+}
+
+// TODO: make custom view for page diplays
+
+
 struct ReaderView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var orientation = UIDevice.current.orientation
     @State private var navBarVisisble: Bool = true
-    @State private var chapterComponents: AtHomeChapterComponents = AtHomeChapterComponents()
-    @State private var pageWidths = [CGFloat]()
-    @State private var pageHeights = [CGFloat]()
-    let chapterId: UUID
+    @State var model: Model
+    
     let title: String
+    
+    init(chapter: Chapter, title: String) {
+        self.title = title
+        self.model = Model(chapter: chapter)
+        self._model = .init(initialValue: model)
+    }
     
     var body: some View {
         NavigationStack {
@@ -89,29 +155,22 @@ struct ReaderView: View {
                 ScrollView(.horizontal) {
                     LazyHStack {
                         if orientation.isLandscape {
-                            ForEach(Array(chapterComponents.data.enumerated()), id: \.offset) { index, page in
-                                DoublePageView(imageUrl: urlBuilder(for: chapterComponents, page: page), width: $pageWidths[index], height: $pageHeights[index])
+                            ForEach(Array(UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents.dataSaver.enumerated() : model.atHomeComponents.data.enumerated()), id: \.offset) { index, _ in
+                                DoublePageView(imageUrl: UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents[dataSaverIndex: index] : model.atHomeComponents[dataIndex: index], width: $model.pageWidths[index], height: $model.pageHeights[index])
                                     .scaleEffect(x: -1)
-                                    .frame(width: pageWidths[index] > pageHeights[index] ? proxy.size.width : proxy.size.width/2, height: proxy.size.height, alignment: .center)
+                                    .frame(width: model.pageWidths[index] > model.pageHeights[index] ? proxy.size.width : proxy.size.width/2, height: proxy.size.height, alignment: .center)
                                     .padding()
-                                    .containerRelativeFrame(.horizontal, count:  pageWidths[index] > pageHeights[index] ? 1 : 2, spacing: 0)
-                            }
-                            .onAppear {
-                                print("Landscape")
+                                    .containerRelativeFrame(.horizontal, count: model.pageWidths[index] > model.pageHeights[index] ? 1 : 2, spacing: 0)
                             }
                         } else {
-                            ForEach(Array(chapterComponents.data.enumerated()), id: \.offset) { index, page in
-                                PageView(imageUrl: urlBuilder(for: chapterComponents, page: page))
+                            ForEach(Array(UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents.dataSaver.enumerated() : model.atHomeComponents.data.enumerated()), id: \.offset) { index, _ in
+                                PageView(imageUrl: UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents[dataSaverIndex: index] : model.atHomeComponents[dataIndex: index])
                                     .scaleEffect(x: -1)
                                     .frame(width: proxy.size.width, alignment: .center)
                                     .frame(width: proxy.size.width, height: proxy.size.height)
                                     .safeAreaPadding(0)
-                                    .containerRelativeFrame(.horizontal, count: 1,  spacing: 0)
+                                    .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                             }
-                            .onAppear {
-                                print("Portrait")
-                            }
-                            
                         }
                     }
                     .scrollTargetLayout()
@@ -120,16 +179,8 @@ struct ReaderView: View {
                 .scrollIndicators(.never)
                 .flipsForRightToLeftLayoutDirection(true)
                 .environment(\.layoutDirection, .rightToLeft)
-                .task {
-                    do {
-                        chapterComponents = try await getChapterData(for: chapterId)
-                        pageWidths = Array(Array(repeating: CGFloat.zero, count: chapterComponents.data.count))
-                        pageHeights = Array(Array(repeating: CGFloat.zero, count: chapterComponents.data.count))
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
             }
+            .task { try? await model.fetch() }
             .ignoresSafeArea()
             .onTapGesture {
                 navBarVisisble.toggle()
@@ -170,50 +221,66 @@ struct ReaderView: View {
     }
 }
 
-func getChapterData(for chapterId: UUID) async throws -> AtHomeChapterComponents {
-    var components = URLComponents()
-    components.scheme = "https"
-    components.host = "api.mangadex.org"
-    components.path = "/at-home/server/\(chapterId.uuidString.lowercased())"
-    //TODO: force port 443 if selected
-    
-    guard let url = components.url else { throw MDApiError.invalidURL(context: "Url could not be constructed from components: \(components.string ?? "Unknown")") }
-    
-    let data = try await get(from: url)
-    let chapter = try JSONDecoder().decode(AtHomeChapterComponents.self, from: data)
-    
-    return chapter
-}
-
-func urlBuilder(for chapter: AtHomeChapterComponents, page: String) -> URL {
-    return URL(string: "\(chapter.baseUrl)/data/\(chapter.hash)/\(page)")!
-}
-
-func atHomeReport(url: String, response: URLResponse, duration: Int) async {
-    if url.contains("mangadex.org") { return }
-    
-    guard let httpResponse = response as? HTTPURLResponse else { return }
-    
-    let headers = httpResponse.allHeaderFields
-    
-    struct Report: Encodable {
-        let url: String
-        let success: Bool
-        let cached: Bool
-        let bytes: Int
-        let duration: Int
-    }
-    
-    let report = Report(url: url, success: httpResponse.statusCode == 200 ? true : false, cached: (headers["X-Cache"] as? String)?.contains("HIT") ?? false, bytes: headers["Content-Length"] as? Int ?? 0, duration: duration)
-    
-    do {
-        let data = try JSONEncoder().encode(report)
-        let _ = try await post(at: URL(string: "https://api.mangadex.network/report")!, value: "application/json", content: data)
-    } catch {
-        print(error.localizedDescription)
+extension ReaderView {
+    @Observable
+    class Model {
+        private(set) var chapter: Chapter
+        private(set) var atHomeComponents: AtHomeChapterComponents = AtHomeChapterComponents()
+        private(set) var isLoading: Bool = false
+        
+        var pageWidths = [CGFloat]()
+        var pageHeights = [CGFloat]()
+        
+        init(chapter: Chapter) {
+            self.chapter = chapter
+        }
+        
+        @MainActor
+        func fetch() async throws {
+            guard !self.isLoading else { return }
+            defer { self.isLoading = false }
+            self.isLoading = true
+            
+            let id = self.chapter.id
+            
+            async let compontents = AtHomeRequest(entity: ChapterImageEntity(id: id)).execute()
+            self.pageWidths = Array(Array(repeating: CGFloat.zero, count: try await compontents.data.count))
+            self.pageHeights = Array(Array(repeating: CGFloat.zero, count: try await compontents.data.count))
+            self.atHomeComponents = try await compontents
+        }
     }
 }
+
+#if DEBUG
+extension Bundle {
+    func decode(from file: String) -> Chapter {
+        guard let url = self.url(forResource: file, withExtension: nil) else {
+            fatalError("Failed to locate \(file) in bundle.")
+        }
+
+        guard let data = try? Data(contentsOf: url) else {
+            fatalError("Failed to load \(file) from bundle.")
+        }
+
+        let decoder = JSONDecoder()
+
+        do {
+            return try decoder.decode(Wrapper<Chapter>.self, from: data).data
+        } catch DecodingError.keyNotFound(let key, let context) {
+            fatalError("Failed to decode \(file) from bundle due to missing key '\(key.stringValue)' not found – \(context.debugDescription)")
+        } catch DecodingError.typeMismatch(_, let context) {
+            fatalError("Failed to decode \(file) from bundle due to type mismatch – \(context.debugDescription)")
+        } catch DecodingError.valueNotFound(let type, let context) {
+            fatalError("Failed to decode \(file) from bundle due to missing \(type) value – \(context.debugDescription)")
+        } catch DecodingError.dataCorrupted(_) {
+            fatalError("Failed to decode \(file) from bundle because it appears to be invalid JSON")
+        } catch {
+            fatalError("Failed to decode \(file) from bundle: \(error.localizedDescription)")
+        }
+    }
+}
+#endif
 
 #Preview {
-    ReaderView(chapterId: UUID(uuidString: "ff34cbc6-2c68-40f1-910a-c0e6fbd5adaf")!, title: "Ch. 1 - Mt. Fuji and Cup Ramen")
+    ReaderView(chapter: Bundle.main.decode(from: "Laid Back Camp Ch. 1 - Mt. Fuji and Cup Ramen.json"), title: "Ch. 1 - Mt. Fuji and Cup Ramen")
 }

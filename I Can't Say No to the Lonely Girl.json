@@ -1,0 +1,530 @@
+{
+  "result": "ok",
+  "response": "entity",
+  "data": {
+    "id": "d7576e72-0301-4ed3-9137-722ed768bfda",
+    "type": "manga",
+    "attributes": {
+      "title": {
+        "en": "I Can't Say No to the Lonely Girl"
+      },
+      "altTitles": [
+        {
+          "en": "Can't Defy The Lonely Girl"
+        },
+        {
+          "ja-ro": "Lonely Girl ni Sakaraenai"
+        },
+        {
+          "ru": "Не могу отказать одинокой девушке"
+        },
+        {
+          "ja": "ロンリーガールに逆らえない"
+        },
+        {
+          "zh": "无法拒绝孤独的她"
+        },
+        {
+          "ja": "ロンガル"
+        },
+        {
+          "zh-hk": "無法拒絕孤獨的她"
+        },
+        {
+          "ko": "론리 걸에게 거역할 수 없어"
+        }
+      ],
+      "description": {
+        "en": "Ayaka Sakurai is an excellent student, but she gets nervous at exams, so she had to settle for a lesser high school than she expected. However, her teacher offered Ayaka a recommendation letter to the school of her choice if she could convince the delinquent girl Sora Honda to come to school. When Ayaka visited Sora at her home, Sora was quite willing to go back to school, if Ayaka would agree to do one thing…",
+        "ru": "Ради рекомендации в престижный университет Аяка Сакурай вынуждена каждый день выполнять просьбы своей одноклассницы, Соры Хонды. В первый же день она попросила её о поцелуе, что же будет на следующий?",
+        "es-la": "Ayaka Sakurai es una excelente estudiante, pero se pone nerviosa en los exámenes, por lo que tuvo que conformarse con una escuela secundaria menor de lo que esperaba. Sin embargo, su maestra le ofreció a Ayaka una carta de recomendación para la escuela(universidad) de su elección si podía convencer a la delincuente Sora Honda de que fuera a la escuela. Cuando Ayaka visitó a Honda en su casa, ella estaba dispuesta a volver a la escuela, si Ayaka accedía a hacer algunas \"cosas\"...",
+        "pt-br": "Ayaka Sakurai é uma excelente aluna, mas fica nervosa nos exames, por isso teve que se contentar com uma escola inferior do que esperava. No entanto, sua professora ofereceu a ela uma carta de recomendação para a escola de sua escolha, se ela pudesse convencer a garota delinquente, Sora Honda, a ir à escola. Quando Ayaka visitou Sora em sua casa, Sora estava bastante disposta a voltar para a escola, se Ayaka concordasse em fazer uma coisa…"
+      },
+      "isLocked": true,
+      "links": {
+        "al": "112621",
+        "ap": "lonely-girl-ni-sakaraenai",
+        "bw": "series/245751",
+        "kt": "56635",
+        "mu": "157526",
+        "amz": "https://www.amazon.co.jp/dp/B08L4KM3DP",
+        "cdj": "https://www.cdjapan.co.jp/product/NEODAI-100509",
+        "ebj": "https://ebookjapan.yahoo.co.jp/books/586089/",
+        "mal": "123270",
+        "raw": "https://pocket.shonenmagazine.com/episode/3269754496296252468",
+        "engtl": "https://kodansha.us/series/i-cant-say-no-to-the-lonely-girl/"
+      },
+      "originalLanguage": "ja",
+      "lastVolume": "6",
+      "lastChapter": "32",
+      "publicationDemographic": null,
+      "status": "completed",
+      "year": 2019,
+      "contentRating": "safe",
+      "tags": [
+        {
+          "id": "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "Romance"
+            },
+            "description": {},
+            "group": "genre",
+            "version": 1
+          },
+          "relationships": []
+        },
+        {
+          "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "Girls' Love"
+            },
+            "description": {},
+            "group": "genre",
+            "version": 1
+          },
+          "relationships": []
+        },
+        {
+          "id": "b9af3a63-f058-46de-a9a0-e0c13906197a",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "Drama"
+            },
+            "description": {},
+            "group": "genre",
+            "version": 1
+          },
+          "relationships": []
+        },
+        {
+          "id": "caaa44eb-cd40-4177-b930-79d3ef2afe87",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "School Life"
+            },
+            "description": {},
+            "group": "theme",
+            "version": 1
+          },
+          "relationships": []
+        }
+      ],
+      "state": "published",
+      "chapterNumbersResetOnNewVolume": false,
+      "createdAt": "2020-04-12T04:22:09+00:00",
+      "updatedAt": "2024-11-13T14:45:48+00:00",
+      "version": 99,
+      "availableTranslatedLanguages": [
+        "es-la",
+        "ru",
+        "en",
+        "pt-br",
+        "id",
+        "de"
+      ],
+      "latestUploadedChapter": "28fd5445-1e84-45c5-9bd5-7d0a13616fd8"
+    },
+    "relationships": [
+      {
+        "id": "1906d476-fd51-4665-b773-c7046655c682",
+        "type": "author",
+        "attributes": {
+          "name": "Kashikaze",
+          "imageUrl": null,
+          "biography": {},
+          "twitter": "https://twitter.com/Cat2Sora",
+          "pixiv": "https://www.pixiv.net/en/users/52989834",
+          "melonBook": null,
+          "fanBox": null,
+          "booth": null,
+          "namicomi": null,
+          "nicoVideo": null,
+          "skeb": null,
+          "fantia": null,
+          "tumblr": "https://kashikaze.tumblr.com/",
+          "youtube": "https://www.youtube.com/@Kashikaze-Usagi",
+          "weibo": null,
+          "naver": null,
+          "website": null,
+          "createdAt": "2021-04-19T21:59:45+00:00",
+          "updatedAt": "2023-11-17T22:25:53+00:00",
+          "version": 4
+        }
+      },
+      {
+        "id": "1906d476-fd51-4665-b773-c7046655c682",
+        "type": "artist",
+        "attributes": {
+          "name": "Kashikaze",
+          "imageUrl": null,
+          "biography": {},
+          "twitter": "https://twitter.com/Cat2Sora",
+          "pixiv": "https://www.pixiv.net/en/users/52989834",
+          "melonBook": null,
+          "fanBox": null,
+          "booth": null,
+          "namicomi": null,
+          "nicoVideo": null,
+          "skeb": null,
+          "fantia": null,
+          "tumblr": "https://kashikaze.tumblr.com/",
+          "youtube": "https://www.youtube.com/@Kashikaze-Usagi",
+          "weibo": null,
+          "naver": null,
+          "website": null,
+          "createdAt": "2021-04-19T21:59:45+00:00",
+          "updatedAt": "2023-11-17T22:25:53+00:00",
+          "version": 4
+        }
+      },
+      {
+        "id": "850d2240-4899-42cb-97ca-d90917c94c4e",
+        "type": "cover_art",
+        "attributes": {
+          "description": "Volume Cover From BookLive",
+          "volume": "6",
+          "fileName": "e37f95d8-a42f-4df5-a623-d99266a60f76.jpg",
+          "locale": "ja",
+          "createdAt": "2024-05-30T01:15:19+00:00",
+          "updatedAt": "2024-05-30T01:15:19+00:00",
+          "version": 1
+        }
+      },
+      {
+        "id": "03cba9f4-6fc9-4840-8f56-c31af5d05174",
+        "type": "manga",
+        "related": "spin_off",
+        "attributes": {
+          "title": {
+            "en": "Lonely Girl ni Hanataba wo"
+          },
+          "altTitles": [
+            {
+              "ja": "ロンリーガールに花束を"
+            },
+            {
+              "en": "A Bouquet for the Lonely Girl"
+            }
+          ],
+          "description": {
+            "en": "A collection of one-shots written by Kashikaze, including some original content for Can't Defy the Lonely Girl.\n\nIncluded chapters:\n1. marking (https://mangadex.org/title/9cb600fb-c1a7-4116-913c-72002f634392/marking)\n2. Kekkyoku Sonna Kimi ga Suki (https://mangadex.org/title/7984732d-5912-4a11-b42d-737ed5e6cb4c/kekkyoku-sonna-kimi-ga-suki)\n3. Lonely Girl ni Sakaraenai more! (original)\n4. Bukiyou na Aijou (original)\n5. Shiranai Watashi mo Suki desu ka (https://mangadex.org/title/0a388cd0-6165-44a6-b352-3de5ea2bf5d5/shibuya-gal-yuri-anthology)\n6. Watashi no Shiroi Bara (https://mangadex.org/title/38c8c836-3083-456e-8ca1-a3ba53ac352c/canele-soeur-yuri-anthology)\n7. Renzu Goshi ni Oni wa Nai (https://mangadex.org/title/e8bdc7b1-3544-4fa6-b5a5-0903851f3722/renzu-goshi-ni-oni-wa-inai)\n8. Hanaya no Ano Hito\n9. Osake no Aji yori Amai Mono (https://mangadex.org/title/d8ee38bd-8054-4699-9090-2e58b7587bcc/alcohol-yuri-anthology-strong)\n10. Osananajimi no Trophy (https://mangadex.org/title/30a46213-85cb-4e93-9f84-740677ddd7f5/jyoshikou-no-ouji-sama-ga-watashi-shika-ganchyuu-ni-nai-rashii-yuri-anthology-comic)\n11. Futari de Hitotsu da kara (https://mangadex.org/title/2ba01ee0-5d82-4822-80ce-c7d1a579af01/private-life-is-theirs-alone-celebrity-x-yuri-anthology)\n12. HItokoto Love Letter (https://mangadex.org/title/09ad07f8-4038-4ea1-af20-cdf8dff01244/tonari-no-seki-ga-sukina-hito-datta-gakusei-yuri-anthology)"
+          },
+          "isLocked": false,
+          "links": {
+            "mu": "zensl9w",
+            "amz": "https://www.amazon.co.jp/dp/B0DQ733ST3/355-5351885-0706622"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": 2024,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Romance"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "51d83883-4103-437c-b4b1-731cb73d786c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Anthology"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2024-12-22T17:05:06+00:00",
+          "updatedAt": "2025-01-11T15:10:38+00:00",
+          "version": 4,
+          "availableTranslatedLanguages": [
+            "en"
+          ],
+          "latestUploadedChapter": "94224b0a-1404-462f-ad52-10597dc8b4e7"
+        }
+      },
+      {
+        "id": "7984732d-5912-4a11-b42d-737ed5e6cb4c",
+        "type": "manga",
+        "related": "spin_off",
+        "attributes": {
+          "title": {
+            "en": "Kekkyoku Sonna Kimi Ga Suki"
+          },
+          "altTitles": [
+            {
+              "ja": "結局そんなきみが好き"
+            },
+            {
+              "en": "After All I Love You"
+            },
+            {
+              "id": "Bagaimanapun Juga Aku Mencintaimu"
+            },
+            {
+              "en": "That's Just How I Love You"
+            },
+            {
+              "ru": "Ведь ты мне нравишься"
+            },
+            {
+              "ko": "결국 그런 네가 좋아"
+            }
+          ],
+          "description": {
+            "en": "A spin-off oneshot from \"Can't Defy The Lonely Girl\" that was serialized in Comic Yurihime. The story is about couple Wakana Morinaga and Yuina Minami, who appeared as side-characters in the main series, while they attend college.",
+            "id": "Sebuah Oneshot Spin-Off dari Manga “Can’t Defy the Lonely Girl” yang diserialisasikan di Comic Yurihime. Menceritakan tentang pasangan Wakana Morinaga dan Yuina Minami, yang muncul sebagai karakter sampingan di seri utama, setelah mereka kuliah."
+          },
+          "isLocked": false,
+          "links": {
+            "al": "163224",
+            "bw": "de5d32644b-865c-4c43-bd2c-ed09cf5c5584",
+            "amz": "https://www.amazon.co.jp/gp/product/B0BY2JZMNC",
+            "mal": "157581"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": 2023,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Romance"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b13b2a48-c720-44a9-9c77-39c9979373fb",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Doujinshi"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2023-03-25T20:26:52+00:00",
+          "updatedAt": "2023-09-25T16:15:25+00:00",
+          "version": 18,
+          "availableTranslatedLanguages": [
+            "pt-br",
+            "en",
+            "ko",
+            "id"
+          ],
+          "latestUploadedChapter": "5b6c386a-2242-4077-b2bd-c6ae798f5d9a"
+        }
+      },
+      {
+        "id": "9cb600fb-c1a7-4116-913c-72002f634392",
+        "type": "manga",
+        "related": "spin_off",
+        "attributes": {
+          "title": {
+            "en": "marking"
+          },
+          "altTitles": [],
+          "description": {
+            "en": "A spin-off onshot of \"Can't Defy the Lonely Girl\" that focuses on Ayaka and Sora after graduation."
+          },
+          "isLocked": false,
+          "links": {
+            "al": "171544",
+            "mal": "163314",
+            "raw": "https://www.melonbooks.co.jp/detail/detail.php?product_id=2075816"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": 2023,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Romance"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b13b2a48-c720-44a9-9c77-39c9979373fb",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Doujinshi"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2023-09-30T14:23:08+00:00",
+          "updatedAt": "2023-12-19T22:08:02+00:00",
+          "version": 5,
+          "availableTranslatedLanguages": [
+            "pt-br",
+            "id",
+            "es-la",
+            "en"
+          ],
+          "latestUploadedChapter": "a8d4e4d6-0f2e-4eb7-9c65-96fec64498a6"
+        }
+      }
+    ]
+  }
+}

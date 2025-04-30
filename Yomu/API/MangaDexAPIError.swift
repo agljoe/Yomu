@@ -41,25 +41,25 @@ extension MangaDexAPIError: LocalizedError {
     }
 }
 
-/// Maps an `HTTPRespsonse` to the associated ``MDApiError``
+/// Maps an `HTTPRespsonse` to the associated ``MangaDexAPIError``
 /// - Parameters:
 ///     - response: an `HTTPURLResponse`
 ///     - context: a string describing the context in which the error happened
 ///
-/// - Returns: an associated ``MDApiError``.
-//func httpError(_ response: HTTPURLResponse, context: String) -> MDApiError {
-//    switch response.statusCode {
-//    case 400:
-//        return MDApiError.badRequest(context: context)
-//    case 401:
-//        return MDApiError.unauthorizedRequest(context: context)
-//    case 403:
-//        return MDApiError.forbiddenRequest(context: context)
-//    case 404:
-//        return MDApiError.notFound(context: context)
-//    case 503:
-//        return MDApiError.serviceUnavailable(context: context)
-//    default:
-//        return MDApiError.unknownResponse(context: context)
-//    }
-//}
+/// - Returns: an associated ``MangaDexAPIError``.
+func httpError(_ response: HTTPURLResponse, context: String) -> MangaDexAPIError {
+    switch response.statusCode {
+    case 400:
+        return MangaDexAPIError.badRequest(context: context)
+    case 401:
+        return MangaDexAPIError.unauthorizedRequest(context: context)
+    case 403:
+        return MangaDexAPIError.forbiddenRequest(context: context)
+    case 404:
+        return MangaDexAPIError.notFound(context: context)
+    case 503:
+        return MangaDexAPIError.serviceUnavailable(context: context)
+    default:
+        return MangaDexAPIError.unknownResponse(context: context)
+    }
+}

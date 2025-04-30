@@ -6,14 +6,15 @@
 //
 
 import Foundation
+import SwiftData
 
 /// A group of people who translate manga.
 ///
 /// ### See Also
 /// [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/ScanlationGroup/operation/get-group-id)
-public struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sendable {
+struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sendable {
     /// A unique id assigned to a scanlation group.
-    public let id: UUID
+    let id: UUID
     
     /// The name of a scanlation group.
     let name: String
@@ -75,7 +76,7 @@ public struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sen
     /// A collection of users in a scanlation group.
     let relationships: [User]?
     
-   private enum CodingKeys: CodingKey {
+    private enum CodingKeys: CodingKey {
         case id, name, attributes, relationships
     }
     
@@ -83,58 +84,8 @@ public struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sen
         case name, locked, website, ircServer, ircChannel, discord, contactEmail, description, twitter, mangaUpdates, focusedLanguages, official, verified, inactive, exLisensed, publishDelay, createdAt, updatedAt, version
     }
     
-    /// Creates a ``ScanlationGroup`` instance initialized with placeholder values.
-    public init() {
-        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
-        self.name = ""
-        self.locked = false
-        self.website = nil
-        self.ircServer = nil
-        self.ircChannel = nil
-        self.discord = nil
-        self.contactEmail = nil
-        self.description = nil
-        self.twitter = nil
-        self.mangaUpdates = nil
-        self.focusedLanguages = nil
-        self.official = false
-        self.verified = false
-        self.inactive = false
-        self.exLicensed = false
-        self.publishDelay = nil
-        self.createdAt = Date()
-        self.updatedAt = Date()
-        self.version = 0
-        self.relationships = nil
-    }
-    
-    /// Creates a ``ScanlationGroup`` instance initialized by the given values.
-    public init(id: UUID, name: String, locked: Bool, webiste: String?, ircServer: String?, ircChannel: String?, discord: String?, contactEmail: String?, description: String?, twitter: String?, mangaUpdates: String?, focusedLanuage: [String]?, official: Bool, verified: Bool, inactive: Bool, exLicensed: Bool, publishDelay: String?, createdAt: Date, updatedAt: Date, version: Int, relationships: [User]?) {
-        self.id = id
-        self.name = name
-        self.locked = locked
-        self.website = webiste
-        self.ircServer = ircServer
-        self.ircChannel = ircChannel
-        self.discord = discord
-        self.contactEmail = contactEmail
-        self.description = description
-        self.twitter = twitter
-        self.mangaUpdates = mangaUpdates
-        self.focusedLanguages = focusedLanuage
-        self.official = official
-        self.verified = verified
-        self.inactive = inactive
-        self.exLicensed = exLicensed
-        self.publishDelay = publishDelay
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.version = version
-        self.relationships = relationships
-    }
-    
     /// Creates a new instance by decoding from the given decoder.
-    public init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
         
@@ -159,7 +110,7 @@ public struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sen
         let RFC3339DateFormatter = DateFormatter()
         RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
         RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        RFC3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        RFC3339DateFormatter.timeZone = TimeZone.current
         
         self.createdAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
         self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
@@ -167,5 +118,101 @@ public struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sen
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         
         self.relationships = try container.decodeIfPresent([User].self, forKey: .relationships)
+    }
+}
+
+extension ScanlationGroup {
+    static func == (lhs: ScanlationGroup, rhs: ScanlationGroup) -> Bool {
+        return lhs.id == rhs.id && lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+@Model
+class StoredScanlationGroup {
+    /// A unique id assigned to a scanlation group.
+    @Attribute(.unique) private(set) var id: UUID
+    
+    /// The name of a scanlation group.
+    var name: String
+    
+    /// A link to the official website of a scanlation group.
+    var website: String?
+    
+    /// A link to the internet relay chat server of a scanlation group.
+    var ircServer: String?
+    
+    /// A link to an internet relay chat channel of a scanlation group.
+    var ircChannel: String?
+    
+    /// A link to the Discord server of a scanlation group.
+    var discord: String?
+    
+    /// The email adress of a scanlation group.
+    var contactEmail: String?
+    
+    /// The description of a scanlation group.
+    var about: String?
+    
+    /// A link to the Twitter page of a scanlation group.
+    var twitter: String?
+    
+    /// A link to the Manga Updates page of a scanlation group.
+    var mangaUpdates: String?
+    
+    /// A collection of languages a scanlation group translates for.
+    var focusedLanguages: [String]?
+    
+    /// Whether or not a scanlation group is locked.
+    var locked: Bool
+    
+    /// Whether or not a scanlation group is an official source.
+    var official: Bool
+    
+    /// Whether or not a scanlation group is verified by MangaDex.
+    var verified: Bool
+    
+    /// Whether or not a scanlation group is active.
+    var inactive: Bool
+    
+    /// Whether or not a scanlation group is exclusively licensed.
+    var exLicensed: Bool?
+    
+    /// The publish delay of chapters translated by a scanlation group.
+    var publishDelay: String?
+    
+    /// The date this scanlation group was created.
+    var createdAt: Date
+    
+    /// The date this scanlation group was last modified.
+    var updatedAt: Date
+    
+    /// A number describing the version of a scanlation group.
+    var version: Int
+    
+    /// A collection of users in a scanlation group.
+    @Relationship(deleteRule: .cascade) var relationships: [StoredUser]
+    
+    init(from scanlationGroup: ScanlationGroup) {
+        self.id = scanlationGroup.id
+        self.name = scanlationGroup.name
+        self.website = scanlationGroup.website
+        self.ircServer = scanlationGroup.ircServer
+        self.ircChannel = scanlationGroup.ircChannel
+        self.discord = scanlationGroup.discord
+        self.contactEmail = scanlationGroup.contactEmail
+        self.about = scanlationGroup.description
+        self.twitter = scanlationGroup.twitter
+        self.mangaUpdates = scanlationGroup.mangaUpdates
+        self.focusedLanguages = scanlationGroup.focusedLanguages
+        self.locked = scanlationGroup.locked
+        self.official = scanlationGroup.official
+        self.verified = scanlationGroup.verified
+        self.inactive = scanlationGroup.inactive
+        self.exLicensed = scanlationGroup.exLicensed
+        self.publishDelay = scanlationGroup.publishDelay
+        self.createdAt = scanlationGroup.createdAt
+        self.updatedAt = scanlationGroup.updatedAt
+        self.version = scanlationGroup.version
+        self.relationships  = scanlationGroup.relationships?.map({ .init(from: $0) }) ?? []
     }
 }

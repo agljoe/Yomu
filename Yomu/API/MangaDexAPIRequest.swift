@@ -8,7 +8,7 @@
 import Foundation
 
 /// JSON encoded data that is fetchable from one of Mangadex's API endpoints.
-protocol MangaDexAPIEntity {
+protocol MangaDexAPIEntity: Sendable {
     /// A model type that matches the structure of the fetched JSON data.
     associatedtype ModelType: Decodable
     
@@ -133,7 +133,7 @@ struct ErrorResponse: Decodable {
 struct Response: Decodable { let result: String }
 
 /// A generic request that fetches the entity specified by `T`.
-struct Request<T: MangaDexAPIEntity> {
+struct Request<T: MangaDexAPIEntity>: Sendable {
     /// The entity to be fetched by this request.
     let entity: T
     
@@ -157,7 +157,7 @@ extension Request: MangaDexAPIRequest {
 /// A generic request that fetches a list from the entity specified by `T`.
 ///
 /// - Important: List requests should be made with this request type, unless the offset of the collection can be discarded.
-struct ListRequest<T: MangaDexAPIEntity> {
+struct ListRequest<T: MangaDexAPIEntity>: Sendable {
     /// The entity to be fetched by this request.
     let entity: T
     

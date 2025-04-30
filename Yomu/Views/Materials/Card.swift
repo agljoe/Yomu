@@ -11,7 +11,7 @@ struct Card: ViewModifier {
     func body(content: Content) -> some View  {
         content
             .background(Color(UIColor.secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 

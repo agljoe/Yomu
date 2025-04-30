@@ -18,11 +18,13 @@ struct MangaListEntity: MangaDexAPIEntity {
     /// The number of items the returned collection is shifted from the first item when this value is zero.
     ///
     /// ### See Also
+    /// [Pagnation](https://api.mangadex.org/docs/01-concepts/pagination/)
     var offset: Int
     
     /// The direction the returned collection is sorted in.
     ///
-    /// Av
+    /// This collection can be sorted by title alphabetically, release year, creation date, latest update, lastest uploaded chapter,
+    ///  follows, search relevence, or user rating.
     var order: Order
     
     /// Additional query paramters to be passed with this entity's request.
@@ -38,7 +40,6 @@ struct MangaListEntity: MangaDexAPIEntity {
         self.queryItems = queryItems
     }
     
-    
     typealias ModelType = [Manga]
     
     var url: URL {
@@ -47,7 +48,7 @@ struct MangaListEntity: MangaDexAPIEntity {
         components.host = Server.standard.rawValue
         components.path = "/manga"
         components.queryItems = [URLQueryItem(name: "limit", value: "\(self.limit)"), URLQueryItem(name: "offset", value: "\(self.offset)")]
-        components.queryItems?.append(contentsOf: ids.map { URLQueryItem(name: "includes[]", value: $0.uuidString.lowercased()) })
+        components.queryItems?.append(contentsOf: ids.map { URLQueryItem(name: "ids[]", value: $0.uuidString.lowercased()) })
         
         if let queryItems = self.queryItems {
             components.queryItems?.append(contentsOf: queryItems)
@@ -55,14 +56,13 @@ struct MangaListEntity: MangaDexAPIEntity {
             if let contentRating = UserDefaults.standard.object(forKey: "contentRating") as? Rating {
                 components.queryItems?.append(contentsOf: contentRating.value)
             }
-
-            components.queryItems?.append(URLQueryItem(name: "order[chapter]", value: self.order.rawValue))
         }
         
         components.queryItems?.append(contentsOf: [
             URLQueryItem(name: "includes[]", value: "cover_art"),
             URLQueryItem(name: "includes[]", value: "author"),
             URLQueryItem(name: "includes[]", value: "artist"),
+            URLQueryItem(name: "includes[]", value: "creator")
         ])
                                  
         return components.url!

@@ -1,5 +1,5 @@
 //
-//  MangaFeedRequest.swift
+//  MangaFeedEntity.swift
 //  Yomu
 //
 //  Created by Andrew Joe on 2025-04-01.
@@ -47,7 +47,7 @@ struct MangaFeedEntity: MangaDexAPIEntity {
         
         if let translatedLanguage = UserDefaults.standard.array(forKey: "translatedLanguagee") as? [String] {
             components.queryItems?.append(contentsOf: translatedLanguage.map { URLQueryItem(name: "translatedLanguage[]", value: $0) })
-        } else { components.queryItems?.append(URLQueryItem(name: "tranlsatedLanguage[]", value: "en"))}
+        } else { components.queryItems?.append(URLQueryItem(name: "translatedLanguage[]", value: "en"))}
         
         if let excludedGroups = UserDefaults.standard.array(forKey: "excludedGroupd") as? [String] {
             components.queryItems?.append(contentsOf: excludedGroups.map { URLQueryItem(name: "excludedGroups[]", value: $0) })

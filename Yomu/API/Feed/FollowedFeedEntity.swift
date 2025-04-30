@@ -62,7 +62,7 @@ struct FollowedFeedEntity: MangaDexAPIEntity {
         }
         
         components.queryItems?.append(contentsOf: [
-            URLQueryItem(name: "order[readableAt]", value: Order.desc.rawValue),
+            URLQueryItem(name: "order[publishAt]", value: Order.desc.rawValue),
             URLQueryItem(name: "includes[]", value: "manga"),
             URLQueryItem(name: "includes[]", value: "scanlation_group"),
             URLQueryItem(name: "includes[]", value: "user")
@@ -71,5 +71,5 @@ struct FollowedFeedEntity: MangaDexAPIEntity {
         return components.url!
     }
     
-    var requiresAuthentication: Bool = true
+    var requiresAuthentication: Bool { true }
 }

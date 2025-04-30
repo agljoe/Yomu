@@ -13,9 +13,16 @@ import Foundation
 ///
 /// ### See Also
 /// [MangaDex Api Documentation](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-tag)
-public struct Tag: Codable, Equatable, Hashable, Identifiable, Sendable {
-    public let id: UUID
+struct Tag: Codable, Equatable, Hashable, Identifiable, Sendable {
+    /// The UUID of a spefic tag.
+    ///
+    /// For some reason every search filter tag has a unique UUID.
+    let id: UUID
+    
+    /// The name of this tag.
     let name: String
+    
+    /// The group which this tag belongs to.
     let group: String
     
     private enum CodingKeys: CodingKey {
@@ -30,22 +37,8 @@ public struct Tag: Codable, Equatable, Hashable, Identifiable, Sendable {
         case en
     }
     
-    /// Creates a ``Tag`` instance initialized with placeholder values.
-    public init() {
-        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
-        self.name = ""
-        self.group = ""
-    }
-
-    /// Creates a ``Tag`` instance initialized by the given values.
-    public init(id: UUID = UUID(), name: String = "", group: String = "") {
-        self.id = id
-        self.name = name
-        self.group = group
-    }
-    
     /// Creates a new instance by decoding from the given decoder.
-    public init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
         
@@ -57,7 +50,7 @@ public struct Tag: Codable, Equatable, Hashable, Identifiable, Sendable {
     }
     
     /// Encodes a single value with the given encoder.
-    public func encode(to encoder: any Encoder) throws {
+    func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         
@@ -66,6 +59,12 @@ public struct Tag: Codable, Equatable, Hashable, Identifiable, Sendable {
         try nameContainer.encode(name, forKey: .en)
         
         try attributeContainer.encode(group, forKey: .group)
+    }
+}
+
+extension Tag {
+    static func ==(lhs: Tag, rhs: Tag) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name
     }
 }
 

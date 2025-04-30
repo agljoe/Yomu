@@ -12,17 +12,12 @@ import SwiftUI
 actor ImageLoader {
     public func fetch(_ urlRequest: URLRequest) async throws -> UIImage {
         let task: Task<UIImage, Error> = Task {
-            let startDate = Date.now
-            let (data, response) = try await URLSession.shared.data(for: urlRequest)
-            let comletionTime = Date().timeIntervalSince(startDate)
-            await atHomeReport(url: urlRequest.url!.absoluteString, response: response, duration: Int((comletionTime*1000).truncatingRemainder(dividingBy: 1000)))
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
             let image = UIImage(data: data)!
-            
             return image
         }
         
         let image = try await task.value
-    
         return image
     }
 

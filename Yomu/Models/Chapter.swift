@@ -6,16 +6,20 @@
 //
 
 import Foundation
+import SwiftData
 
 /// A chapter of a manga.
 ///
 ///  Chapter objects returned by the MangaDex do not include chapter images. See [Find a Manga's Chapters](https://api.mangadex.org/docs/04-chapter/feed/).
 ///
+/// - Note: This structure's types are made to match the JSON data structure provided in the MangaDexAPI documentation, where
+///         optionals are used to represent values that can be null.
+///
 ///  ### See Also
 ///  [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/Chapter/operation/get-chapter-id)
-public struct Chapter: Decodable, Identifiable, Sendable {
+struct Chapter: Decodable, Identifiable, Sendable {
     /// A unique id assigned to a chapter.
-    public let id: UUID
+    let id: UUID
     
     /// The title of this chapter
     let title: String?
@@ -70,27 +74,8 @@ public struct Chapter: Decodable, Identifiable, Sendable {
         case title, volume, chapter, pages, translatedLanguage, externalUrl, version, createdAt, updatedAt, publishAt, readableAt
     }
     
-    /// Creates a ``Chapter`` instance initialized by the given values.
-    init(id: UUID, title: String?, volume: String?, chapter: String?, pages: Int, translatedLanguage: String, exteranUrl: String?, version: Int, createdAt: Date, updatedAt: Date, publishAt: Date, readableAt: Date, scanlationGroup: ScanlationGroup?, user: User?, parentManga: ParentManga?) {
-        self.id = id
-        self.title = title
-        self.volume = volume
-        self.chapter = chapter
-        self.pages = pages
-        self.translatedLanguage = translatedLanguage
-        self.externalUrl = exteranUrl
-        self.version = version
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.publishAt = publishAt
-        self.readableAt = readableAt
-        self.scanlationGroup = scanlationGroup
-        self.user = user
-        self.parentManga = parentManga
-    }
-        
     /// Creates a new instance by decoding from the given decoder.
-    public init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
         
@@ -106,7 +91,7 @@ public struct Chapter: Decodable, Identifiable, Sendable {
         let RFC3339DateFormatter = DateFormatter()
         RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
         RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        RFC3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        RFC3339DateFormatter.timeZone = TimeZone.current
         
         self.createdAt =  RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
         self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
@@ -141,18 +126,23 @@ public struct Chapter: Decodable, Identifiable, Sendable {
     }
 }
 
+extension Chapter {
+    static func == (lhs: Chapter, rhs: Chapter) -> Bool {
+        return lhs.id == rhs.id && lhs.updatedAt == rhs.updatedAt
+    }
+}
+
 /// A value obtained from the reference expansion of a ``Chapter``.
 ///
 /// ### See Also
 /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
-public struct ParentManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
+struct ParentManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique UUID assinged to a ``Manga``.
-    public let id: UUID
+    let id: UUID
     
     /// The localized title of a ``Manga``.
     ///
-    /// >Note
-    ///     This value may only be romanized.
+    /// - Note: This value may only be romanized.
     let title: [String: String]? // TODO: flatten to just string
     
     /// The original language of this manga.
@@ -166,23 +156,8 @@ public struct ParentManga: Decodable, Equatable, Hashable, Identifiable, Sendabl
         case title, originalLanguage
     }
     
-    /// Creates a ``ParentManga`` instance initialized with placeholder values.
-    private init() {
-        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
-        self.title = [:]
-        self.originalLanuage = ""
-    }
-    
-    /// Creates a ``ParentManga`` instance initialized by the given values.
-    private init(id: UUID, title: [String: String], originalLanuage: String) {
-        self.id = id
-        self.title = title
-        self.originalLanuage = originalLanuage
-    }
-    
-    
     /// Creates a new instance by decoding from the given decoder.
-    public init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
         
@@ -197,23 +172,26 @@ public struct ParentManga: Decodable, Equatable, Hashable, Identifiable, Sendabl
     }
 }
 
+extension ParentManga {
+    static func == (lhs: ParentManga, rhs: ParentManga) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 /// A group of `URLComponents` used to dynamically construct chapter image URLs.
 ///
-/// >Warning:
-///     Do not extract complete URLs from this structure, hardcoding URLs is never recommended.
-///     See [MangaDex Api Documentation](https://api.mangadex.org/docs/04-chapter/retrieving-chapter/#about-hardcoding-base-urls).
+/// - Warning: Do not extract complete URLs from this structure, hardcoding URLs is never recommended.
+///            See [MangaDex Api Documentation](https://api.mangadex.org/docs/04-chapter/retrieving-chapter/#about-hardcoding-base-urls).
 ///
 /// ### See Also
 /// [Retreving a chapter's images](https://api.mangadex.org/docs/04-chapter/retrieving-chapter/)
-public struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
+struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
     /// A string describing the result of retriving this data, "ok" if successful.
     let result: String
     
     /// The base URL for retriving images in this collection.
     ///
-    ///  >Important:
-    ///     Base URLs are valid for 15 minutes.
-    ///     For more information see [MangaDex API Documentation](https://api.mangadex.org/docs/04-chapter/retrieving-chapter/#howto).
+    ///  - Important:  Base URLs are valid for 15 minutes. For more information see [MangaDex API Documentation](https://api.mangadex.org/docs/04-chapter/retrieving-chapter/#howto).
     let baseUrl: String
     
     /// The hash value for this chapter.
@@ -233,8 +211,7 @@ public struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable 
         case hash, data, dataSaver
     }
     
-    /// Creates an ``AtHomeChapterComponents`` instance initialized with placeholder values.
-    public init() {
+    init() {
         self.result = ""
         self.baseUrl = ""
         self.hash = ""
@@ -242,17 +219,8 @@ public struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable 
         self.dataSaver = []
     }
     
-    /// Creates an ``AtHomeChapterComponents`` instance initialized by the given values.
-    public init(result: String, baseUrl: String, hash: String, data: [String], dataSaver: [String]) {
-        self.result = result
-        self.baseUrl = baseUrl
-        self.hash = hash
-        self.data = data
-        self.dataSaver = dataSaver
-    }
-    
     /// Creates a new instance by decoding from the given decoder.
-    public init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.result = try container.decode(String.self, forKey: .result)
         self.baseUrl = try container.decode(String.self, forKey: .baseUrl)
@@ -262,5 +230,75 @@ public struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable 
         self.data = try chapterContainer.decode([String].self, forKey: .data)
         self.dataSaver = try chapterContainer.decode([String].self, forKey: .dataSaver)
         
+    }
+}
+
+@Model
+class StoredChapter {
+    /// A unique id assigned to a chapter.
+    @Attribute(.unique) private(set)
+    var id: UUID
+    
+    /// The title of this chapter
+    var title: String?
+    
+    /// The volume which a chapter belongs to.
+    var volume: String?
+    
+    /// A chapter's number.
+    var number: String?
+    
+    /// The number of pages in a chapter.
+    var pages: Int
+    
+    /// The language a chapter is in.
+    var translatedLanguage: String
+    
+    /// A chapter that links to an eternal source.
+    var externalUrl: String?
+    
+    ///  A number describing the version of a chapter.
+    var version: Int
+    
+    /// The date a chapter was uploaded to MangaDex.
+    var createdAt: Date
+    
+    /// The date a chapter was last modified.
+    var updatedAt: Date
+    
+    /// The date a chapter was published.
+    var publishAt: Date
+    
+    /// The date a chapter was available to read.
+    var readableAt: Date
+    
+    /// A group of people who translated a chapter.
+    @Relationship(deleteRule: .cascade) var scanlationGroup: StoredScanlationGroup?
+    
+    /// The user who uploaded this chapter.
+    @Relationship(deleteRule: .cascade) var user: StoredUser?
+    
+    /// The manga a chapter is from.
+    @Relationship(inverse: \StoredManga.chapters) var parentManga: StoredManga?
+    
+    /// Sets the read marker for a chapter to false by default.
+    var hasBeenRead: Bool = false
+    
+    /// Creates a new StoredChapter.
+    init(from chapter: Chapter, with parentManga: StoredManga? = nil) {
+        self.id = chapter.id
+        self.title = chapter.title
+        self.volume = chapter.volume
+        self.number = chapter.chapter
+        self.pages = chapter.pages
+        self.translatedLanguage = chapter.translatedLanguage
+        self.externalUrl = chapter.externalUrl
+        self.version = chapter.version
+        self.createdAt = chapter.createdAt
+        self.updatedAt = chapter.updatedAt
+        self.publishAt = chapter.publishAt
+        self.readableAt = chapter.readableAt
+        self.parentManga = parentManga
+        self.hasBeenRead = chapter.hasBeenRead
     }
 }

@@ -414,7 +414,6 @@ extension MangaDexAPIRequest {
     ///     - content: an encoded data value passed to a specific server as the request's body.
     /// > Important: The caller is responsible for encoding the data in the correct format, ensure that the data you are passing is correctly configured for the specified server.
     ///
-    /// > Note: Unlike ``post(at:value:content:)``, ``authPost(at:for:with:)`` defaults to using `application/json` for `Content-Type`
     ///
     /// - Throws: `KeychainError.noToken` if an access token cannot be found.
     /// - Throws: ``httpError(_:context:)``  if returned status code is not 200.

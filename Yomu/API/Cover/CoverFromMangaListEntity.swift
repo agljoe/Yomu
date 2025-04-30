@@ -7,21 +7,28 @@
 
 import Foundation
 
+/// Shortcut to get the most recent available cover for a manga, when starting from one of its chapters.
+///
+/// This approach uses the least memroy and API calls, as try to go through the /cover, or /cover{id} endpoints
+/// wastes memory decoding uneeded objects, or uses extra calls fetching missing covers.
 struct CoverFromMangaWrapper: Decodable {
+    /// The UUID of the manga the fetched cover belongs to.
+    let parentManga: UUID
+    
+    /// The cover found in the reference expansion of a manga.
     let cover: Cover
-
-    enum CodingKeys: CodingKey {
-        case data
+    
+    /// Ignore all data found in the returned manga object, and only that the heterogenous
+    /// array of JSON objects found in its relationships.
+    private enum CodingKeys: CodingKey {
+        case id, relationships
     }
     
-    enum DataCodingKeys: CodingKey {
-        case relationships
-    }
-    
+    /// Creates a new instance by decoding from the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
-        let relationships = try dataContainer.decode([MangaRelationship].self, forKey: .relationships)
+        self.parentManga = try container.decode(UUID.self, forKey: .id)
+        let relationships = try container.decode([MangaRelationship].self, forKey: .relationships)
         var covers = [Cover]()
         
         for relationship in relationships {
@@ -35,11 +42,26 @@ struct CoverFromMangaWrapper: Decodable {
     }
 }
 
+/// Same as a MangaListEntity, with the goal of fetching a list of covers.
 struct CoverFromMangaListEntity: MangaDexAPIEntity {
+    /// The UUIDs of the manga whose covers are being fetched.
     var ids: [UUID]
+    
+    /// The maximum size of the returned collection, must be in range 0...100.
     var limit: Int
+    
+    /// The number of items the returned collection is shifted from the first item when this value is zero.
+    ///
+    /// ### See Also
+    /// [Pagnation](https://api.mangadex.org/docs/01-concepts/pagination/)
     var offset: Int
     
+    /// Creates a new instance with the specified ids.
+    ///
+    /// - Parameters:
+    ///     - ids: the UUIDs of some manga whose covers are to be fetched.
+    ///     - limit: the number of covers to fetch, 10 be default.
+    ///     - offset: the starting index of the collection to be fetched, 0 by default.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0) {
         self.ids = ids
         self.limit = limit
@@ -61,7 +83,12 @@ struct CoverFromMangaListEntity: MangaDexAPIEntity {
             components.queryItems?.append(contentsOf: contentRating.value)
         }
         
-        components.queryItems?.append(URLQueryItem(name: "includes[]", value: "cover_art"))
+        components.queryItems?.append(contentsOf: [
+            URLQueryItem(name: "includes[]", value: "cover_art"),
+            URLQueryItem(name: "includes[]", value: "author"),
+            URLQueryItem(name: "includes[]", value: "artist"),
+            URLQueryItem(name: "includes[]", value: "creator")
+        ])
         
         return components.url!
     }
@@ -69,23 +96,26 @@ struct CoverFromMangaListEntity: MangaDexAPIEntity {
     var requiresAuthentication: Bool { false }
 }
 
+/// Requests a list of manga, and returns all the covers found in their reference expansions.
 struct CoverListFromMangaRequest {
+    /// A custom entity for this request.
     let entity: CoverFromMangaListEntity
     
+    /// Creates a new instance with the given entity.
     init(_ entity: CoverFromMangaListEntity) {
         self.entity = entity
     }
 }
 
 extension CoverListFromMangaRequest: MangaDexAPIRequest {
-    typealias ModelType = [Cover]
+    typealias ModelType = [(Cover, UUID)]
     
-    func decode(_ data: Data) throws -> [Cover] {
-        let covers = try JSONDecoder().decode([CoverFromMangaWrapper].self, from: data)
-        return covers.map { $0.cover }
+    func decode(_ data: Data) throws -> [(Cover, UUID)] {
+        let covers = try JSONDecoder().decode(Wrapper<[CoverFromMangaWrapper]>.self, from: data)
+        return covers.data.map { ($0.cover, $0.parentManga) }
     }
     
-    func execute() async throws -> [Cover] {
+    func execute() async throws -> [(Cover, UUID)] {
         return try await get(from: entity.url)
     }
 }

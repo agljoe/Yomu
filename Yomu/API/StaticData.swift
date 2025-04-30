@@ -269,6 +269,74 @@ public struct MangaLink: Codable, Equatable, Hashable, Sendable {
     let engtl: String?
 }
 
+extension MangaLink {
+    var anilistURL: URL? {
+        if let id = self.al { return URL(string: "https://anilist.co/manga/\(id)") }
+        return nil
+    }
+    
+    var animePlanetURL: URL? {
+        if let slug = self.ap { return URL(string: "https://www.anime-planet.com/\(slug)") }
+        return nil
+    }
+    
+    var bookWalkerURL: URL? {
+        if let series = self.bw { return URL(string: "https://bookwalker.jp/\(series)") }
+        return nil
+    }
+    
+    var mangaUpdatesURL: URL? {
+        if let id = self.mu { return URL(string: "https://mangaupdates.com/series/\(id)") }
+        return nil
+    }
+    
+    var novelUpdatesURL: URL? {
+        if let slug = self.nu { return URL(string: "https://novelupdates.com/series/\(slug)") }
+        return nil
+    }
+    
+    var kitsuURL: URL? {
+        if let idOrSlug = self.kt { return URL(string: "https://kitsu.app/manga/\(idOrSlug)") }
+        return nil
+    }
+    
+    var amazonURL: URL? {
+        if let urlString = self.amz { return URL(string: urlString) }
+        return nil
+    }
+    
+    var eBookJapanURL: URL? {
+        if let urlString = self.ebj { return URL(string: urlString) }
+        return nil
+    }
+    
+    var myAnimeListURL: URL? {
+        if let id = self.mal { return URL(string: "https://myanimelist.net/manga/\(id)")}
+        return nil
+    }
+    
+    var cdJapanURL: URL? {
+        if let urlString = self.cdj { return URL(string: urlString) }
+        return nil
+    }
+    
+    var officalRawURL: URL? {
+        if let urlString = self.raw { return URL(string: urlString) }
+        return nil
+    }
+    
+    var englishTranslationURL: URL? {
+        if let urlString = self.engtl { return URL(string: urlString) }
+        return nil
+    }
+}
+
+extension MangaLink {
+    func getAvailableLinks() -> [URL] {
+        [self.anilistURL, self.animePlanetURL, self.bookWalkerURL, self.mangaUpdatesURL, self.mangaUpdatesURL, self.novelUpdatesURL, self.kitsuURL, self.amazonURL, self.eBookJapanURL, self.myAnimeListURL, self.cdJapanURL, self.officalRawURL, self.englishTranslationURL].compactMap( { $0 })
+    }
+}
+
 /// An intended demographic of a manga.
 /// ### See Also
 /// [Static Data](https://api.mangadex.org/docs/3-enumerations/)
@@ -339,25 +407,26 @@ public enum ReadingStatus: String, Codable, Sendable {
 
 /// A content rating for a given manga.
 @frozen
-public enum Rating: Codable, Sendable {
+public enum Rating: String, Codable, Sendable {
     /// Includes no nudity, and makes to direct references to any R18 content.
-    case safe
+    case safe = "safe"
     
     /// Includes no nudity, may include references to sexual themes or other R18 content.
     /// > Important:
     ///  This content may not be fit for minors, and may not be sutable for certain environments.
-    case suggestive
+    case suggestive = "suggestive"
     
     /// Includes no full nudity, includes strong implications of nudity or other sexual and R18 themes.
     /// > Important:
     ///  This content is not fit for minors,  and may not be sutable for certain environments.
-    case erotica
+    case erotica = "erotica"
     
     /// Includes R18 sexual content.
     /// > Important:
     ///  This content is not fit for minors, and may not be sutable for certain environments.
-    case pornographic
+    case pornographic = "pornographic"
     
+    /// Returns the list of query items associated with a specific rating value.
     var value: [URLQueryItem] {
         switch self {
         case .safe:

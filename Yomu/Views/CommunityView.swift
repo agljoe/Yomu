@@ -28,17 +28,17 @@ struct CommunityView: View {
             }
             
             Button {
-                Task {
-                    do {
-                        let result = try await getStatisticsFor(manga: [
-                            UUID(uuidString: "c5d731f9-c1cf-4a69-a797-cd9c2a58316b")!,
-                            UUID(uuidString: "d7576e72-0301-4ed3-9137-722ed768bfda")!
-                            ])
-                        print(result)
-                    } catch let error as DecodingError {
-                        handleDecodingError(error)
-                    } catch { print(error.localizedDescription) }
-                }
+//                Task {
+//                    do {
+//                        let result = try await getStatisticsFor(manga: [
+//                            UUID(uuidString: "c5d731f9-c1cf-4a69-a797-cd9c2a58316b")!,
+//                            UUID(uuidString: "d7576e72-0301-4ed3-9137-722ed768bfda")!
+//                            ])
+//                        print(result)
+//                    } catch let error as DecodingError {
+//                        handleDecodingError(error)
+//                    } catch { print(error.localizedDescription) }
+//                }
             } label: {
                 Text("Test button 2")
             }

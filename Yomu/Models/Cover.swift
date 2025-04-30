@@ -6,17 +6,17 @@
 //
 
 import Foundation
+import SwiftData
 
 /// The cover of a manga's latest volume.
 ///
-/// > Important:
-///     The cover image is found at the ``Cover/fileName`` endpoint.
+/// - Important: The cover image is found at the ``Cover/fileName`` endpoint.
 ///
 /// ### See Also
 /// [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/Cover)
-public struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
+struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id assigned to a cover.
-    public let id: UUID
+    let id: UUID
     
     /// The volume this is the cover of.
     let volume: String?
@@ -53,34 +53,8 @@ public struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
         case volume, fileName, description, locale, version, createdAt, updatedAt
     }
     
-    /// Creates a ``Cover`` instance initialized with placeholder values.
-    public init() {
-        self.id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
-        self.volume = nil
-        self.fileName = ""
-        self.description = nil
-        self.locale = nil
-        self.version = 0
-        self.createdAt = Date()
-        self.updatedAt = Date()
-        self.relationships = []
-    }
-    
-    /// Creates a ``Cover`` instance initialized by the given  values.
-    public init(id: UUID, volume: String?, fileName: String, description: String?, locale: String?, version: Int, createdAt: Date, updatedAt: Date, relationShips: [CoverRelationship]) {
-        self.id = id
-        self.volume = volume
-        self.fileName = fileName
-        self.description = description
-        self.locale = locale
-        self.version = version
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.relationships = relationShips
-    }
-    
     /// Creates a new instance by decoding from the given decoder.
-    public init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
         
@@ -94,7 +68,7 @@ public struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
         let RFC3339DateFormatter = DateFormatter()
         RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
         RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        RFC3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        RFC3339DateFormatter.timeZone = TimeZone.current
         self.createdAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
         self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
         
@@ -102,41 +76,77 @@ public struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
     }
 }
 
+extension Cover {
+    static func == (lhs: Cover, rhs: Cover) -> Bool {
+        return lhs.id == rhs.id && lhs.updatedAt == rhs.updatedAt
+    }
+}
+
 /// An object found in the referenece expansion collection of a ``Cover``.
 ///
 /// ### See Also
 /// [Reference Expansion](https://api.mangadex.org/docs/01-concepts/reference-expansion/)
-public struct CoverRelationship: Decodable, Equatable, Hashable, Identifiable, Sendable {
+struct CoverRelationship: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id.
     ///
-    /// >Note:
-    /// This UUID is either a user or manga id.
-    public let id: UUID
+    /// - Note: This is the UUID of a user of manga.
+    let id: UUID
     
     /// The type of this relationship.
     let type: String
     
     private enum CodingKeys: CodingKey {
-        case id
-        case type
+        case id, type
     }
     
-    /// Creates a ``CoverRelationship`` instance initialized with placeholder values.
-    public init() {
-        self.id = UUID()
-        self.type = ""
-    }
-    
-    /// Creates a ``CoverRelationship`` instance initialized by the given values.
-    public init (id: UUID, type: String) {
-        self.id = id
-        self.type = type
-    }
-
     /// Creates a new instance by decoding from the given decoder.
-    public init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
         self.type = try container.decode(String.self, forKey: .type)
+    }
+}
+
+extension CoverRelationship {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+@Model
+class StoredCover {
+    /// A unique id assigned to a cover.
+    @Attribute(.unique) private(set) var id: UUID
+    
+    /// The volume this is the cover of.
+    var volume: String?
+    
+    /// A path to a cover image.
+    var fileName: String
+    
+    /// A small text describing a cover.
+    var altText: String?
+    
+    /// A time or place a cover is set in.
+    var locale: String?
+    
+    /// A number desctibing the version of a cover.
+    var version: Int
+    
+    /// The date a cover was uploaded to MangaDex.
+    var createdAt: Date
+    
+    /// The date a cover was last modified.
+    var updatedAt: Date
+    
+    init(from cover: Cover) {
+        self.id = cover.id
+        self.volume = cover.volume
+        self.fileName = cover.fileName
+        self.altText = cover.description
+        self.locale = cover.locale
+        self.version = cover.version
+        self.createdAt = cover.createdAt
+        self.updatedAt = cover.updatedAt
     }
 }
