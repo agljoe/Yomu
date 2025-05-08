@@ -13,7 +13,7 @@ import Foundation
 ///
 /// - Note: This enpoint can aslo fetch a list of artists, or mixed list of authors and artists.
 struct AuthorListEntity: MangaDexAPIEntity {
-    /// The ids of all authors to be fetched.
+    /// The ids of all authors being retrieved..
     var ids: [UUID]
     
     /// The maximum size of the collection to be fetched, must be in range 0...100.
@@ -33,9 +33,9 @@ struct AuthorListEntity: MangaDexAPIEntity {
     /// Creates a new instance for some given manga, or  cover ids.
     ///
     /// - Parameters:
-    ///     - ids: the UUIDs of some manga whose covers are to be fetched.
+    ///     - ids: the UUIDs of some authors or aritsts to fetch.
     ///     - limit: the number of authors, or artists to fetch, 10 by default.
-    ///     - offset: the starting index of the collection to be fetched, 0 by default.
+    ///     - offset: the starting index of the collection to fetch, 0 by default.
     ///     - order: the direction of the sorted collection, descending alphabetically by default.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
         self.ids = ids
@@ -43,6 +43,19 @@ struct AuthorListEntity: MangaDexAPIEntity {
         self.offset = offset
         self.order = order
     }
+    
+    /// Convience initializer that accpects a variadic list of UUIDs.
+    ///
+    /// - Parameters:
+    ///     - ids: the UUIDs of some authors or aritsts to fetch.
+    ///     - limit: the number of authors, or artists to fetch, 10 by default.
+    ///     - offset: the starting index of the collection, 0 by default.
+    ///     - order: the direction of the sorted collection, descending alphabetically by default.
+    init(ids: UUID..., limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
+        self.init(ids: ids, limit: limit, offset: offset, order: order)
+    }
+    
+    
     
     typealias ModelType = [Author]
     

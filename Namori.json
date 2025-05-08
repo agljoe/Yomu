@@ -1,0 +1,1075 @@
+{
+  "result": "ok",
+  "response": "entity",
+  "data": {
+    "id": "f049cee3-3b14-4101-8e5d-813526abb1f6",
+    "type": "author",
+    "attributes": {
+      "name": "Namori",
+      "imageUrl": null,
+      "biography": {
+        "en": "**Alt names**:\nなもり"
+      },
+      "twitter": "https://twitter.com/_namori_",
+      "pixiv": "https://www.pixiv.net/users/124923",
+      "melonBook": null,
+      "fanBox": null,
+      "booth": null,
+      "namicomi": null,
+      "nicoVideo": null,
+      "skeb": null,
+      "fantia": null,
+      "tumblr": null,
+      "youtube": null,
+      "weibo": null,
+      "naver": null,
+      "website": null,
+      "createdAt": "2021-04-19T21:59:45+00:00",
+      "updatedAt": "2023-04-30T22:45:30+00:00",
+      "version": 2
+    },
+    "relationships": [
+      {
+        "id": "4f80b8d1-7a3a-480e-a837-b67ce54bd54f",
+        "type": "manga"
+      },
+      {
+        "id": "8898f5ef-61b0-4da3-a2a9-02263ffb18d1",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "Persona 3 Dengeki Comic Anthology"
+          },
+          "altTitles": [],
+          "description": {
+            "en": "A collection of stories made by various artists, based on the Persona 3 game."
+          },
+          "isLocked": false,
+          "links": {},
+          "originalLanguage": "ja",
+          "lastVolume": "1",
+          "lastChapter": "17",
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": 2007,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "51d83883-4103-437c-b4b1-731cb73d786c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Anthology"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2023-09-29T19:54:41+00:00",
+          "updatedAt": "2023-09-29T20:25:19+00:00",
+          "version": 2,
+          "availableTranslatedLanguages": [
+            "en"
+          ],
+          "latestUploadedChapter": "1ef82f56-d096-4883-9c02-0c08d63596c5"
+        }
+      },
+      {
+        "id": "4b2fd7ad-d0fe-4c9e-86e8-c96d983252f7",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "Machikado Mazoku Anthology Comic"
+          },
+          "altTitles": [
+            {
+              "ja": "まちカドまぞくアンソロジーコミック"
+            },
+            {
+              "en": "The Demon Girl Next Door Anthology Comic"
+            }
+          ],
+          "description": {
+            "en": "A collection of short stories and art by various authors, based on the 4-koma series Machikado Mazoku by Itou Izumo."
+          },
+          "isLocked": false,
+          "links": {
+            "al": "161182",
+            "bw": "ded6cfe52f-aea2-40f5-bf5f-7312eb09389e",
+            "amz": "https://www.amazon.co.jp/dp/B09WV8DTF8",
+            "cdj": "https://www.cdjapan.co.jp/product/NEOBK-2716759",
+            "ebj": "https://ebookjapan.yahoo.co.jp/books/697656/",
+            "mal": "155687"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "1",
+          "lastChapter": "10",
+          "publicationDemographic": "seinen",
+          "status": "completed",
+          "year": 2022,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "39730448-9a5f-48a2-85b0-a70db87b1233",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Demons"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "51d83883-4103-437c-b4b1-731cb73d786c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Anthology"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "81c836c9-914a-4eca-981a-560dad663e73",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Magical Girls"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a1f53773-c69a-4ce5-8cab-fffcd90b1565",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Magic"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "dd1f77c5-dea9-4e2b-97ae-224af09caf99",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Monster Girls"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2022-05-28T22:53:19+00:00",
+          "updatedAt": "2025-01-31T18:12:38+00:00",
+          "version": 13,
+          "availableTranslatedLanguages": [
+            "en",
+            "it",
+            "vi"
+          ],
+          "latestUploadedChapter": "8479c1f8-b639-481e-b823-ec64ec4ccc5c"
+        }
+      },
+      {
+        "id": "027df837-7a15-4893-9dc3-e2ae11b94717",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "Onii-chan Is Done For! Official Anthology Comic"
+          },
+          "altTitles": [
+            {
+              "ja-ro": "Onii-chan wa Oshimai! Koushiki Anthology Comic"
+            },
+            {
+              "ja": "お兄ちゃんはおしまい！ 公式アンソロジーコミック"
+            },
+            {
+              "ru": "Мой братик теперь не братик! Официальная комикс-антология!"
+            }
+          ],
+          "description": {
+            "en": "An anthology comic of Onii-chan wa Oshimai! by various mangaka.\n\n---\n**Volume 1**\n**Cover**: [Namori](https://mangadex.org/author/f049cee3-3b14-4101-8e5d-813526abb1f6)\n**Illustrations**: [Hara Yui](https://mangadex.org/author/60f69905-13da-42a5-9b2f-0571fcd567c2), [Shiro Manta](https://mangadex.org/author/465b6513-a230-4ce1-b2a9-5027e94e52cc), [Izumi Bell](https://mangadex.org/author/1f462d2f-2cd5-420e-9f07-b4a214ef9465)\n\n**Author list**:\n1. Namori\n2. Fujichika Koume\n3. Tadano Natsu\n4. Kawamura Taku\n5. Igarashi Masakuni\n6. Kakitsubata Waka\n7. Asazuki Norito\n8. Nekoume\n9. Tsuchii\n10. Mori Misaki\n11. Kometsubu\n12. Yuuki Shinichi\n13. Kobayashi Kina\n14. Yuuki Suzu\n15. Suka\n\n**Volume 2**\n**Cover**: [Kuroda bb](https://mangadex.org/author/b8327a2b-a285-4a9a-b124-f3be558741d1)\n**Illustration**: [Cool-kyou Shinja](https://mangadex.org/author/9df2ffe2-1b7f-4619-93e1-c97aa0f1c0d0)\n\n**Author list**:\n1. Namori\n2. Hara Yui\n3. Tadano Natsu\n4. Igarashi Masakuni\n5. Okada Anmitsu\n6. Yuuchi Mikumi\n7. Adachi Imaru\n8. Onio\n9. Minamito\n10. Tomoe\n11. Tsuchii\n12. Terai Akane\n13. Rucchiifu\n14. Moricocco\n15. Ouchi Kaeru\n16. Nekoume\n17. Cool-kyou Shinja\n\n**Volume 3**\n**Cover**: [Hara Yui](https://mangadex.org/author/60f69905-13da-42a5-9b2f-0571fcd567c2)\n**Illustration**: [Kuroda bb](https://mangadex.org/author/b8327a2b-a285-4a9a-b124-f3be558741d1)\n\n**Author list**:\n1. Namori\n2. Yukimoto Shuuji\n3. Igarashi Masakuni\n4. Suka\n5. Onio\n6. Sasuke\n7. Toyobayashi Sakane\n8. 9℃\n9. Adachi Imaru\n10. Sorato Shunsuke\n11. majoccoid\n12. Yuuchi Mikumi\n13. Hami\n14. Tsuchii\n15. Hori\n16. Cool-kyou Shinja\n\n**Volume 4**\n**Cover**: [Hiroyama Hiroshi](https://mangadex.org/author/65ea7bec-52aa-4b19-aabe-5f1d41683291/hiroyama-hiroshi)\n**Illustration**: [Hori](https://mangadex.org/author/fe546044-b115-43ee-9ef8-2e2c81e110f7/hori)\n\n**Author list**:\n1. Namori \n2. Asazuki Narito\n3. Tokita Shigure\n4. Sorato Shunsuke\n5. Fukuoka Tarou\n6. Onio\n7. Kamaboko RED\n8. Ceramic (Seramikku) \n9. Tsuchii\n10. Ronna\n11. Kakitsubata Waka\n12. Dobato\n13. Zinbei\n14. Hatoboboko\n15. Cool-kyou Shinja"
+          },
+          "isLocked": false,
+          "links": {
+            "al": "136495",
+            "ap": "onii-chan-wa-oshimai-koushiki-anthology-comic",
+            "bw": "series/302245/list",
+            "kt": "onii-chan-wa-oshimai-koushiki-anthology-comic",
+            "mu": "191589",
+            "amz": "https://www.amazon.co.jp/dp/B0BTP29D55",
+            "ebj": "https://ebookjapan.yahoo.co.jp/books/639473/",
+            "mal": "150485"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "ongoing",
+          "year": 2021,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "2bd2e8d0-f146-434a-9b51-fc9ff2c5fe6a",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Genderswap"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "51d83883-4103-437c-b4b1-731cb73d786c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Anthology"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2022-04-26T20:50:05+00:00",
+          "updatedAt": "2024-03-19T06:24:29+00:00",
+          "version": 24,
+          "availableTranslatedLanguages": [
+            "en",
+            "es-la",
+            "vi",
+            "pt-br",
+            "zh-hk",
+            "tr",
+            "ru",
+            "id",
+            "es"
+          ],
+          "latestUploadedChapter": "e3af25ea-5f5f-405e-822e-b1ff031db252"
+        }
+      },
+      {
+        "id": "1234a8d2-9f59-4168-996c-54b0352cf112",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "YuruYuri (Fan-Colored)"
+          },
+          "altTitles": [
+            {
+              "en": "YRYR"
+            },
+            {
+              "en": "Yuru Yuri"
+            },
+            {
+              "en": "ゆるゆり"
+            },
+            {
+              "en": "摇曳百合"
+            },
+            {
+              "en": "輕鬆百合"
+            }
+          ],
+          "description": {
+            "en": "Fan-colored version of [YuruYuri](https://mangadex.org/title/5599/yuruyuri).  \n  \nFour mischievous girls illegally occupy the former Traditional Tea Ceremony clubroom, in order to create the \"Amusement Club.\" These scamps…who ignore repeated warnings—in direct rebellion with the righteous directives of the Student Council—decide to remain in the room until they finally get off their bums and do something! In this slightly sluggish manga, full of fits and starts, the four girls set off from their homes for a walk together with days full of a little this and that!"
+          },
+          "isLocked": false,
+          "links": {
+            "bw": "series/1938",
+            "mu": "32965"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "ongoing",
+          "year": null,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "7b2ce280-79ef-4c09-9b58-12b7c23a9b78",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Fan Colored"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b9af3a63-f058-46de-a9a0-e0c13906197a",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Drama"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "caaa44eb-cd40-4177-b930-79d3ef2afe87",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "School Life"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2021-01-26T17:57:08+00:00",
+          "updatedAt": "2022-09-25T10:18:54+00:00",
+          "version": 3,
+          "availableTranslatedLanguages": [
+            "en"
+          ],
+          "latestUploadedChapter": "a47c3190-5943-40d3-9a1b-9f8606134caa"
+        }
+      },
+      {
+        "id": "f9af2cbd-be49-4dd3-9d28-22f8dcde1b36",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "MANGA Day to Day"
+          },
+          "altTitles": [
+            {
+              "en": "A Boring Story About Telework"
+            },
+            {
+              "es-la": "Una Historia Aburrida Sobre El Trabajo Desde Casa"
+            }
+          ],
+          "description": {
+            "en": "\"MANGA Day to Day\" is a relay series project with 109 short stories, each done by different mangaka for 100 days straight during the 2020 pandemic, depicting everyday life in a post-coronavirus world.\n\n**FIRST VOLUME**\nDay 1 - **Evil Spirit** by Chiba Tetsuya\nDay 2 - **Hirokane Kenshi**\nDay 3 - Yanauchi Daiju\nDay 4 - Ishikawa Sei\nDay 5 - Nata de Coco\nDay 6 - Tsuchida Eri\nDay 7 - Mogi Sayaka\nDay 8 #1 - Mikashima Kentaro\nDay 8 #2 - Yoshimoto Yoshitomo\nDay 9 - Kumakura Takatoshi\nDay 10 - Asou Mikoto\nDay 11 - Momoi Ito\nDay 12 - Shirono Yuki\nDay 13 - Mori Moriko & Tomimura Cota\nDay 14 - Taiyou Marii\nDay 15 - Takahashi Ai\nDay 16 - Nomari\nDay 17 - Mukouyama Atsushi\nDay 18 - Aoki U-hei\nDay 19 - Yaguraba Tekka\nDay 20 - Yuzuka Masanari\nDay 21 #1 - Azuma Yoshio\nDay 21 #2 - Uta Ariko (Ariko)\nDay 22 - Suzuki Suzuhiro\nDay 23 - Imai Yuu\nDay 24 - Yamada Hitsuji\nDay 25 - Ooei Yukio\nDay 26 - Amagakure Gido\nDay 27 - Ishitsuyo Natsuko\nDay 28 - Nagata Kitsuneko\nDay 29 #1 - Ayame Gonta\nDay 29 #2 - Tosazu (Inoue Tosazu)\nDay 30 - Suenobu Keiko\nDay 31 - Kuwabara Taku\nDay 32 - Yuchi Mikumi\nDay 33 - Fujimura Akeji\nDay 34 - Machiko\nDay 35 - Sekiguchi Kanko\nDay 36 - Robico\nDay 37 #1 - Manatsubi Zuru\nDay 37 #2 - Shin Yui\nDay 38 - Fujio Ai\nDay 39 - Fuyukawa Tomoko\nDay 40 - Matsumoto Hidekichi\nDay 41 - Umino Tsunami\nDay 42 - Tsujitomo\nDay 43 - Nanato Eri & Kameyama Satoshi\nDay 44 - Okaue Ai\nDay 45 - Yamada Daisy\nDay 46 - Toyoda Tetsuya\nDay 47 - Kinoshita Itaru\nDay 48 - Etsuko\nDay 49 #1 - Andou Mikio\nDay 49 #2 - **A Boring Story About Telework** by Yamada Kintetsu\nDay 50 - Hiura Satoru\nDay 51 #1 - Kasori Riara\n\n**SECOND VOLUME**\nDay 51 #2 - Yamato Aka\nDay 52 - Anno Moyoco\nDay 53 - Murata Hiroyuki\nDay 54 - Himeno Yuuma\nDay 55 - Megochimo\nDay 56 #1 - Iwamura Tsukiko\nDay 56 #2 - **Sakai Eri**\nDay 57 - Tanaka Ai\nDay 58 - Natsumin\nDay 59 - Nikaidou Ko\nDay 60 - Saotome Ageha\nDay 61 #1 - Chicchi Mama\nDay 61 #2 - Hinase Mayu\nDay 62 - Izumi Mitsu\nDay 63 - Ogawa Etsushi\nDay 64 - Konari Misato\nDay 65 - **Tsutsui (Tsusui Itsuki)**\nDay 66 - Hinaki\nDay 67 - Kubota Wataru\nDay 68 - Higashimura Akiko\nDay 69 - **Namori**\nDay 70 - Nishizono Fumiko\nDay 71 - Kameno Hiroya\nDay 72 - Kozaki Ai\nDay 73 - Wanatsu Kou\nDay 74 - Mizushina Takayuki\nDay 75 - Tanaka Motoi\nDay 76 - Yuma Satoru & Kumano Nell\nDay 77 - Mimori\nDay 78 - Tenamachi Saho\nDay 79 - Yuuki Masami\nDay 80 - Suzunoki Yuu\nDay 81 - Kuroda Iou\nDay 82 - Itagaki Paru\nDay 83 - Kamurada Ichina\nDay 84 - Nishikawa Maru\nDay 85 - Hachi (晴智)\nDay 86 - Shiro Manta\nDay 87 - Serizawa Naoki\nDay 88 - **Okada Atsushi** \nDay 89 - Oomachi Terrace\nDay 90 - Yabe Tarou\nDay 91 - Tanaka Keiichi\nDay 92 - Takasugi Katsura\nDay 93 - Aiuchi Airu\nDay 94 - Kitamichi Masayuki\nDay 95 #1 - Minamoto Keisuke\nDay 95 #2 - Kumeta Kouji\nDay 96 - Nishi Keiko\nDay 97 - Karasuya Satoshi\nDay 98 - Shiraume Nazuna\nDay 99 - Yamashita Kazumi\nDay 100 - **Morikawa George**"
+          },
+          "isLocked": false,
+          "links": {
+            "al": "131213",
+            "bw": "series/293913/list",
+            "mu": "175116",
+            "amz": "https://www.amazon.co.jp/dp/B08ZYBN46F",
+            "ebj": "https://ebookjapan.yahoo.co.jp/books/627506/",
+            "mal": "133596",
+            "raw": "https://comic-days.com/episode/13933686331657814648"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "2",
+          "lastChapter": "100",
+          "publicationDemographic": "seinen",
+          "status": "completed",
+          "year": 2020,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "51d83883-4103-437c-b4b1-731cb73d786c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Anthology"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e197df38-d0e7-43b5-9b09-2842d0c326dd",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Web Comic"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2020-10-29T12:36:55+00:00",
+          "updatedAt": "2024-07-07T19:38:50+00:00",
+          "version": 24,
+          "availableTranslatedLanguages": [
+            "en",
+            "es-la",
+            "pl",
+            "ca",
+            "vi"
+          ],
+          "latestUploadedChapter": "7aa3fd8e-1c18-4248-932d-e930eacfa350"
+        }
+      },
+      {
+        "id": "71fe50ee-84d7-4515-a3db-86621ec2e941",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "Touzainanboku!"
+          },
+          "altTitles": [
+            {
+              "ja-ro": "TZNB"
+            },
+            {
+              "ja": "東西南北！"
+            }
+          ],
+          "description": {
+            "en": "Spin-off manga of Yuru Yuri following the four teachers of Nanamori Middle School – Shihoko Azuma, Nana Nishigaki, Tsubasa Minamino and Hatsumi Kitamiya – in their high school days."
+          },
+          "isLocked": false,
+          "links": {
+            "al": "122104",
+            "ap": "touzainanboku",
+            "bw": "series/258155/list",
+            "kt": "touzainanboku",
+            "mu": "fmrws0s",
+            "amz": "https://www.amazon.co.jp/dp/B08KCDKB5V",
+            "ebj": "https://ebookjapan.yahoo.co.jp/books/599115/"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": "seinen",
+          "status": "ongoing",
+          "year": 2020,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b9af3a63-f058-46de-a9a0-e0c13906197a",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Drama"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "caaa44eb-cd40-4177-b930-79d3ef2afe87",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "School Life"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2020-09-18T10:22:33+00:00",
+          "updatedAt": "2023-11-24T21:57:39+00:00",
+          "version": 5,
+          "availableTranslatedLanguages": [
+            "vi",
+            "en"
+          ],
+          "latestUploadedChapter": "33f1d903-207f-465b-8107-b4f165166131"
+        }
+      },
+      {
+        "id": "0d59a446-10ab-4444-80be-4e4a391c123b",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "Truth"
+          },
+          "altTitles": [
+            {
+              "en": "Sound of Silence"
+            }
+          ],
+          "description": {
+            "en": "People can make themselves happy by lying to themselves. But eventually they have to confront the truth about their feelings, as these three girls are suddenly forced to do.  \n  \nThis is a set of covers that Namori did for Yuri Hime back in 2012. In the final issue of 2012, she also did a one-shot manga that continues where the covers stopped."
+          },
+          "isLocked": false,
+          "links": {
+            "mu": "99096",
+            "mal": "77111"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": null,
+          "lastChapter": null,
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": null,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "3b60b75c-a2d7-4860-ab56-05f391bb889c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Psychological"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b9af3a63-f058-46de-a9a0-e0c13906197a",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Drama"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "caaa44eb-cd40-4177-b930-79d3ef2afe87",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "School Life"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2020-06-30T12:14:56+00:00",
+          "updatedAt": "2021-05-25T15:39:22+00:00",
+          "version": 2,
+          "availableTranslatedLanguages": [
+            "en"
+          ],
+          "latestUploadedChapter": "1b2233e2-fdce-44b9-815b-1ab784630cd4"
+        }
+      },
+      {
+        "id": "131ea19a-1de1-4184-a169-ed5d55a7d3ff",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "Lez Fuuzoku Anthology"
+          },
+          "altTitles": [
+            {
+              "ja": "レズ風俗アンソロジー"
+            },
+            {
+              "ja": "レズ風俗アンソロジー リピーター"
+            },
+            {
+              "ja": "レズ風俗アンソロジー プレミアム"
+            },
+            {
+              "en": "Lesbian Delivery Health Anthology"
+            },
+            {
+              "en": "Lesbian Delivery Health Anthology Repeater"
+            },
+            {
+              "en": "Lesbian Delivery Health Anthology Premium"
+            }
+          ],
+          "description": {
+            "en": "Covers: Homura Subaru\n\nVolume 1\n1. Iiko + Iikoto | Good Girl + Good Things (イイコ+イイコト) by Homura Subaru\n2. Iwami Kiyoko\n3. Kodama Naoko\n4. Mashimaru\n5. Nanatsu Fuji\n6. Ohsawa Yayoi\n7. Renjou Hani\n8. Katakura Ako\n\nVolume 2\nIllustration by Namori\n1. Watashi-tachi no Fine | Our Fine (私たちのFine) by Homura Subaru\n2. Mintarou\n3. Ihara Rio\n4. Kawanami Izumi\n5. Aikawa Ryou\n6. Nanatsu Fuji\n7. Sekihara\n8. Iwami Kiyoko\n\nVolume 3 \n1. Homura Subaru\n2. Namori\n3. merryhachi\n4. Mintarou \n5. Ueshita\n6. Geshumaro\n7. Ohsawa Yayoi\n8. Iwami Kiyoko"
+          },
+          "isLocked": false,
+          "links": {
+            "al": "110972",
+            "ap": "lesbian-fuuzoku-anthology",
+            "bw": "series/203390/list",
+            "kt": "57797",
+            "mu": "154047",
+            "amz": "https://www.amazon.co.jp/dp/B083YTN1DL",
+            "ebj": "https://ebookjapan.yahoo.co.jp/books/540408",
+            "mal": "154351"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "ongoing",
+          "year": 2019,
+          "contentRating": "erotica",
+          "tags": [
+            {
+              "id": "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Romance"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "51d83883-4103-437c-b4b1-731cb73d786c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Anthology"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "92d6d951-ca5e-429c-ac78-451071cbf064",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Office Workers"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2020-04-14T10:43:14+00:00",
+          "updatedAt": "2025-04-12T16:25:08+00:00",
+          "version": 11,
+          "availableTranslatedLanguages": [
+            "en",
+            "ko",
+            "es-la",
+            "id"
+          ],
+          "latestUploadedChapter": "de664ef3-1744-4cd2-9831-555423780cc2"
+        }
+      },
+      {
+        "id": "11afa5c2-41dc-4cf3-8451-f306a3caf1ab",
+        "type": "manga",
+        "attributes": {
+          "title": {
+            "en": "Precious. 4P Short Stories"
+          },
+          "altTitles": [
+            {
+              "ja": "尊い。 4Pショート・ストーリーズ"
+            },
+            {
+              "ja-ro": "Toutoi. 4P Short · Stories"
+            },
+            {
+              "ja-ro": "Toutoi. 4P Shōto · Sutōrīzu"
+            },
+            {
+              "en": "Precious. 4-Page Short Stories"
+            },
+            {
+              "zh": "4P恋爱小短篇"
+            }
+          ],
+          "description": {
+            "en": "A volume collection of sweet, short and fun 4 pages manga for everyone to enjoy and adore.  \n(All are independent stories, done by various authors. having something cute/sweet making it \"Precious\". They can be read in any order since they aren't related to each other)\n\nChapter List :\n1. Battle of Intelligence [by Kudo Makoto]\n2. The Story of how My Wife was a  Goddess [by Konbu Wakame]\n3. My Tomboy Friend [by Akitaka]\n4. Deep and Distinct [by Ikuhana Niiro]\n5. Hamster Life [by Niichi]\n6. Mimicking Game [by Wakai Ken]\n7. Predation [by Shiro Manta]\n8. Film Club Couple [by Fujichika Koume]\n9. Delinquent & Doctor [by Arita Imari]\n10. Subscience [by Rasupe]\n11. Summer Festival [by Rei]\n12.  Ice Gaze [by Yuzuchiri]\n13. Miss Daydreamer [by Yanagida Fumita]\n14. Absentminded Childhood Friend [by Azuma Fuyu]\n15. GENIUS [by Takaki Tsuyoshi]\n16. Precious bug [by Nakahara Kaihei]\n17. Sibling Play [by Itoyoshi Ryouichi]\n18. Taking The Initiative Against a Deadpan Girlfriend [by Kaze no ko]\n19. Aperitif [by Namori]\n20. Mamimi Always Fails at Teasing! [by Mizu Asato]\n21. Ice cold Hyoudou-san [by Yoneda Kazusa]\n22. Hypnosis [by Oohara Roron]\n23. Wolf is scared of Sheep [by Rucchiifu]\n24. Afro's Love [by Sorato Shunsuke]\n25. Positive Advancement [by Kinoue Seiichi]"
+          },
+          "isLocked": false,
+          "links": {
+            "al": "113400",
+            "ap": "toutoi-4p-short-stories",
+            "bw": "def3d5cb83-276c-4845-a30f-c8830b5a60e1",
+            "kt": "toutoi-4p-short-stories",
+            "mu": "158410",
+            "amz": "https://www.amazon.co.jp/dp/B07ZCLS41P/",
+            "cdj": "https://www.cdjapan.co.jp/product/NEOBK-2423803",
+            "ebj": "https://ebookjapan.yahoo.co.jp/books/563695/A002257469/",
+            "mal": "127772"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "1",
+          "lastChapter": "25",
+          "publicationDemographic": "shounen",
+          "status": "completed",
+          "year": 2019,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Romance"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "51d83883-4103-437c-b4b1-731cb73d786c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Anthology"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "92d6d951-ca5e-429c-ac78-451071cbf064",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Office Workers"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b9af3a63-f058-46de-a9a0-e0c13906197a",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Drama"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "caaa44eb-cd40-4177-b930-79d3ef2afe87",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "School Life"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2020-03-31T19:01:46+00:00",
+          "updatedAt": "2024-05-20T17:10:44+00:00",
+          "version": 18,
+          "availableTranslatedLanguages": [
+            "es-la",
+            "th",
+            "zh-hk",
+            "pt-br",
+            "fr",
+            "en",
+            "it",
+            "vi"
+          ],
+          "latestUploadedChapter": "e21a5ef0-bbff-4b68-8f8a-a430ef0c236d"
+        }
+      }
+    ]
+  }
+}

@@ -25,14 +25,16 @@ struct Tag: Codable, Equatable, Hashable, Identifiable, Sendable {
     /// The group which this tag belongs to.
     let group: String
     
+    /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
         case id, attributes
     }
-    
+    /// The nested coding keys found through the attributes keypath.
     private enum AttributeCodingKeys: CodingKey {
         case name, group
     }
     
+    /// The nested coding key found through the name keypath.
     private enum NameCodingKeys: CodingKey {
         case en
     }

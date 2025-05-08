@@ -11,8 +11,8 @@ import Foundation
 ///
 /// - Important: This entity has a custom request type, passing it with the generic request type
 ///              will leading to a decoding error.
-struct ChapterImageEntity: MangaDexAPIEntity {
-    /// The UUID of the chapter whose images are being fetched.
+private struct ChapterImageEntity: MangaDexAPIEntity {
+    /// The UUID of the chapter whose images are being retrieved.
     var id: UUID
     
     typealias ModelType = AtHomeChapterComponents
@@ -36,15 +36,14 @@ struct ChapterImageEntity: MangaDexAPIEntity {
 /// Represents a request to the at-home endpoint which is the only endpoint where chapter
 /// images can be found.
 struct AtHomeRequest {
-    /// The chapter images to be fetched.
-    let entity: ChapterImageEntity
+    /// The chapter images being retrieved.
+    fileprivate let entity: ChapterImageEntity
     
     /// Creates a new instance from the given entity.
     ///
-    /// - Parameter entity: the `ChapterImageEntity` representing the chapter whose
-    ///                     images are being requested
-    init(entity: ChapterImageEntity) {
-        self.entity = entity
+    /// - Parameter id: the id used to initialize the`ChapterImageEntity` for this request.
+    init(for id: UUID) {
+        self.entity = ChapterImageEntity(id: id)
     }
 }
 

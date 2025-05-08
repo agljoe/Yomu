@@ -9,7 +9,7 @@ import Foundation
 
 /// An entity representing the necessary components for fetching the chapters of a specified manga.
 struct MangaFeedEntity: MangaDexAPIEntity {
-    /// The UUID of the manga whose chapters are being fetched.
+    /// The UUID of the manga whose chapters are being retrieved.
     var id: UUID
     
     /// The number of chapters to fetch, if this number is larger than

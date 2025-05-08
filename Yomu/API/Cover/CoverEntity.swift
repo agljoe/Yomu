@@ -9,7 +9,7 @@ import Foundation
 
 /// An entity representing the necessary components for fetching a specified cover.
 struct CoverEntity: MangaDexAPIEntity {
-    /// The UUID of the cover to fetch.
+    /// The UUID of the cover being retrieved.
     ///
     /// MangaDexAPI documentation states that a this endpoint also accepts
     /// the UUID of a manga, but in reality that does not work. The UUID for the cover

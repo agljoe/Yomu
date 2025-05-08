@@ -76,10 +76,12 @@ struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sendable {
     /// A collection of users in a scanlation group.
     let relationships: [User]?
     
+    /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
         case id, name, attributes, relationships
     }
     
+    /// The nested coding keys found through the attributes keypath.
     private enum AttributeCodingKeys: CodingKey {
         case name, locked, website, ircServer, ircChannel, discord, contactEmail, description, twitter, mangaUpdates, focusedLanguages, official, verified, inactive, exLisensed, publishDelay, createdAt, updatedAt, version
     }

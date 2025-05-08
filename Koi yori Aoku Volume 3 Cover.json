@@ -1,0 +1,27 @@
+{
+  "result": "ok",
+  "response": "entity",
+  "data": {
+    "id": "04d79fc9-f8af-422a-ae0d-0594480dce3d",
+    "type": "cover_art",
+    "attributes": {
+      "description": "",
+      "volume": "3",
+      "fileName": "321be56f-56a2-43c4-a985-43a7d6b86a37.png",
+      "locale": "ja",
+      "createdAt": "2024-12-22T22:05:53+00:00",
+      "updatedAt": "2024-12-22T22:05:53+00:00",
+      "version": 1
+    },
+    "relationships": [
+      {
+        "id": "4a89da3a-ebf9-467b-94a1-beeb7d1bd3e8",
+        "type": "manga"
+      },
+      {
+        "id": "6d27972a-5468-4980-9681-18fa1c33dced",
+        "type": "user"
+      }
+    ]
+  }
+}

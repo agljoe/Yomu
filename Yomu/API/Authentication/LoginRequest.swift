@@ -132,7 +132,6 @@ extension KeychainError: LocalizedError {
     }
 }
 
-
 /// Stores a user's credentials in the Keychain.
 ///
 /// - Parameters:
@@ -581,7 +580,7 @@ struct LoginRequest: MangaDexAPIRequest {
 
 /// A request that fetches a new access token for a user.
 ///
-/// This type of request should only be made if an authenticated request fails with error code 401 to avoid
+/// This type of request should only be made if an authenticated request fails with error code 401 as  to avoid
 /// wasting calls and bandwidth trying to refresh tokens every fifteen minutes.
 struct ReAuthenticationRequest: MangaDexAPIRequest {
     /// Fetches an entity that is virtually identical to the one returned by a login request,

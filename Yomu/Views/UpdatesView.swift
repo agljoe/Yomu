@@ -246,12 +246,12 @@ extension UpdatesView {
             defer { self.isLoading = false }
             self.isLoading = true
             
-            let (chapters, _, _) = try await ListRequest<FollowedFeedEntity>(FollowedFeedEntity(limit: self.offset == 0 ? 25 : 100, offset: self.offset)).execute()
+            let (chapters, _, _) = try await ListRequest<FollowedFeedEntity>(.init(limit: self.offset == 0 ? 25 : 100, offset: self.offset)).execute()
             let parentManga = chapters.map { $0.parentManga!.id }.removingDuplicates()
             
-            async let covers = CoverListFromMangaRequest(CoverFromMangaListEntity(ids: parentManga, limit: parentManga.count)).execute()
-            async let readMarkers = Request<ReadMarkerGroupEntity>(ReadMarkerGroupEntity(ids: parentManga)).execute()
-            async let (manga, _, _) = ListRequest<MangaListEntity>(MangaListEntity(ids: parentManga, limit: parentManga.count)).execute()
+            async let covers = CoverListFromMangaRequest(.init(ids: parentManga, limit: parentManga.count)).execute()
+            async let readMarkers = Request<ReadMarkerGroupEntity>(.init(ids: parentManga)).execute()
+            async let (manga, _, _) = ListRequest<MangaListEntity>(.init(ids: parentManga, limit: parentManga.count)).execute()
             
             let groupedChapters = Dictionary(grouping: chapters, by: { $0.parentManga!.id })
             

@@ -10,7 +10,7 @@ import Foundation
 /// An entity representing the necessary components for fetching the UUIDs chapters that
 /// have be read for a specified manga.
 struct ReadMarkerEntity: MangaDexAPIEntity {
-    /// The UUID of the manga whose chapter read markers are being fetched.
+    /// The UUID of the manga whose chapter read markers are being retrieved.
     var id: UUID
     
     typealias ModelType = [String]

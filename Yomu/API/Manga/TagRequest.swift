@@ -13,7 +13,7 @@ struct TagListRequest: MangaDexAPIRequest {
     
     func decode(_ data: Data) throws -> ([Tag], Int, Int) {
         let result = try JSONDecoder().decode(Wrapper<[Tag]>.self, from: data)
-        return (result.data, result.offset ?? 0, result.total!)
+        return (result.data, result.offset ?? 0, result.total ?? 0)
     }
     
     func execute() async throws -> ([Tag], Int, Int) {

@@ -9,7 +9,7 @@ import Foundation
 
 /// An entity representing the necessary components for fetching chapters for a specifed custom manga feed.
 struct CustomFeedEntity: MangaDexAPIEntity {
-    /// The UUID of the custom feed to fetch for.
+    /// The UUID of the custom feed to fetch from.
     var id: UUID
     
     /// The maximum size of the returned collection, must be in range 0...500.
@@ -26,7 +26,7 @@ struct CustomFeedEntity: MangaDexAPIEntity {
     /// - Parameters:
     ///     - id: the UUID of the feed to fetch from.
     ///     - limit: the number of chapters to fetch, 100 by default.
-    ///     - offset: the starting index of the colleciton to be fetched, 0 by default.
+    ///     - offset: the starting index of the colleciton, 0 by default.
     init(id: UUID, limit: Int = 100, offset: Int = 0) {
         self.id = id
         self.limit = limit

@@ -243,7 +243,7 @@ extension ReaderView {
             
             let id = self.chapter.id
             
-            async let compontents = AtHomeRequest(entity: ChapterImageEntity(id: id)).execute()
+            async let compontents = AtHomeRequest(for: id).execute()
             self.pageWidths = Array(Array(repeating: CGFloat.zero, count: try await compontents.data.count))
             self.pageHeights = Array(Array(repeating: CGFloat.zero, count: try await compontents.data.count))
             self.atHomeComponents = try await compontents

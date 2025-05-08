@@ -9,7 +9,7 @@ import Foundation
 
 /// An entity representing the necessary components for fetching a specifed collection of chapters.
 struct ChapterListEntity: MangaDexAPIEntity {
-    /// The UUIDs of the chapters to be fetches.
+    /// The UUIDs of the chapters being retrieved.
     var ids: [UUID]
     
     /// The maximum size of the collection to be tetched, must be in range 0...100.
@@ -29,15 +29,26 @@ struct ChapterListEntity: MangaDexAPIEntity {
     /// Creates a new instance with the given ids.
     ///
     /// - Parameters:
-    ///     - ids: An array of UUIDs for each chapter to fetch
+    ///     - ids: the UUIDs of some chapters to fetch.
     ///     - limit: the number of chapters to fetch, 10 by default.
-    ///     - offset: the amount this collection is shifted, 0 by default.
+    ///     - offset: : the starting index of the colleciton, 0 by default.
     ///     - order: the direction of this collection's sort.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
         self.ids = ids
         self.limit = limit
         self.offset = offset
         self.order = order
+    }
+    
+    /// Convience initializer that accpects a variadic list of UUIDs.
+    ///
+    /// - Parameters:
+    ///     - ids: the UUIDs of some chapters to fetch.
+    ///     - limit: the number of chapters to fetch, 10 by default.
+    ///     - offset: : the starting index of the colleciton, 0 by default.
+    ///     - order: the direction of this collection's sort.
+    init(ids: UUID..., limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
+        self.init(ids: ids, limit: limit, offset: offset, order: order)
     }
     
     typealias ModelType = [Chapter]

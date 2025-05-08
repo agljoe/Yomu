@@ -35,6 +35,17 @@ struct RandomMangaEntity: MangaDexAPIEntity {
         self.excludedTagsMode = excludedTagsMode
     }
     
+    /// Convience initializer that accpects a variadic list of UUIDs.
+    ///
+    /// - Parameters:
+    ///     - includedTags: The tags to include with this query.
+    ///     - includedTagsMode: How the included tags are applied to the query.
+    ///     - excludedTags: The tags excluded by this query.
+    ///     - excludedTagsMode: How the excluded tags are applied to the query.
+    init(includedTags: UUID..., includedTagsMode: IncludedTagsMode = .and, excludedTags: UUID..., excludedTagsMode: ExcludedTagsMode = .and) {
+        self.init(includedTags: includedTags, includedTagsMode: includedTagsMode, excludedTags: excludedTags, excludedTagsMode: excludedTagsMode)
+    }
+    
     typealias ModelType = Manga
     
     var url: URL {

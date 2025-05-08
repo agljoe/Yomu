@@ -49,11 +49,15 @@ extension Chapter {
 }
 
 extension ChaptersByVolumeListView {
-    /// The total number of chapters 
+    /// Returns the total number of chapters, may include chapters with duplicate numbers.
+    ///
+    /// Duplicate chatpers do not have the same UUID.
     var totalChapters: Int {
         chapters.reduce(0, { $0 + $1.value.count })
     }
     
+    /// Returns the total number of volumes, any group of chapters with no volume
+    /// is also considered a volume.
     var totalVolumes: Int {
         chapters.keys.count
     }
@@ -62,10 +66,14 @@ extension ChaptersByVolumeListView {
 
 /// A list of sections for each volume of a manga where each section contains the chapters of the respective volume.
 struct ChaptersByVolumeListView: View {
-    
+    /// The minimum height needed for a row in the list of chapters.
     @Environment(\.defaultMinListRowHeight) var minRowHeight
+    
+    /// A dictionary where the key is a volume number, and the value is the array
+    /// of chapters that volume.
     var chapters: [String: [Chapter]]
     
+    /// Displays the chapters of each volume as a distinct section of a list.
     var body: some View {
         List(chapters.keys.sorted(using: String.Comparator(options: [.diacriticInsensitive, .caseInsensitive, .numeric], order: .reverse)), id: \.self) { volume in
             Section(header: Text(volume == "No Volume" ? volume : "Volume \(volume)")) {
@@ -82,6 +90,7 @@ struct ChaptersByVolumeListView: View {
         .scrollDisabled(true)
         .listStyle(.plain)
         .scrollIndicators(.never)
+        /// Calulates the minimum frame size needed so the this list can be displayed in a scrollview.
         .frame(height: minRowHeight * CGFloat(totalChapters) + CGFloat(totalVolumes * 55) + CGFloat(totalChapters < 4 ? 200 : 0), alignment: .top)
     }
 }
@@ -110,7 +119,7 @@ struct AuthorScrollView: View {
     
     var body: some View {
         ScrollView(.horizontal) {
-            List(authors) {
+            ForEach(authors) {
                 Text($0.name)
                     .cardStyle()
             }
@@ -180,6 +189,8 @@ extension MangaView {
         private(set) var chapters: [String: [Chapter]] = [:]
         private(set) var readMarkers: [String] = []
         private(set) var isLoading: Bool = false
+        private(set) var readingStatus: ReadingStatus = .none
+        private(set) var isFollowed: Bool = false
         
         init(manga: Manga) {
             self.manga = manga
@@ -195,21 +206,24 @@ extension MangaView {
             var totalChapters: [Chapter] = []
             /// Use a copy of self.id to avoid data races.
             let id = self.manga.id
-            async let (chapters, _, total) = ListRequest<MangaFeedEntity>(MangaFeedEntity(id: id, limit: 500)).execute()
-            async let readMarkers = Request<ReadMarkerEntity>(ReadMarkerEntity(id: id)).execute()
+            async let (chapters, _, total) = ListRequest<MangaFeedEntity>(.init(id: id, limit: 500)).execute()
+            async let readMarkers = Request<ReadMarkerEntity>(.init(id: id)).execute()
+            async let readingStatus = MangaReadingStatusRequest(for: id).execute()
+            async let followed = CheckIfMangaIsFollowedRequest(id: id).execute()
             
             lastTotal = try await total
-    
             totalChapters = try await chapters
             
             while lastTotal >= 500 {
-                async let (chapters, _, total) = ListRequest<MangaFeedEntity>(MangaFeedEntity(id: id, limit: 500, offset: 500)).execute()
+                async let (chapters, _, total) = ListRequest<MangaFeedEntity>(.init(id: id, limit: 500, offset: 500)).execute()
                 totalChapters.append(contentsOf: try await chapters)
                 lastTotal = try await total
             }
             
             self.chapters = Dictionary(grouping: totalChapters, by: { $0.volume ?? "No Volume" })
             self.readMarkers = try await readMarkers
+            self.readingStatus = ReadingStatus(rawValue: try await readingStatus) ?? .none
+            self.isFollowed = try await followed
         }
     }
 }

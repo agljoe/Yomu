@@ -1,0 +1,36 @@
+{
+  "result" : "ok",
+  "statistics" : {
+    "c8646d69-a4c8-40db-92f2-32a4f922c0a2" : {
+      "comments" : {
+        "threadId" : 527646,
+        "repliesCount" : 183
+      }
+    },
+    "41f7ef42-704c-423a-93aa-2d49f3a3c65e" : {
+      "comments" : {
+        "threadId" : 546918,
+        "repliesCount" : 110
+      }
+    },
+    "679b32f1-2ec4-466e-ac06-51b80289bf4d" : {
+      "comments" : {
+        "threadId" : 565470,
+        "repliesCount" : 189
+      }
+    },
+    "e19bc4cd-8546-4406-82e2-9698c99a9e34" : {
+      "comments" : {
+        "threadId" : 565782,
+        "repliesCount" : 125
+      }
+    },
+    "7eb6a92a-9120-4169-9cb9-b4d574d5fda7" : {
+      "comments" : {
+        "threadId" : 538725,
+        "repliesCount" : 151
+      }
+    }
+  }
+}
+

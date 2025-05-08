@@ -107,10 +107,12 @@ struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// The user who created this manga's page.
     let creator: User?
     
+    /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
         case id, attributes, relationships
     }
     
+    /// The nested coding keys found through the attributes keypath.
     private enum AttributeCodingKeys: CodingKey {
         case title, altTitles, description, isLocked, links, originalLanguage, lastVolume, lastChapter, publicationDemographic, status, year, contentRating, tags, state, chapterNumbersResetOnNewVolume, createdAt, updatedAt, version, availableTranslatedLanguages, latestUploadedChapter
     }
@@ -149,10 +151,10 @@ struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
         self.availableTranslatedLanguages = try attributesContainer.decode([String].self, forKey: .availableTranslatedLanguages)
         self.latestUploadedChapter = try attributesContainer.decodeIfPresent(UUID.self, forKey: .latestUploadedChapter)
         
-        var authors: [Author] = []
-        var artists: [Author] = []
+        var authors: [Author?] = []
+        var artists: [Author?] = []
         var coverArt: Cover?
-        var relatedManga: [RelatedManga] = []
+        var relatedManga: [RelatedManga?] = []
         var creator: User?
         
         do {
@@ -173,10 +175,10 @@ struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
             }
         }
         
-        self.author = authors
-        self.artist = artists
+        self.author = authors.compactMap( {$0} )
+        self.artist = artists.compactMap( {$0} )
         self.cover = coverArt!
-        self.relatedManga = relatedManga
+        self.relatedManga = relatedManga.compactMap( {$0} )
         self.creator = creator
     }
 }
@@ -201,10 +203,9 @@ struct RelatedManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A description of how this manga is related.
     let related: String
     
+    /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
-        case id
-        case type
-        case related
+        case id, type, related
     }
     
     /// Creates a new instance by decoding from the given decoder.

@@ -66,10 +66,12 @@ struct Chapter: Decodable, Identifiable, Sendable {
     /// Sets the read marker for a chapter to false by default.
     var hasBeenRead: Bool = false
     
+    /// The base coding keys for this struct.
     private enum CodingKeys: String, CodingKey {
         case id, attributes, relationships
     }
     
+    /// The nested coding keys found through the attributes keypath.
     private enum AttributeCodingKeys: String, CodingKey {
         case title, volume, chapter, pages, translatedLanguage, externalUrl, version, createdAt, updatedAt, publishAt, readableAt
     }
@@ -148,11 +150,13 @@ struct ParentManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// The original language of this manga.
     let originalLanuage: String?
     
-    enum CodingKeys: String, CodingKey {
+    /// The base coding keys for this struct.
+    private enum CodingKeys: String, CodingKey {
         case id, attributes
     }
     
-    enum AttributeCodingKeys: String, CodingKey {
+    /// The nested coding keys found through the attributes keypath.
+    private enum AttributeCodingKeys: String, CodingKey {
         case title, originalLanguage
     }
     
@@ -203,11 +207,13 @@ struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
     /// A collection of URL paths to low quality chapter images.
     let dataSaver: [String]
     
-    enum CodingKeys: String, CodingKey {
+    /// The base coding keys for this struct.
+    private enum CodingKeys: String, CodingKey {
         case result, baseUrl, chapter
     }
     
-    enum ChapterCodingKeys: String, CodingKey {
+    /// The nested coding keys found through the chapter keypath.
+    private enum ChapterCodingKeys: String, CodingKey {
         case hash, data, dataSaver
     }
     

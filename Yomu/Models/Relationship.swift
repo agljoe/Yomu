@@ -7,6 +7,28 @@
 
 import Foundation
 
+enum AuthorRelationshipType: String, Decodable {
+    case manga
+}
+
+enum AuthorRelationship: Decodable, Equatable, Hashable {
+    case manga(CompactManga?)
+    
+    private enum CodingKeys: CodingKey {
+        case id, type, attributes
+    }
+    
+    private enum AttributeCodingKeys: CodingKey {
+        case title, altTitles, description, isLocked, links, originalLanguage, lastVolume, lastChapter, publicationDemographic, status, year, contentRating, tags, state, chapterNumbersResetOnNewVolume, createdAt, updatedAt, version, availableTranslatedLanguages, latestUploadedChapter
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let relationshipType = try container.decode(AuthorRelationshipType.self, forKey: .type)
+        switch relationshipType { case .manga: self = .manga(try? CompactManga(from: decoder)) }
+    }
+}
+
 /// All possible types in a manga's reference expansion collection.
 ///
 /// ### See
@@ -29,7 +51,7 @@ enum MangaRelationshipType: String, Decodable {
 }
 
 /// Maps a ``MangaRelationshipType`` to its respective struct.
-enum MangaRelationship: Decodable, Equatable {
+enum MangaRelationship: Decodable, Equatable, Hashable {
     /// ``MangaRelationshipType/author``
     case author(Author)
     
@@ -45,10 +67,14 @@ enum MangaRelationship: Decodable, Equatable {
     /// ``MangaRelationshipType/creator``
     case creator(User)
     
-    private enum CodingKeys: String, CodingKey {
+    /// The base coding keys for this struct.
+    private enum CodingKeys: CodingKey {
         case id, type, attributes, relationships, related
     }
     
+    /// The nested coding keys found through the attributes keypath.
+    ///
+    /// Includes all attribute coding keys for the author, cover, related manga, and user structs.
     private enum AttributesCodingKeys: CodingKey {
         case name, imageUrl, biography, twitter, pixiv, melonBook, fanBox, booth, nicoVideo, skeb, fantia, tumblr, youtube, weibo, naver, namicomi, website, volume, fileName, description, locale, createdAt, updatedAt, version, username, roles
     }
@@ -90,7 +116,7 @@ enum ChapterRelationshipType: String, Decodable, Sendable {
 }
 
 /// Maps a ``ChapterRelationshipType`` to its respective struct.
-enum ChapterRelationship: Decodable {
+enum ChapterRelationship: Decodable, Equatable, Hashable {
     /// ``ChapterRelationshipType/scanlation_group``
     case scanlation_group(ScanlationGroup)
     
@@ -100,10 +126,14 @@ enum ChapterRelationship: Decodable {
     /// ``ChapterRelationshipType/manga``
     case manga(ParentManga)
     
+    /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
         case id, type, attributes, relationships
     }
     
+    /// The nested codingkeys found through the attributes keypath.
+    ///
+    /// Includes all attribute coding keys for the scanlation group, user, and parent manga structs.
     private enum AttributeCodingKeys: CodingKey {
         case name, username, roles, locked, website, ircServer, ircChannel, discord, contactEmail, description, twitter, mangaUpdates, focusedLanguages, official, verified, inactive, exLisensed, publishDelay, createdAt, updatedAt, version, title, altTitles, originalLanguage
     }

@@ -29,10 +29,14 @@ struct User: Identifiable, Equatable, Hashable, Decodable, Sendable {
     /// The version of this user.
     let version: Int
     
+    let relationships: [UserRealtionship]
+    
+    /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
-        case id, attributes
+        case id, attributes, relationships
     }
     
+    /// The nested coding keys found through the attributes keypath.
     private enum AttributeCodingKeys: CodingKey {
         case username, roles, version
     }
@@ -46,6 +50,8 @@ struct User: Identifiable, Equatable, Hashable, Decodable, Sendable {
         self.username = try attributesContainer.decode(String.self, forKey: .username)
         self.roles = try attributesContainer.decode([String].self, forKey: .roles)
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
+        
+        self.relationships = try container.decode([UserRealtionship].self, forKey: .relationships)
     }
 }
 
@@ -53,6 +59,13 @@ extension User {
     static func == (lhs: User, rhs: User) -> Bool {
         lhs.id == rhs.id
     }
+}
+
+struct UserRealtionship: Decodable, Equatable, Hashable, Sendable {
+    let id: UUID
+    let type: String
+    
+    static func == (lhs: UserRealtionship, rhs: UserRealtionship) -> Bool { lhs.id == rhs.id }
 }
 
 /// A User that is stored in a user's local SwiftData library context.

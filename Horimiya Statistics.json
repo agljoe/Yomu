@@ -1,0 +1,28 @@
+{
+  "result": "ok",
+  "statistics": {
+    "a25e46ec-30f7-4db6-89df-cacbc1d9a900": {
+      "comments": {
+        "threadId": 23940,
+        "repliesCount": 590
+      },
+      "rating": {
+        "average": 9.2362,
+        "bayesian": 9.227718692448574,
+        "distribution": {
+          "1": 124,
+          "2": 14,
+          "3": 28,
+          "4": 54,
+          "5": 123,
+          "6": 243,
+          "7": 626,
+          "8": 1536,
+          "9": 3313,
+          "10": 9123
+        }
+      },
+      "follows": 125116
+    }
+  }
+}

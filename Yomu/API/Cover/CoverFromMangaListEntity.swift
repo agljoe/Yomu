@@ -9,16 +9,16 @@ import Foundation
 
 /// Shortcut to get the most recent available cover for a manga, when starting from one of its chapters.
 ///
-/// This approach uses the least memroy and API calls, as try to go through the /cover, or /cover{id} endpoints
+/// This approach uses the least memroy and API calls, as trying to go through the /cover, or /cover{id} endpoints
 /// wastes memory decoding uneeded objects, or uses extra calls fetching missing covers.
 struct CoverFromMangaWrapper: Decodable {
-    /// The UUID of the manga the fetched cover belongs to.
+    /// The UUID of the manga the retrieved cover belongs to.
     let parentManga: UUID
     
     /// The cover found in the reference expansion of a manga.
     let cover: Cover
     
-    /// Ignore all data found in the returned manga object, and only that the heterogenous
+    /// Ignore all data found in the returned manga object, and only decode the heterogenous
     /// array of JSON objects found in its relationships.
     private enum CodingKeys: CodingKey {
         case id, relationships
@@ -44,7 +44,7 @@ struct CoverFromMangaWrapper: Decodable {
 
 /// Same as a MangaListEntity, with the goal of fetching a list of covers.
 struct CoverFromMangaListEntity: MangaDexAPIEntity {
-    /// The UUIDs of the manga whose covers are being fetched.
+    /// The UUIDs of the manga whose covers are being retrieved.
     var ids: [UUID]
     
     /// The maximum size of the returned collection, must be in range 0...100.

@@ -42,6 +42,23 @@
 		4965891E2DB8546D00E67A6F /* I Can't Say No to the Lonely Girl.json in Resources */ = {isa = PBXBuildFile; fileRef = 4965891D2DB8546D00E67A6F /* I Can't Say No to the Lonely Girl.json */; };
 		4974052A2CAB62FB0066B411 /* YomuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497405292CAB62FB0066B411 /* YomuUITests.swift */; };
 		4974052C2CAB6E4C0066B411 /* YomuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4974052B2CAB6E4C0066B411 /* YomuTests.swift */; };
+		4998E9F62DC1E422005A1591 /* CheckIfMangaIsFollowedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998E9F52DC1E422005A1591 /* CheckIfMangaIsFollowedRequest.swift */; };
+		4998E9F82DC44F54005A1591 /* Namori.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998E9F72DC44F54005A1591 /* Namori.json */; };
+		4998E9FA2DC5ADC7005A1591 /* Koi yori Aoku Volume 3 Cover.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998E9F92DC5ADC7005A1591 /* Koi yori Aoku Volume 3 Cover.json */; };
+		4998E9FD2DC5CFE1005A1591 /* ScanlationGroupEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998E9FC2DC5CFE1005A1591 /* ScanlationGroupEntity.swift */; };
+		4998E9FF2DC5D197005A1591 /* Sho Habby Scans.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998E9FE2DC5D197005A1591 /* Sho Habby Scans.json */; };
+		4998EA012DC6E31F005A1591 /* Isekai Izakaya Chapter 1 Statistics.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998EA002DC6E31F005A1591 /* Isekai Izakaya Chapter 1 Statistics.json */; };
+		4998EA032DC6E494005A1591 /* Shinya Shokudou Chapter 1 Statistics.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998EA022DC6E494005A1591 /* Shinya Shokudou Chapter 1 Statistics.json */; };
+		4998EA062DC6E5F3005A1591 /* ChapterStatisticsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998EA052DC6E5F3005A1591 /* ChapterStatisticsEntity.swift */; };
+		4998EA092DC6F01F005A1591 /* Tensura Statistics.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998EA082DC6F01F005A1591 /* Tensura Statistics.json */; };
+		4998EA0A2DC6F01F005A1591 /* Horimiya Statistics.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998EA072DC6F01F005A1591 /* Horimiya Statistics.json */; };
+		4998EA0C2DC9875B005A1591 /* MangaStatisticsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998EA0B2DC9875B005A1591 /* MangaStatisticsEntity.swift */; };
+		4998EA0E2DC9A104005A1591 /* Grouped Manga Statistics.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998EA0D2DC9A104005A1591 /* Grouped Manga Statistics.json */; };
+		4998EA122DCAD628005A1591 /* Sousou no Frieren Ch. 1 - 5 Statistics.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998EA112DCAD628005A1591 /* Sousou no Frieren Ch. 1 - 5 Statistics.json */; };
+		4998EA142DCC1599005A1591 /* GroupedChapterStatisticsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998EA132DCC1599005A1591 /* GroupedChapterStatisticsEntity.swift */; };
+		4998EA162DCC1917005A1591 /* GroupedMangaStatisticsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998EA152DCC1917005A1591 /* GroupedMangaStatisticsEntity.swift */; };
+		4998EA182DCC297C005A1591 /* User.json in Resources */ = {isa = PBXBuildFile; fileRef = 4998EA172DCC297C005A1591 /* User.json */; };
+		4998EA1B2DCC299A005A1591 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4998EA1A2DCC299A005A1591 /* UserEntity.swift */; };
 		499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929242C0FEBA3003BD29B /* YomuApp.swift */; };
 		499929272C0FEBA3003BD29B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929262C0FEBA3003BD29B /* ContentView.swift */; };
 		499929292C0FEBA5003BD29B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 499929282C0FEBA5003BD29B /* Assets.xcassets */; };
@@ -129,6 +146,23 @@
 		497405292CAB62FB0066B411 /* YomuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuUITests.swift; sourceTree = "<group>"; };
 		4974052B2CAB6E4C0066B411 /* YomuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuTests.swift; sourceTree = "<group>"; };
 		4974052D2CAB6F6D0066B411 /* YomuTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YomuTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		4998E9F52DC1E422005A1591 /* CheckIfMangaIsFollowedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckIfMangaIsFollowedRequest.swift; sourceTree = "<group>"; };
+		4998E9F72DC44F54005A1591 /* Namori.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Namori.json; sourceTree = "<group>"; };
+		4998E9F92DC5ADC7005A1591 /* Koi yori Aoku Volume 3 Cover.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Koi yori Aoku Volume 3 Cover.json"; sourceTree = "<group>"; };
+		4998E9FC2DC5CFE1005A1591 /* ScanlationGroupEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanlationGroupEntity.swift; sourceTree = "<group>"; };
+		4998E9FE2DC5D197005A1591 /* Sho Habby Scans.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Sho Habby Scans.json"; sourceTree = "<group>"; };
+		4998EA002DC6E31F005A1591 /* Isekai Izakaya Chapter 1 Statistics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Isekai Izakaya Chapter 1 Statistics.json"; sourceTree = "<group>"; };
+		4998EA022DC6E494005A1591 /* Shinya Shokudou Chapter 1 Statistics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Shinya Shokudou Chapter 1 Statistics.json"; sourceTree = "<group>"; };
+		4998EA052DC6E5F3005A1591 /* ChapterStatisticsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterStatisticsEntity.swift; sourceTree = "<group>"; };
+		4998EA072DC6F01F005A1591 /* Horimiya Statistics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Horimiya Statistics.json"; sourceTree = "<group>"; };
+		4998EA082DC6F01F005A1591 /* Tensura Statistics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Tensura Statistics.json"; sourceTree = "<group>"; };
+		4998EA0B2DC9875B005A1591 /* MangaStatisticsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaStatisticsEntity.swift; sourceTree = "<group>"; };
+		4998EA0D2DC9A104005A1591 /* Grouped Manga Statistics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Grouped Manga Statistics.json"; sourceTree = "<group>"; };
+		4998EA112DCAD628005A1591 /* Sousou no Frieren Ch. 1 - 5 Statistics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Sousou no Frieren Ch. 1 - 5 Statistics.json"; sourceTree = "<group>"; };
+		4998EA132DCC1599005A1591 /* GroupedChapterStatisticsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedChapterStatisticsEntity.swift; sourceTree = "<group>"; };
+		4998EA152DCC1917005A1591 /* GroupedMangaStatisticsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedMangaStatisticsEntity.swift; sourceTree = "<group>"; };
+		4998EA172DCC297C005A1591 /* User.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = User.json; sourceTree = "<group>"; };
+		4998EA1A2DCC299A005A1591 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		499929212C0FEBA3003BD29B /* Yomu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		499929242C0FEBA3003BD29B /* YomuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuApp.swift; sourceTree = "<group>"; };
 		499929262C0FEBA3003BD29B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -259,7 +293,10 @@
 				4965890E2D9FA21700E67A6F /* Feed */,
 				496589112DA0AD0900E67A6F /* Follows */,
 				496588F12D9E08DF00E67A6F /* Manga */,
+				4998E9FB2DC5CFCA005A1591 /* ScanlationGroup */,
 				496589162DA2037C00E67A6F /* ReadMarker */,
+				4998EA042DC6E5D4005A1591 /* Statistics */,
+				4998EA192DCC298E005A1591 /* User */,
 				496588F22D9E08DF00E67A6F /* MangaDexAPIError.swift */,
 				496588F32D9E08DF00E67A6F /* MangaDexAPIRequest.swift */,
 				496588F42D9E08DF00E67A6F /* StaticData.swift */,
@@ -290,6 +327,7 @@
 		496589112DA0AD0900E67A6F /* Follows */ = {
 			isa = PBXGroup;
 			children = (
+				4998E9F52DC1E422005A1591 /* CheckIfMangaIsFollowedRequest.swift */,
 			);
 			path = Follows;
 			sourceTree = "<group>";
@@ -303,11 +341,48 @@
 			path = ReadMarker;
 			sourceTree = "<group>";
 		};
+		4998E9FB2DC5CFCA005A1591 /* ScanlationGroup */ = {
+			isa = PBXGroup;
+			children = (
+				4998E9FC2DC5CFE1005A1591 /* ScanlationGroupEntity.swift */,
+			);
+			path = ScanlationGroup;
+			sourceTree = "<group>";
+		};
+		4998EA042DC6E5D4005A1591 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				4998EA052DC6E5F3005A1591 /* ChapterStatisticsEntity.swift */,
+				4998EA0B2DC9875B005A1591 /* MangaStatisticsEntity.swift */,
+				4998EA132DCC1599005A1591 /* GroupedChapterStatisticsEntity.swift */,
+				4998EA152DCC1917005A1591 /* GroupedMangaStatisticsEntity.swift */,
+			);
+			path = Statistics;
+			sourceTree = "<group>";
+		};
+		4998EA192DCC298E005A1591 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				4998EA1A2DCC299A005A1591 /* UserEntity.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		499929182C0FEBA3003BD29B = {
 			isa = PBXGroup;
 			children = (
+				4998E9F92DC5ADC7005A1591 /* Koi yori Aoku Volume 3 Cover.json */,
+				4998E9F72DC44F54005A1591 /* Namori.json */,
 				4965891D2DB8546D00E67A6F /* I Can't Say No to the Lonely Girl.json */,
 				4965891B2DB6FEE400E67A6F /* Laid Back Camp Ch. 1 - Mt. Fuji and Cup Ramen.json */,
+				4998E9FE2DC5D197005A1591 /* Sho Habby Scans.json */,
+				4998EA002DC6E31F005A1591 /* Isekai Izakaya Chapter 1 Statistics.json */,
+				4998EA022DC6E494005A1591 /* Shinya Shokudou Chapter 1 Statistics.json */,
+				4998EA072DC6F01F005A1591 /* Horimiya Statistics.json */,
+				4998EA082DC6F01F005A1591 /* Tensura Statistics.json */,
+				4998EA0D2DC9A104005A1591 /* Grouped Manga Statistics.json */,
+				4998EA112DCAD628005A1591 /* Sousou no Frieren Ch. 1 - 5 Statistics.json */,
+				4998EA172DCC297C005A1591 /* User.json */,
 				499929232C0FEBA3003BD29B /* Yomu */,
 				499929342C0FEBA5003BD29B /* YomuTests */,
 				4999293E2C0FEBA5003BD29B /* YomuUITests */,
@@ -525,10 +600,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4998E9FF2DC5D197005A1591 /* Sho Habby Scans.json in Resources */,
 				4999292C2C0FEBA5003BD29B /* Preview Assets.xcassets in Resources */,
+				4998E9F82DC44F54005A1591 /* Namori.json in Resources */,
+				4998EA012DC6E31F005A1591 /* Isekai Izakaya Chapter 1 Statistics.json in Resources */,
 				499929292C0FEBA5003BD29B /* Assets.xcassets in Resources */,
+				4998EA092DC6F01F005A1591 /* Tensura Statistics.json in Resources */,
+				4998EA0A2DC6F01F005A1591 /* Horimiya Statistics.json in Resources */,
 				4965891C2DB6FEE400E67A6F /* Laid Back Camp Ch. 1 - Mt. Fuji and Cup Ramen.json in Resources */,
 				4965891E2DB8546D00E67A6F /* I Can't Say No to the Lonely Girl.json in Resources */,
+				4998EA0E2DC9A104005A1591 /* Grouped Manga Statistics.json in Resources */,
+				4998EA182DCC297C005A1591 /* User.json in Resources */,
+				4998EA122DCAD628005A1591 /* Sousou no Frieren Ch. 1 - 5 Statistics.json in Resources */,
+				4998E9FA2DC5ADC7005A1591 /* Koi yori Aoku Volume 3 Cover.json in Resources */,
+				4998EA032DC6E494005A1591 /* Shinya Shokudou Chapter 1 Statistics.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,10 +645,13 @@
 				499929902C1BE2EE003BD29B /* ReaderSettingsView.swift in Sources */,
 				4999298A2C1BBE52003BD29B /* AboutView.swift in Sources */,
 				4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */,
+				4998EA1B2DCC299A005A1591 /* UserEntity.swift in Sources */,
 				496588F72D9E08DF00E67A6F /* LoginRequest.swift in Sources */,
 				496588F82D9E08DF00E67A6F /* AuthorEntity.swift in Sources */,
 				496588F92D9E08DF00E67A6F /* AuthorListEntity.swift in Sources */,
 				4965890B2D9E4BE800E67A6F /* CoverListEntity.swift in Sources */,
+				4998EA162DCC1917005A1591 /* GroupedMangaStatisticsEntity.swift in Sources */,
+				4998EA062DC6E5F3005A1591 /* ChapterStatisticsEntity.swift in Sources */,
 				496588FA2D9E08DF00E67A6F /* ChapterEntity.swift in Sources */,
 				496588FB2D9E08DF00E67A6F /* ChapterListEntity.swift in Sources */,
 				496589152DA1002400E67A6F /* CoverFromMangaListEntity.swift in Sources */,
@@ -577,6 +665,7 @@
 				496589032D9E08DF00E67A6F /* MangaDexAPIRequest.swift in Sources */,
 				496589092D9E4AC800E67A6F /* CoverEntity.swift in Sources */,
 				496589042D9E08DF00E67A6F /* StaticData.swift in Sources */,
+				4998E9FD2DC5CFE1005A1591 /* ScanlationGroupEntity.swift in Sources */,
 				4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */,
 				496589062D9E0D9800E67A6F /* MangaReadingStatus.swift in Sources */,
 				499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */,
@@ -593,10 +682,12 @@
 				499929792C192FA4003BD29B /* Author.swift in Sources */,
 				499929542C100B39003BD29B /* User.swift in Sources */,
 				49F0F34E2D2F96EB00525902 /* AccountView.swift in Sources */,
+				4998E9F62DC1E422005A1591 /* CheckIfMangaIsFollowedRequest.swift in Sources */,
 				499929732C16A431003BD29B /* UpdatesView.swift in Sources */,
 				496588DF2D9E08DB00E67A6F /* CachedAsyncImage.swift in Sources */,
 				496588E02D9E08DB00E67A6F /* ChapterImageLoader.swift in Sources */,
 				496588E12D9E08DB00E67A6F /* DecoderError.swift in Sources */,
+				4998EA0C2DC9875B005A1591 /* MangaStatisticsEntity.swift in Sources */,
 				496588E22D9E08DB00E67A6F /* DeferView.swift in Sources */,
 				499929882C1BB84D003BD29B /* AppearanceView.swift in Sources */,
 				4999298E2C1BCFB3003BD29B /* AccessibilityView.swift in Sources */,
@@ -607,6 +698,7 @@
 				499929862C1BB5DB003BD29B /* GeneralView.swift in Sources */,
 				499929922C1BE438003BD29B /* LibrarySettingsView.swift in Sources */,
 				492FB2B82C79703F00F634E1 /* Relationship.swift in Sources */,
+				4998EA142DCC1599005A1591 /* GroupedChapterStatisticsEntity.swift in Sources */,
 				4965891A2DA2075300E67A6F /* ReadMarkerGroupEntity.swift in Sources */,
 				499929A02C225189003BD29B /* Tag.swift in Sources */,
 				496588D82D9E08C900E67A6F /* MangaView.swift in Sources */,

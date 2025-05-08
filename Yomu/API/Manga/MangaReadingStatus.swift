@@ -13,11 +13,13 @@ import Foundation
 ///
 /// - Important: This entity has a custom request type, passing it with the generic request type
 ///              will leading to a decoding error.
-struct ReadingStatusWrapper: Decodable { let status: String}
+private struct ReadingStatusWrapper: Decodable { let status: String}
 
 /// An enitty representing the necessary components for fetching the reading status of a specified manga.
-struct ReadingStatusEntity: MangaDexAPIEntity {
-    /// The UUID of the manga whose reading status is being fetched.
+///
+/// This entity uses a custom request type, and is thus marked as private.
+private struct ReadingStatusEntity: MangaDexAPIEntity {
+    /// The UUID of the manga whose reading status is being retrieved.
     var id: UUID
     
     typealias ModelType = String
@@ -26,7 +28,7 @@ struct ReadingStatusEntity: MangaDexAPIEntity {
         var components = URLComponents()
         components.scheme = "https"
         components.host = Server.standard.rawValue
-        components.path = "manga/\(id.uuidString.lowercased())/status"
+        components.path = "/manga/\(id.uuidString.lowercased())/status"
         return components.url!
     }
     
@@ -35,14 +37,15 @@ struct ReadingStatusEntity: MangaDexAPIEntity {
 
 /// A request that returns a string describing the reading status of a manga.
 struct MangaReadingStatusRequest {
-    /// The enitty whose reading status is being fetched/
-    let entity: ReadingStatusEntity
+    /// The enitty whose reading status is being retrieved.
+    fileprivate let entity: ReadingStatusEntity
     
     /// Craetes a new instance for the specified entity.
     ///
-    /// - Parameter entity: The entity to 
-    init(for entity: ReadingStatusEntity) {
-        self.entity = entity
+    ///- Parameter id: the UUID of the manga used to initialize the `ReadingStatusEntity`
+    ///                 for this request.
+    init(for id: UUID) {
+        self.entity = ReadingStatusEntity(id: id)
     }
 }
 
@@ -64,7 +67,7 @@ extension MangaReadingStatusRequest: MangaDexAPIRequest {
 /// and the value is reading status.
 struct ReadingStatusCollectionWrapper: Decodable { let statuses: [String: String] }
 
-/// A request that fetches a dictionary containing the reading status for all manga in a user's library.
+/// A request that retrieves a dictionary containing the reading status for all manga in a user's library.
 struct AllMangaReadingStatusRequest: MangaDexAPIRequest {
     typealias ModelType = [String: String]
     

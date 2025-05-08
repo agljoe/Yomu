@@ -386,6 +386,9 @@ public enum Status: String, Codable, Sendable {
 /// [Static Data](https://api.mangadex.org/docs/3-enumerations/)
 @frozen
 public enum ReadingStatus: String, Codable, Sendable {
+    /// Indicateds there is no reading status.
+    case none = "none"
+    
     /// Indicates a user is currently reading this manga.
     case reading = "reading"
     

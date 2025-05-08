@@ -9,7 +9,7 @@ import Foundation
 
 /// An entity representing the compontents needed to fetch a collection of specified manga.
 struct MangaListEntity: MangaDexAPIEntity {
-    /// The UUIDs of the manga to be fetched.
+    /// The UUIDs of the manga being retrieved..
     var ids: [UUID]
     
     /// The maximum size of the returned collection, must be in range 0...100
@@ -32,12 +32,33 @@ struct MangaListEntity: MangaDexAPIEntity {
     /// This collection can be sorted by title, release year, creation date, most recently updated, most recent chapter upload, total follows, search relevence, or user rating.
     var queryItems: [URLQueryItem]?
     
+    
+    /// Creates a new instance with the given ids.
+    ///
+    /// - Parameters:
+    ///     - ids: the UUIDs of some manga to fetch.
+    ///     - limit: the number of chapters to fetch, 10 by default.
+    ///     - offset: : the starting index of the colleciton, 0 by default.
+    ///     - order: the direction of this collection's sort.
+    ///     - queryItems: additional URLQuery items used when searching for manga.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0, order: Order = Order.desc, queryItems: [URLQueryItem]? = nil) {
         self.ids = ids
         self.limit = limit
         self.offset = offset
         self.order = order
         self.queryItems = queryItems
+    }
+    
+    /// Convience initializer that accpects a variadic list of UUIDs.
+    ///
+    /// - Parameters:
+    ///     - ids: the UUIDs of some manga to fetch.
+    ///     - limit: the number of chapters to fetch, 10 by default.
+    ///     - offset: : the starting index of the colleciton, 0 by default.
+    ///     - order: the direction of this collection's sort.
+    ///     - queryItems: additional URLQuery items used when searching for manga.
+    init(ids: UUID..., limit: Int = 10, offset: Int = 0, order: Order = Order.desc, queryItems: [URLQueryItem]? = nil) {
+        self.init(ids: ids, limit: limit, offset: offset, order: order, queryItems: queryItems)
     }
     
     typealias ModelType = [Manga]

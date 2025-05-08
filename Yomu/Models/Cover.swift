@@ -45,10 +45,12 @@ struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
     ///  See ``CoverRelationship``.
     let relationships: [CoverRelationship]?
     
+    /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
         case id, attributes, relationships
     }
     
+    /// The nested coding keys found through the attributes keypath
     private enum AttributeCodingKeys: CodingKey {
         case volume, fileName, description, locale, version, createdAt, updatedAt
     }
@@ -95,6 +97,7 @@ struct CoverRelationship: Decodable, Equatable, Hashable, Identifiable, Sendable
     /// The type of this relationship.
     let type: String
     
+    /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
         case id, type
     }

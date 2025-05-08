@@ -48,7 +48,7 @@ protocol MangaDexAPIRequest {
 /// Endpoints that return collections of data, often include the size limit, and offset of the collection,
 /// along with the number of returned items.
 struct Wrapper<T: Decodable>: Decodable {
-    ///
+    /// The type 
     let data: T
     
     /// The size limit of collections returned by some endpoint.
@@ -114,7 +114,7 @@ extension MangaDexAPIRequest {
     }
 }
 
-/// Nested error context found in a error response JSON payload.
+/// Nested error context found in an error response JSON.
 struct MangaDexAPIErrorResponse: Decodable {
     let id: String
     let status: Int
@@ -129,12 +129,12 @@ struct ErrorResponse: Decodable {
     let errors: [MangaDexAPIErrorResponse]
 }
 
-/// A generic response found at endpoints that do not return data.
+/// A generic response found at endpoints that do not return any data.
 struct Response: Decodable { let result: String }
 
 /// A generic request that fetches the entity specified by `T`.
 struct Request<T: MangaDexAPIEntity>: Sendable {
-    /// The entity to be fetched by this request.
+    /// The entity being retrieved by this request.
     let entity: T
     
     /// Creates a new request for the given entity.
@@ -158,7 +158,7 @@ extension Request: MangaDexAPIRequest {
 ///
 /// - Important: List requests should be made with this request type, unless the offset of the collection can be discarded.
 struct ListRequest<T: MangaDexAPIEntity>: Sendable {
-    /// The entity to be fetched by this request.
+    /// The entity being retrieved by this request.
     let entity: T
     
     /// Creates a new request for the given entity.

@@ -12,10 +12,10 @@ import Foundation
 /// Cover lists can be fetched with a list of manga UUIDs, cover UUIDs, or a mix
 /// of both.
 struct CoverListEntity: MangaDexAPIEntity {
-    /// The UUIDs of the manga, whose covers are being fetched.
+    /// The UUIDs of the manga, whose covers are being retrieved.
     var mangaIds: [UUID]?
     
-    /// The UUIDs of the covers to be fetched.
+    /// The UUIDs of the covers being retrieved.
     var coverIds: [UUID]?
     
     /// The maximum size of the returned collection, must be in range 0...100
@@ -33,15 +33,26 @@ struct CoverListEntity: MangaDexAPIEntity {
     /// Creates a new instance for some given manga, or  cover ids.
     ///
     /// - Parameters:
-    ///     - mangaIds: the UUIDs of some manga whose covers are to be fetched.
-    ///     - coverIds: the UUIDs of the covers to be fetched.
+    ///     - mangaIds: the UUIDs of some manga whose covers to fetch.
+    ///     - coverIds: the UUIDs of the covers to fetch
     ///     - limit: the number of covers to fetch,
-    ///     - offset: the starting index of the colleciton to be fetched, 0 by default.
+    ///     - offset: the starting index of the colleciton  be fetch, 0 by default.
     init(mangaIds: [UUID]? = nil, coverIds: [UUID]? = nil, limit: Int = 10, offset: Int = 0) {
         self.mangaIds = mangaIds
         self.coverIds = coverIds
         self.limit = limit
         self.offset = offset
+    }
+    
+    /// Convience initializer that accpects a variadic list of UUIDs.
+    ///
+    /// - Parameters:
+    ///     - mangaIds: the UUIDs of some manga whose covers to fetch.
+    ///     - coverIds: the UUIDs of the covers to fetch
+    ///     - limit: the number of covers to fetch,
+    ///     - offset: the starting index of the colleciton to be fetched, 0 by default.
+    init(mangaIds: UUID..., coverIds: UUID..., limit: Int = 10, offset: Int = 0) {
+        self.init(mangaIds: mangaIds, coverIds: coverIds, limit: limit, offset: offset)
     }
     
     typealias ModelType = [Cover]

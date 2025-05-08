@@ -9,7 +9,7 @@ import Foundation
 
 /// An entity representing the necessary components for fetching a specifed manga.
 struct MangaEntity: MangaDexAPIEntity {
-    /// The UUID of the manga to be fetched.
+    /// The UUID of the manga being retrieved.
     var id: UUID
     
     typealias ModelType = Manga

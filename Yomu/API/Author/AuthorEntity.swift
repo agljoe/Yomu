@@ -11,7 +11,7 @@ import Foundation
 ///
 /// - Note: This can also be used to fetch an artist.
 struct AuthorEntity: MangaDexAPIEntity {
-    /// The UUID of the author to be fetched.
+    /// The UUID of the author being retrieved..
     var id: UUID
     
     typealias ModelType = Author

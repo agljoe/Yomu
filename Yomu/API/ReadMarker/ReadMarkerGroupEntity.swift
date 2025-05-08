@@ -13,7 +13,7 @@ import Foundation
 /// This entity can be requested with the generic  `Request` type, and should not be requested
 /// as a list.
 struct ReadMarkerGroupEntity: MangaDexAPIEntity {
-    /// The UUIDs of the manga whose chapter read markers are being fetched.
+    /// The UUIDs of the manga whose chapter read markers are being retrieved.
     var ids: [UUID]
     
     typealias ModelType = [String: [String]]
