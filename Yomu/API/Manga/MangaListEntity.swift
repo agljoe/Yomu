@@ -41,6 +41,8 @@ struct MangaListEntity: MangaDexAPIEntity {
     ///     - offset: : the starting index of the colleciton, 0 by default.
     ///     - order: the direction of this collection's sort.
     ///     - queryItems: additional URLQuery items used when searching for manga.
+    ///
+    /// - Returns: a newly created MangaListEntity.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0, order: Order = Order.desc, queryItems: [URLQueryItem]? = nil) {
         self.ids = ids
         self.limit = limit
@@ -57,6 +59,8 @@ struct MangaListEntity: MangaDexAPIEntity {
     ///     - offset: : the starting index of the colleciton, 0 by default.
     ///     - order: the direction of this collection's sort.
     ///     - queryItems: additional URLQuery items used when searching for manga.
+    ///
+    /// - Returns: a newly created MangaListEntity.
     init(ids: UUID..., limit: Int = 10, offset: Int = 0, order: Order = Order.desc, queryItems: [URLQueryItem]? = nil) {
         self.init(ids: ids, limit: limit, offset: offset, order: order, queryItems: queryItems)
     }

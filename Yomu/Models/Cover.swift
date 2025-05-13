@@ -56,6 +56,12 @@ struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created Cover from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a Cover cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -66,13 +72,8 @@ struct Cover: Decodable, Equatable, Hashable, Identifiable, Sendable {
         self.description = try attributesContainer.decodeIfPresent(String.self, forKey: .description)
         self.locale = try attributesContainer.decodeIfPresent(String.self, forKey: .locale)
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
-        
-        let RFC3339DateFormatter = DateFormatter()
-        RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        RFC3339DateFormatter.timeZone = TimeZone.current
-        self.createdAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
-        self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
+        self.createdAt = try attributesContainer.decode(Date.self, forKey: .createdAt)
+        self.updatedAt = try attributesContainer.decode(Date.self, forKey: .updatedAt)
         
         self.relationships = try container.decodeIfPresent([CoverRelationship].self, forKey: .relationships)
     }
@@ -103,6 +104,12 @@ struct CoverRelationship: Decodable, Equatable, Hashable, Identifiable, Sendable
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created CoverRelationship from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a CoverRelationship cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -142,6 +149,11 @@ class StoredCover {
     /// The date a cover was last modified.
     var updatedAt: Date
     
+    /// Creates a new StoredCover instance from the specified Cover.
+    ///
+    /// - Parameter cover: the cover to create a stored instance of.
+    ///
+    /// - Returns: a newly created StoredCover.
     init(from cover: Cover) {
         self.id = cover.id
         self.volume = cover.volume

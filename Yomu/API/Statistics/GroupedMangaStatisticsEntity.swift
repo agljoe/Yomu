@@ -43,6 +43,8 @@ struct GroupedMangaStatisticsRequest {
     /// Convience initializer that accpects a variadic list of UUIDs.
     ///
     /// - Parameter ids: the UUIDs of some chapters.
+    ///
+    /// - Returns: a newly created GroupedMangarStatisticsRequest.
     init(ids: UUID...) {
         self.init(ids: ids)
     }

@@ -27,6 +27,8 @@ struct CustomFeedEntity: MangaDexAPIEntity {
     ///     - id: the UUID of the feed to fetch from.
     ///     - limit: the number of chapters to fetch, 100 by default.
     ///     - offset: the starting index of the colleciton, 0 by default.
+    ///
+    /// - Returns: a newly created CustomFeedEnttiy for the given custom feed UUID.
     init(id: UUID, limit: Int = 100, offset: Int = 0) {
         self.id = id
         self.limit = limit

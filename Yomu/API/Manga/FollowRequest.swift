@@ -20,6 +20,8 @@ struct Follow {
     /// Creates a new instance with the given UUID.
     ///
     /// - Parameter manga: The UUID of a manga.
+    ///
+    /// - Returns: a newly created Follow request for the given manga UUID.
     init(manga: UUID) {
         self.manga = manga
     }
@@ -53,6 +55,8 @@ struct Unfollow {
     /// Creates a new instance with the given UUID.
     ///
     /// - Parameter manga: The UUID of a manga.
+    ///
+    /// - Returns: a newly created Unfollow request for the given manga UUID.
     init(manga: UUID) {
         self.manga = manga
     }

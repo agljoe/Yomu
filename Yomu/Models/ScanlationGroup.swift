@@ -87,6 +87,12 @@ struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sendable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created ScanlationGroup from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a ScanlationGroup cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -108,15 +114,8 @@ struct ScanlationGroup: Identifiable, Equatable, Hashable, Decodable, Sendable {
         self.inactive = try attributesContainer.decode(Bool.self, forKey: .inactive)
         self.exLicensed = try attributesContainer.decodeIfPresent(Bool.self, forKey: .exLisensed)
         self.publishDelay = try attributesContainer.decodeIfPresent(String.self, forKey: .publishDelay)
-        
-        let RFC3339DateFormatter = DateFormatter()
-        RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        RFC3339DateFormatter.timeZone = TimeZone.current
-        
-        self.createdAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
-        self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
-        
+        self.createdAt = try attributesContainer.decode(Date.self, forKey: .createdAt)
+        self.updatedAt = try attributesContainer.decode(Date.self, forKey: .updatedAt)
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         
         self.relationships = try container.decodeIfPresent([User].self, forKey: .relationships)
@@ -194,6 +193,11 @@ class StoredScanlationGroup {
     /// A collection of users in a scanlation group.
     @Relationship(deleteRule: .cascade) var relationships: [StoredUser]
     
+    /// Creates a new StoredScanlationGroup from the given ScanlationGroup.
+    ///
+    /// - Parameter scanlationGroup: the scanlation group to make a stored instance of.
+    ///
+    /// - Returns: a newly created ScanlationGroup.
     init(from scanlationGroup: ScanlationGroup) {
         self.id = scanlationGroup.id
         self.name = scanlationGroup.name

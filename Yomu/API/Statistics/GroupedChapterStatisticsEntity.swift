@@ -36,6 +36,8 @@ struct GroupedChapterStatisticsRequest {
     /// Creates a new instance with the given ids.
     ///
     /// - Parameter ids: the UUIDs of some chapters.
+    ///
+   /// - Returns: a newly created GroupedChapterStatisticsRequest.
     init(ids: [UUID]) {
         self.entity = .init(ids: ids)
     }

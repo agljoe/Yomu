@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SafariServices
 import SwiftUI
 
 extension Manga {
@@ -37,6 +38,10 @@ extension Manga {
         if let originalTitle = self.altTitles.first(where: { $0.keys.contains(self.originalLanguage) })?.values.first { return originalTitle }
         return ""
     }
+    
+    var openUrl: URL {
+        URL(string: "https://mangadex.org/title/\(id.uuidString.lowercased())")!
+    }
 }
 
 extension Chapter {
@@ -44,7 +49,7 @@ extension Chapter {
     ///
     /// For example the formated title for chapter one of The Rising of the Sheild Hero would be `Ch.1 - A Royal Summons`.
     var volumeListTitle: String {
-        "Ch. \(self.chapter ?? "0") \(self.title ?? "")"
+        "Ch. \(self.chapter ?? "0") \(self.title != nil ? "- \(self.title!)" : "")"
     }
 }
 
@@ -62,7 +67,6 @@ extension ChaptersByVolumeListView {
         chapters.keys.count
     }
 }
-
 
 /// A list of sections for each volume of a manga where each section contains the chapters of the respective volume.
 struct ChaptersByVolumeListView: View {
@@ -131,7 +135,24 @@ struct AuthorScrollView: View {
     }
 }
 
+struct MangaToolBar: View {
+    @Binding var isPresented: Bool
+    
+    var body: some View {
+        HStack {
+            Button {
+                self.isPresented = true
+            } label: {
+                Image(systemName: "safari")
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .frame(width: 8, height: 8)
+            }
+        }
+    }
+}
+
 struct MangaView: View {
+    @State private var isPresented: Bool = false
     @State var model: Model
     
     init(manga: Manga) {
@@ -161,6 +182,8 @@ struct MangaView: View {
                                 AuthorScrollView(authors: model.manga.author)
                                 AuthorScrollView(authors: model.manga.artist)
                             }
+                            
+                            MangaToolBar(isPresented: $isPresented)
                         }
                     }
                     
@@ -173,6 +196,12 @@ struct MangaView: View {
             }
             .scrollIndicators(.never)
         }
+        .safariView(isPresented: $isPresented) {
+            SafariView(url: model.manga.openUrl, configuration:  .init(entersReaderIfAvailable: false, barCollapsingEnabled: true))
+                .preferredBarAccentColor(.clear)
+                .preferredControlAccentColor(.accentColor)
+                .dismissButtonStyle(.done)
+        }
         .overlay(Group { if model.isLoading { ProgressView() } })
         .task { try? await model.fetchManga() }
         .refreshable { try? await model.fetchManga() }
@@ -182,7 +211,7 @@ struct MangaView: View {
 }
 
 extension MangaView {
-    
+    ///
     @Observable
     class Model {
         private(set) var manga: Manga
@@ -191,6 +220,7 @@ extension MangaView {
         private(set) var isLoading: Bool = false
         private(set) var readingStatus: ReadingStatus = .none
         private(set) var isFollowed: Bool = false
+        // TODO: add statistics
         
         init(manga: Manga) {
             self.manga = manga
@@ -240,6 +270,13 @@ extension Bundle {
         }
 
         let decoder = JSONDecoder()
+
+        let RFC3339DateFormatter = DateFormatter()
+        RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        RFC3339DateFormatter.timeZone = TimeZone.current
+        
+        decoder.dateDecodingStrategy = .formatted(RFC3339DateFormatter)
 
         do {
             return try decoder.decode(Wrapper<Manga>.self, from: data).data

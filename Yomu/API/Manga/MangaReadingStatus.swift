@@ -44,6 +44,8 @@ struct MangaReadingStatusRequest {
     ///
     ///- Parameter id: the UUID of the manga used to initialize the `ReadingStatusEntity`
     ///                 for this request.
+    ///
+    /// - Returns: a newly created MangaReadingStatusRequest for the given manga UUID.
     init(for id: UUID) {
         self.entity = ReadingStatusEntity(id: id)
     }

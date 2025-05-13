@@ -38,6 +38,8 @@ struct ChapterStatisticsRequest {
     /// is not accidentally passed with a genereic request.
     ///
     /// - Parameter id: The UUID of the a chatper.
+    ///
+    /// - Returns: a newly created ChapterStatisticsRequest for the given chapter UUID.
     init(for id: UUID) {
         self.entity = .init(id: id)
     }

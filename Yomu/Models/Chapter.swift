@@ -77,6 +77,12 @@ struct Chapter: Decodable, Identifiable, Sendable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created Chapter from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a Chapter cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -89,16 +95,10 @@ struct Chapter: Decodable, Identifiable, Sendable {
         self.translatedLanguage = try attributesContainer.decode(String.self, forKey: .translatedLanguage)
         self.externalUrl = try attributesContainer.decodeIfPresent(String.self, forKey: .externalUrl)
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
-        
-        let RFC3339DateFormatter = DateFormatter()
-        RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        RFC3339DateFormatter.timeZone = TimeZone.current
-        
-        self.createdAt =  RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
-        self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
-        self.publishAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .publishAt))!
-        self.readableAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .readableAt))!
+        self.createdAt = try attributesContainer.decode(Date.self, forKey: .createdAt)
+        self.updatedAt = try attributesContainer.decode(Date.self, forKey: .updatedAt)
+        self.publishAt = try attributesContainer.decode(Date.self, forKey: .publishAt)
+        self.readableAt = try attributesContainer.decode(Date.self, forKey: .readableAt)
         
         var scanlationGroup: ScanlationGroup?
         var uploader: User?
@@ -161,6 +161,12 @@ struct ParentManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created ParentManga from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a ParentManga cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -226,6 +232,12 @@ struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created AtHomeChapterComponents  from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if AtHomeChapterComponents  cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.result = try container.decode(String.self, forKey: .result)
@@ -290,7 +302,13 @@ class StoredChapter {
     /// Sets the read marker for a chapter to false by default.
     var hasBeenRead: Bool = false
     
-    /// Creates a new StoredChapter.
+    /// Creates a new StoredChapter instance from the given Chapter..
+    ///
+    /// - Parameters:
+    ///     - chapter: the chapter to create a stored instance of.
+    ///     - parentManga: the manga the given chapter belongs to.
+    ///
+    /// - Returns: a newly created StoredChapter.
     init(from chapter: Chapter, with parentManga: StoredManga? = nil) {
         self.id = chapter.id
         self.title = chapter.title

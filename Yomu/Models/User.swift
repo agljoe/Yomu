@@ -42,6 +42,12 @@ struct User: Identifiable, Equatable, Hashable, Decodable, Sendable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created User from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a User cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -51,7 +57,7 @@ struct User: Identifiable, Equatable, Hashable, Decodable, Sendable {
         self.roles = try attributesContainer.decode([String].self, forKey: .roles)
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         
-        self.relationships = try container.decode([UserRealtionship].self, forKey: .relationships)
+        self.relationships = try container.decodeIfPresent([UserRealtionship].self, forKey: .relationships) ?? []
     }
 }
 
@@ -86,6 +92,10 @@ class StoredUser {
     var version: Int
     
     /// Creates a new StoredUser instance from the specified User.
+    ///
+    /// - Parameter user: the user to create a stored instance of.
+    ///
+    /// - Returns: a newly created StoredUser.
     init(from user: User) {
         self.id = user.id
         self.username = user.username

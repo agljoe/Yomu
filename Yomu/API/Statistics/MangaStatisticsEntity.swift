@@ -38,6 +38,8 @@ struct MangaStatisticsRequest {
     /// is not accidentally passed with a genereic request.
     ///
     /// - Parameter id: The UUID of a manga.
+    ///
+    /// - Returns: a newly created MangaStatisticsRequest for the given chapter UUID.
     init(for id: UUID) {
         self.entity = .init(id: id)
     }

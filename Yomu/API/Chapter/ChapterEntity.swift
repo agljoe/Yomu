@@ -18,7 +18,7 @@ struct ChapterEntity: MangaDexAPIEntity {
         var components = URLComponents()
         components.scheme = "https"
         components.host = Server.standard.rawValue
-        components.path = "/chapter\(id.uuidString.lowercased())"
+        components.path = "/chapter/\(id.uuidString.lowercased())"
         components.queryItems = [
             URLQueryItem(name: "includes[]", value: "manga"),
             URLQueryItem(name: "includes[]", value: "scanlation_group"),

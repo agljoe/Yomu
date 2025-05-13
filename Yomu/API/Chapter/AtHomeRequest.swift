@@ -42,6 +42,8 @@ struct AtHomeRequest {
     /// Creates a new instance from the given entity.
     ///
     /// - Parameter id: the id used to initialize the`ChapterImageEntity` for this request.
+    ///
+    /// - Returns: a newly created AtHomeRequest for the given id..
     init(for id: UUID) {
         self.entity = ChapterImageEntity(id: id)
     }

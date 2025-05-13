@@ -37,6 +37,8 @@ struct AuthorListEntity: MangaDexAPIEntity {
     ///     - limit: the number of authors, or artists to fetch, 10 by default.
     ///     - offset: the starting index of the collection to fetch, 0 by default.
     ///     - order: the direction of the sorted collection, descending alphabetically by default.
+    ///
+    /// - Returns: a newly created AuthorListEntity.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
         self.ids = ids
         self.limit = limit
@@ -51,11 +53,11 @@ struct AuthorListEntity: MangaDexAPIEntity {
     ///     - limit: the number of authors, or artists to fetch, 10 by default.
     ///     - offset: the starting index of the collection, 0 by default.
     ///     - order: the direction of the sorted collection, descending alphabetically by default.
+    ///     
+    /// - Returns: a newly created AuthorListEntity.
     init(ids: UUID..., limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
         self.init(ids: ids, limit: limit, offset: offset, order: order)
     }
-    
-    
     
     typealias ModelType = [Author]
     

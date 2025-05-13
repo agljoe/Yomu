@@ -24,6 +24,8 @@ struct Credentials: Codable, Hashable, Sendable {
     var client_secret: String
     
     /// Creates a ``Credentials`` instance initialized with placeholder values.
+    ///
+    /// - Returns: A Credentials value containing only empty string.
     init() {
         self.username = ""
         self.password = ""
@@ -32,6 +34,14 @@ struct Credentials: Codable, Hashable, Sendable {
     }
     
     /// Creates a ``Credentials`` instance initalized to the given values.
+    ///
+    /// - Parameters:
+    ///     - username: a username.
+    ///     - password: a password.
+    ///     - client_id: an identifier for a MangaDexAPI client.
+    ///     - client_secret: a key used to authenticate a MangaDexAPI client.
+    ///
+    ///  - Returns: a newly created Credentials value initialized with the given values.
     init(username: String, password: String, client_id: String, client_secret: String) {
         self.username = username
         self.password = password
@@ -39,6 +49,7 @@ struct Credentials: Codable, Hashable, Sendable {
         self.client_secret = client_secret
     }
     
+    /// Sets the value of all members to empty strings.
     mutating func reset() {
         self.username = ""
         self.password = ""
@@ -57,12 +68,20 @@ struct Token: Codable, Hashable {
     let refresh: String?
     
     /// Creates a Token value with access initalized as an empty string.
+    ///
+    /// - Returns: a Token with no access or refresh token.
     init() {
         self.access = ""
         self.refresh = nil
     }
     
     /// Create a Token value given a specified access.
+    ///
+    /// - Parameters:
+    ///     - access: a token value that is used for OAuth authenticated API calls.
+    ///     - refresh: a token value that is used to aquire a new access token.
+    ///
+    /// - Returns: a newly created Token initialized to the given values.
     init(access: String, refresh: String?) {
         self.access = access
         self.refresh = refresh
@@ -75,6 +94,10 @@ struct Token: Codable, Hashable {
     }
     
     /// Creates new instance by decoding from any decoder.
+    ///
+    /// - Returns: a newly created Token from the given decoder.
+    ///
+    /// - Throws: a `DecodingError` if a token cannot be initalized by the given `decoder`.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.access = try container.decode(String.self, forKey: .access)
@@ -85,37 +108,54 @@ struct Token: Codable, Hashable {
 /// Used for categorizing tokens stored in the keychain.
 @frozen
 public enum TokenType: String {
+    /// An access token.
     case access = "access"
+    
+    /// A refresh token.
     case refresh = "refresh"
 }
 
 /// An error that occurs when making authenticated requests.
 public enum AuthenticationError: Error {
+    /// If a given creadentials value is unable to successfully authenticate.
     case invalidCredentials
-    case failedToAuthenticate
+    
+    /// If authentication fails for any reason with valid credentials.
+    case failedToAuthenticate(context: String)
 }
 
 extension AuthenticationError: LocalizedError {
+    /// The error description shown to the user if authentication fails.
     public var errorDescription: String? {
         switch self {
         case .invalidCredentials:
             return String(localized: "Invalid credentials")
-        case .failedToAuthenticate:
-            return String(localized: "Failed to login, context")
+        case .failedToAuthenticate(let context):
+            return String(localized: "Failed to login, context: \(context)")
         }
     }
 }
 
 /// An error that occurs when storing, or retriving values from a KeyChain.
 public enum KeychainError: Error {
+    /// A password cannot be found in the keychain.
     case noPassword
+    
+    /// A token cannot be found in the keychain.
     case noToken
+    
+    /// Password data found in the keychain is corrupted or in the wrong/incorrect forma.t
     case unexpectedPasswordData
+    
+    /// Token data found in the keychain is corrupted or in the wrong/incorrect format.
     case unexpecetedTokenData
+    
+    /// An unexpeceted error when retrieving data from the keychain.
     case unhandledError(status: OSStatus)
 }
 
 extension KeychainError: LocalizedError {
+    /// The error description shown to the user when retrieving user data from the keychain fails.
     public var errorDescription: String? {
         switch self {
         case .noPassword:
@@ -392,7 +432,7 @@ extension MangaDexAPIRequest {
                 print(keychainError.localizedDescription)
             } catch AuthenticationError.invalidCredentials {
                 // unable to login alert
-            } catch { throw AuthenticationError.failedToAuthenticate }
+            } catch { throw AuthenticationError.failedToAuthenticate(context: "\(String(data: data, encoding: .utf8) ?? "no context available").") }
         }
         
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
@@ -442,7 +482,7 @@ extension MangaDexAPIRequest {
                 print(keychainError.localizedDescription)
             } catch AuthenticationError.invalidCredentials {
                 // unable to login alert
-            } catch { throw AuthenticationError.failedToAuthenticate }
+            } catch { throw AuthenticationError.failedToAuthenticate(context: "\(String(data: data, encoding: .utf8) ?? "no context available").") }
         }
         
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
@@ -486,7 +526,7 @@ extension MangaDexAPIRequest {
                 print(keychainError.localizedDescription)
             } catch AuthenticationError.invalidCredentials {
                 // unable to login alert
-            } catch { throw AuthenticationError.failedToAuthenticate }
+            } catch { throw AuthenticationError.failedToAuthenticate(context: "\(String(data: data, encoding: .utf8) ?? "no context available").") }
         }
         
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
@@ -529,7 +569,9 @@ struct LoginRequest: MangaDexAPIRequest {
     ///
     /// - Parameters:
     ///     - credentials: The credentials to be used to login.
-    ///     - entity: the entity to be fetched by this request.
+    ///     - entity: the entity to be fetched by this request, initialized by default.
+    ///
+    /// - Returns: a newly created LoginRequest for the given credentials.
     init(credentials: Credentials, entity: TokenEntity = TokenEntity()) {
         self.credentials = credentials
         self.entity = entity
@@ -591,6 +633,10 @@ struct ReAuthenticationRequest: MangaDexAPIRequest {
     let entity: TokenEntity
     
     /// Creates a new ReAuthenticationRequest prepopulated with a TokenEntity value.
+    ///
+    /// - Parameter entity: the entity to be fetched by this request., initialized by default.
+    ///
+    /// - Returns - a newly created ReAuthenticationRequest.
     init(entity: TokenEntity = TokenEntity()) {
         self.entity = entity
     }

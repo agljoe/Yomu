@@ -25,6 +25,10 @@ struct CoverFromMangaWrapper: Decodable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Returns: a newly created Cover from the given decoder.
+    ///
+    /// - Throws: a `DecodingError` if a cover cannot be initalized by the given `decoder`.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.parentManga = try container.decode(UUID.self, forKey: .id)
@@ -62,6 +66,8 @@ struct CoverFromMangaListEntity: MangaDexAPIEntity {
     ///     - ids: the UUIDs of some manga whose covers are to be fetched.
     ///     - limit: the number of covers to fetch, 10 be default.
     ///     - offset: the starting index of the collection to be fetched, 0 by default.
+    ///
+    /// - Returns: a newly created CoverFromMangaListEntity.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0) {
         self.ids = ids
         self.limit = limit
@@ -111,7 +117,7 @@ extension CoverListFromMangaRequest: MangaDexAPIRequest {
     typealias ModelType = [(Cover, UUID)]
     
     func decode(_ data: Data) throws -> [(Cover, UUID)] {
-        let covers = try JSONDecoder().decode(Wrapper<[CoverFromMangaWrapper]>.self, from: data)
+        let covers = try mangaDexAPIDecoder().decode(Wrapper<[CoverFromMangaWrapper]>.self, from: data)
         return covers.data.map { ($0.cover, $0.parentManga) }
     }
     

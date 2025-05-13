@@ -112,20 +112,47 @@ extension MangaDexAPIRequest {
         
         return data
     }
+    
+    /// Creates a JSONDecoder that uses RFC3339 as its date decoding strategy.
+    ///
+    /// - Returns: A  JSONDecoder with a custom dateDecodingStrategy.
+    func mangaDexAPIDecoder() -> JSONDecoder {
+        let decoder = JSONDecoder()
+        
+        let RFC3339DateFormatter = DateFormatter()
+        RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        RFC3339DateFormatter.timeZone = TimeZone.current
+        decoder.dateDecodingStrategy = .formatted(RFC3339DateFormatter)
+        
+        return decoder
+    }
 }
 
 /// Nested error context found in an error response JSON.
 struct MangaDexAPIErrorResponse: Decodable {
+    /// The id associated with this error.
     let id: String
+    
+    /// The HTTP status code for this error.
     let status: Int
+    
+    /// The MangaDexAPI's name for this error.
     let title: String
+    
+    /// Additional details explaining the causes of this error.
     let detail: String?
+    
+    /// The circumstances which caused this error to occur.
     let context: String?
 }
 
 /// A generic error response from the MangaDexAPI.
 struct ErrorResponse: Decodable {
+    /// A string that whose value is "error".
     let result: String
+    
+    /// The errors returned from the requested endpoint.
     let errors: [MangaDexAPIErrorResponse]
 }
 
@@ -138,6 +165,10 @@ struct Request<T: MangaDexAPIEntity>: Sendable {
     let entity: T
     
     /// Creates a new request for the given entity.
+    ///
+    /// - Parameter entity: a MangaDexAPI entity being retrieved.
+    ///
+    /// - Returns: a newly created Request for the given entity.
     init(_ entity: T) {
         self.entity = entity
     }
@@ -145,7 +176,7 @@ struct Request<T: MangaDexAPIEntity>: Sendable {
 
 extension Request: MangaDexAPIRequest {
     func decode(_ data: Data) throws -> T.ModelType {
-        return try JSONDecoder().decode(Wrapper<T.ModelType>.self, from: data).data
+        return try mangaDexAPIDecoder().decode(Wrapper<T.ModelType>.self, from: data).data
     }
     
     func execute() async throws -> T.ModelType {
@@ -162,6 +193,10 @@ struct ListRequest<T: MangaDexAPIEntity>: Sendable {
     let entity: T
     
     /// Creates a new request for the given entity.
+    ///
+    /// - Parameter entity: a MangaDexAPI entity being retrieved.
+    ///
+    /// - Returns: a newly created ListRequest for the given entity.
     init(_ entity: T) {
         self.entity = entity
     }
@@ -171,7 +206,7 @@ extension ListRequest: MangaDexAPIRequest {
     typealias ModelType = (T.ModelType, Int, Int)
     
     func decode(_ data: Data) throws -> (T.ModelType, Int, Int) {
-        let result = try JSONDecoder().decode(Wrapper<T.ModelType>.self, from: data)
+        let result = try mangaDexAPIDecoder().decode(Wrapper<T.ModelType>.self, from: data)
         return (result.data, result.offset ?? 0, result.total ?? 0)
     }
     

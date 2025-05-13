@@ -109,6 +109,10 @@ struct Author: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// Creates a new instance by decoding from the given decoder.
     ///
     /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created Author from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if an Author cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -132,13 +136,8 @@ struct Author: Decodable, Equatable, Hashable, Identifiable, Sendable {
         self.naver = try attributesContainer.decodeIfPresent(String.self, forKey: .naver)
         self.namicomi = try attributesContainer.decodeIfPresent(String.self, forKey: .namicomi)
         self.website = try attributesContainer.decodeIfPresent(String.self, forKey: .website)
-        
-        let RFC3339DateFormatter = DateFormatter()
-        RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        RFC3339DateFormatter.timeZone = TimeZone.current
-        self.createdAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
-        self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
+        self.createdAt = try attributesContainer.decode(Date.self, forKey: .createdAt)
+        self.updatedAt = try attributesContainer.decode(Date.self, forKey: .updatedAt)
         
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         
@@ -256,6 +255,12 @@ struct CompactManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created CompactManga from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if an CompactManga cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -276,14 +281,8 @@ struct CompactManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
         self.tags = try attributesContainer.decode([Tag].self, forKey: .tags)
         self.state = try attributesContainer.decode(String.self, forKey: .state)
         self.chapterNumbersResetOnNewVolume = try attributesContainer.decode(Bool.self, forKey: .chapterNumbersResetOnNewVolume)
-        
-        let RFC3339DateFormatter = DateFormatter()
-        RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        RFC3339DateFormatter.timeZone = TimeZone.current
-        
-        self.createdAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .createdAt))!
-        self.updatedAt = RFC3339DateFormatter.date(from: try attributesContainer.decode(String.self, forKey: .updatedAt))!
+        self.createdAt = try attributesContainer.decode(Date.self, forKey: .createdAt)
+        self.updatedAt = try attributesContainer.decode(Date.self, forKey: .updatedAt)
         
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         self.availableTranslatedLanguages = try attributesContainer.decode([String].self, forKey: .availableTranslatedLanguages)
@@ -385,6 +384,8 @@ class StoredAuthor {
     /// Creates a new StoredAuthor instance from the specified Author.
     ///
     /// - Parameter author: The author or artist to create a stored instance of.
+    ///
+    /// - Returns: a newly created StoredAuthor.
     init(from author: Author) {
         self.id = author.id
         self.type = author.type

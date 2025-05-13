@@ -28,6 +28,8 @@ struct RandomMangaEntity: MangaDexAPIEntity {
     ///     - includedTagsMode: How the included tags are applied to the query.
     ///     - excludedTags: The tags excluded by this query.
     ///     - excludedTagsMode: How the excluded tags are applied to the query.
+    ///
+    /// - Returns: a newly created RandomMangaEntity.
     init(includedTags: [UUID] = [], includedTagsMode: IncludedTagsMode = .and, excludedTags: [UUID] = [], excludedTagsMode: ExcludedTagsMode = .and) {
         self.includedTags = includedTags
         self.includedTagsMode = includedTagsMode
@@ -42,6 +44,8 @@ struct RandomMangaEntity: MangaDexAPIEntity {
     ///     - includedTagsMode: How the included tags are applied to the query.
     ///     - excludedTags: The tags excluded by this query.
     ///     - excludedTagsMode: How the excluded tags are applied to the query.
+    ///
+    /// - Returns: a newly created RandomMangaEntity.
     init(includedTags: UUID..., includedTagsMode: IncludedTagsMode = .and, excludedTags: UUID..., excludedTagsMode: ExcludedTagsMode = .and) {
         self.init(includedTags: includedTags, includedTagsMode: includedTagsMode, excludedTags: excludedTags, excludedTagsMode: excludedTagsMode)
     }

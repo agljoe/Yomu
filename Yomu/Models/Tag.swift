@@ -40,6 +40,12 @@ struct Tag: Codable, Equatable, Hashable, Identifiable, Sendable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created Tag from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a Tag cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)

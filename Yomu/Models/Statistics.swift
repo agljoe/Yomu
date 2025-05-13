@@ -8,6 +8,10 @@
 import Foundation
 
 protocol Statistics: Decodable, Equatable, Hashable, Sendable  {
+    /// The ID of the comments thread associated with a Manga or Chapter.
+    ///
+    /// - Note: MangaDex does have general discussion threads, but they are not a part of
+    ///         the MangaDexAPI
     var threadId: Int? { get }
 }
 
@@ -19,11 +23,17 @@ extension Statistics {
 
 /// Similar to the generic wrapper struct, all JSON data returned from
 /// /statistics endpoints have a first key of "statistics".
-struct StatisticsWrapper<T: Statistics>: Decodable { let statistics: T }
+struct StatisticsWrapper<T: Statistics>: Decodable {
+    /// The Statistics found in this wrapper.
+    let statistics: T
+}
 
 /// Similar to the generic wrapper struct, all JSON data returned from
 /// /statistics endpoints have a first key of "statistics".
-struct GroupedStatisticsWrapper<T: Statistics>: Decodable { let statistics: [String: T] }
+struct GroupedStatisticsWrapper<T: Statistics>: Decodable {
+    /// The grouped Statistics found in this wrapper.
+    let statistics: [String: T]
+}
 
 /// A collection of statistics for a given chapter.
 ///
@@ -44,6 +54,8 @@ struct ChapterStatistics: Statistics {
         /// Creates the string value for this key if possible.
         ///
         /// - Parameter stringValue: The string this key is initialized to.
+        ///
+        /// - Returns: a newly created string coding key.
         init?(stringValue: String) {
             self.stringValue = stringValue
         }
@@ -54,6 +66,8 @@ struct ChapterStatistics: Statistics {
         /// Creates the integer value for this key if possible.
         ///
         /// - Parameter intValue: The integer this key is initialized to.
+        ///
+        /// - Returns: a newly created integer coding key.
         init?(intValue: Int) {
             return nil
         }
@@ -70,6 +84,12 @@ struct ChapterStatistics: Statistics {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created ChapterStatisics from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a ChapterStatistics cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let dynamicContainer = try decoder.container(keyedBy: DynamicCodingKeys.self)
         
@@ -128,6 +148,8 @@ struct MangaStatistics: Statistics {
         /// Creates the string value for this key if possible.
         ///
         /// - Parameter stringValue: The string this key is initialized to.
+        ///
+        /// - Returns: a newly created string coding key.
         init?(stringValue: String) {
             self.stringValue = stringValue
         }
@@ -138,6 +160,8 @@ struct MangaStatistics: Statistics {
         /// Creates the integer value for this key if possible.
         ///
         /// - Parameter intValue: The integer this key is initialized to.
+        ///
+        /// - Returns: a newly created integer coding key.
         init?(intValue: Int) {
             return nil
         }
@@ -159,6 +183,12 @@ struct MangaStatistics: Statistics {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created MangaStatistics from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a MangaStatistics cannot be initialized by the given decoder.
     public init(from decoder: any Decoder) throws {
         let dynamicConatiner = try decoder.container(keyedBy: DynamicCodingKeys.self)
         let firstKey: DynamicCodingKeys = .init(stringValue: dynamicConatiner.allKeys.first!.stringValue) ?? .init(intValue: 0)!

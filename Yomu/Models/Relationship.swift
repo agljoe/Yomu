@@ -8,20 +8,33 @@
 import Foundation
 
 enum AuthorRelationshipType: String, Decodable {
+    /// A ``Manga``
     case manga
 }
 
 enum AuthorRelationship: Decodable, Equatable, Hashable {
+    /// ``AuthorRelationshipType/manga``
     case manga(CompactManga?)
     
+    /// The base coding keys for this type.
     private enum CodingKeys: CodingKey {
         case id, type, attributes
     }
     
+    /// The nested coding keys found through the attributes keypath.
+    ///
+    /// Includes all the same attribute coding keys as a Manga.
     private enum AttributeCodingKeys: CodingKey {
         case title, altTitles, description, isLocked, links, originalLanguage, lastVolume, lastChapter, publicationDemographic, status, year, contentRating, tags, state, chapterNumbersResetOnNewVolume, createdAt, updatedAt, version, availableTranslatedLanguages, latestUploadedChapter
     }
     
+    /// Creates a new instance by decoding from the given decoer.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created AuthorRelationship from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if an AuthorRelationship cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let relationshipType = try container.decode(AuthorRelationshipType.self, forKey: .type)
@@ -67,7 +80,7 @@ enum MangaRelationship: Decodable, Equatable, Hashable {
     /// ``MangaRelationshipType/creator``
     case creator(User)
     
-    /// The base coding keys for this struct.
+    /// The base coding keys for this type.
     private enum CodingKeys: CodingKey {
         case id, type, attributes, relationships, related
     }
@@ -80,6 +93,12 @@ enum MangaRelationship: Decodable, Equatable, Hashable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created MangaRelationship from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a MangaRelationship cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let relationshipType = try container.decode(MangaRelationshipType.self, forKey: .type)
@@ -126,7 +145,7 @@ enum ChapterRelationship: Decodable, Equatable, Hashable {
     /// ``ChapterRelationshipType/manga``
     case manga(ParentManga)
     
-    /// The base coding keys for this struct.
+    /// The base coding keys for this type.
     private enum CodingKeys: CodingKey {
         case id, type, attributes, relationships
     }
@@ -139,6 +158,12 @@ enum ChapterRelationship: Decodable, Equatable, Hashable {
     }
     
     /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// - Parameter decoder: the decoder to read data from.
+    ///
+    /// - Returns: a newly created ChapterRelationship from the given decoder.
+    ///
+    /// - Throws: a ` DeodingError` if a ChapterRelationship cannot be initialized by the given decoder.
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let relationshipType = try container.decode(ChapterRelationshipType.self, forKey: .type)

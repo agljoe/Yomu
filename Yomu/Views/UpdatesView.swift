@@ -64,8 +64,8 @@ extension Chapter {
     /// For example the formated full title for chapter one of Tokyo Ghoul would be`Vol. 1 Ch. 5 - Coffee`.
     var fullTitle: String {
         if let volume = self.volume {
-            return "Vol. \(volume) Ch. \(self.chapter ?? "0") - \(self.title ?? "")"
-        } else { return "Ch. \(self.chapter ?? "0") - \(self.title ?? "")" }
+            return "Vol. \(volume) Ch. \(self.chapter ?? "0") \(self.title != nil ? "- \(self.title!)" : "")"
+        } else { return "Ch. \(self.chapter ?? "0") - \(self.title != nil ? "- \(self.title!)" : "")" }
     }
 }
 
@@ -192,7 +192,7 @@ struct UpdatesView: View {
                     
                     Color.clear
                         .frame(height: 1)
-                        .onAppear { Task { try? await model.fetchUpdates() } }
+                        .onAppear { Task { try! await model.fetchUpdates() } }
                 }
             }
             .backgroundStyle(Color(UIColor.systemGroupedBackground))

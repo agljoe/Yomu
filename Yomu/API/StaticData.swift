@@ -80,123 +80,349 @@ public let languageCodeDictonary: [String: LocalizedStringKey] = [
 /// ### See Also
 /// [Static Data](https://api.mangadex.org/docs/3-enumerations/)
 struct LocalizedLanguage: Codable {
+    /// An English value.
     let en: String?
+    
+    /// An Albainian value.
     let sq: String?
+    
+    /// An Arabic value.
     let ar: String?
+    
+    /// An Azerbaijani value.
     let az: String?
+    
+    /// A Bengali value.
     let bn: String?
+    
+    /// A Bulgarian value.
     let bg: String?
+    
+    /// A Burmese value.
     let my: String?
+    
+    /// A Catalan or Valencian value.
     let ca: String?
+    
+    /// A Simplified Chinese value.
     let cnSimplified: String?
+    
+    /// A Traditional Chinese value.
     let cnTraditional: String?
+    
+    /// A Croatian value.
     let hr: String?
+    
+    /// A Czech value.
     let cs: String?
+    
+    /// A Danish value.
     let da: String?
+    
+    /// A Dutch or Flemish value.
     let nl: String?
+    
+    /// An Espertano value.
     let eo: String?
+    
+    /// An Estonian value.
     let et: String?
+    
+    /// A Tagalog value.
     let tl: String?
+    
+    /// A Finnish value.
     let fi: String?
+    
+    /// A French value.
     let fr: String?
+    
+    /// A Gregorian value.
     let ka: String?
+    
+    /// A German value.
     let de: String?
+    
+    /// A Greek value.
     let el: String?
+    
+    /// A Hebrew value.
     let he: String?
+    
+    /// A Hindi value.
     let hi: String?
+    
+    /// A Hungarian value.
     let hu: String?
+    
+    /// A Indonesian value.
     let id: String?
+    
+    /// An Italian value.
     let it: String?
+    
+    /// A Japanese value.
     let ja: String?
+    
+    /// A Kazakh value.
     let kk: String?
+    
+    /// A Korean value.
     let ko: String?
+    
+    /// A Latin value.
     let la: String?
+    
+    /// A Lithuanian value.
     let lt: String?
+    
+    /// A Malay value.
     let ms: String?
+    
+    /// A Mongolian value.
     let mn: String?
+    
+    /// A Nepali value.
     let ne: String?
+    
+    /// A Norwegian value.
     let no: String?
+    
+    /// A Persian value.
     let fa: String?
+    
+    /// A Polish value.
     let pl: String?
+    
+    /// A Portigal Portuguese value.
     let ptPortugal: String?
+    
+    /// A Brazillian Portuguese value.
     let ptBrazil: String?
+    
+    /// A Romainian, Moldavian, or Moldovan value.
     let ro: String?
+    
+    /// A Russian value.
     let ru: String?
+    
+    /// A Serbian value.
     let sr: String?
+    
+    /// A Slovak value.
     let sk: String?
+    
+    /// A Solvenian value.
     let sl: String?
+    
+    /// A Spain Spanish value.
     let esSpain: String?
+    
+    /// A Latin American Spanish value.
     let esLATAM: String?
+    
+    /// A Swedish value.
     let sv: String?
+    
+    /// A Tamil value.
     let ta: String?
+    
+    /// A Telugu value.
     let te: String?
+    
+    /// A Thai value.
     let th: String?
+    
+    /// A Turksih value.
     let tr: String?
+    
+    /// A Ukrainian value.
     let uk: String?
+    
+    /// A Vietnamese value.
     let vi: String?
+    
+    /// A Romanized Japanese value.
     let jaRomanized: String?
+    
+    /// A Romanized Korean value.
     let koRomanized: String?
+    
+    /// A Romanized Chinese value.
     let zhRomanized: String?
 }
 
 extension LocalizedLanguage {
     public enum CodingKeys: String, CodingKey {
+        /// English
         case en
+        
+        /// Albainian
         case sq
+        
+        /// Arabic
         case ar
+        
+        /// Azerbaijani
         case az
+        
+        /// Bengali
         case bn
+        
+        /// Bulgarian
         case bg
+        
+        /// Burmese
         case my
+        
+        /// Catalan or Valencian
         case ca
+        
+        /// Simplified Chinese
         case cnSimplified = "zh"
+        
+        /// Traditional Chinese
         case cnTraditional = "zh-hk"
+        
+        /// Croatian.
         case hr
+        
+        /// Czech
         case cs
+        
+        /// Danish
         case da
+        
+        /// Dutch or Flemish
         case nl
+        
+        /// Espertano
         case eo
+        
+        /// Estonian
         case et
+        
+        /// Tagalog
         case tl
+        
+        /// Finnish
         case fi
+        
+        /// French
         case fr
+        
+        /// Gregorian
         case ka
+        
+        /// German
         case de
+        
+        /// Greek
         case el
+        
+        /// Hebrew
         case he
+        
+        /// Hindi
         case hi
+        
+        /// Hungarian
         case hu
+        
+        /// Indonesian
         case id
+        
+        /// Italian
         case it
+        
+        /// Japanese
         case ja
+        
+        /// Kazakh
         case kk
+        
+        /// Korean
         case ko
+        
+        /// Latin
         case la
+        
+        /// Lithuanian
         case lt
+        
+        /// Malay
         case ms
+        
+        /// Mongolian
         case mn
+        
+        /// Nepali
         case ne
+        
+        /// Norwegian
         case no
+        
+        /// Persian
         case fa
+        
+        /// Polish
         case pl
+        
+        /// Portuguese
         case ptPortugal = "pt"
+        
+        /// Brazillian Portuguese
         case ptBrazil = "pt-br"
+        
+        /// Romainian, Moldavian, or Moldovan
         case ro
+        
+        /// Russian
         case ru
+        
+        /// Serbian
         case sr
+        
+        /// Slovak
         case sk
+        
+        /// Slovenian
         case sl
+        
+        /// Spanish
         case esSpain = "es"
+        
+        /// Latin American Spanish
         case esLATAM = "es-la"
+        
+        /// Swedish
         case sv
+        
+        /// Tamil
         case ta
+        
+        /// Telugu
         case te
+        
+        /// Thai
         case th
+        
+        /// Turkish
         case tr
+        
+        /// Ukrainian
         case uk
+        
+        /// Vietnamese
         case vi
+        
+        /// Romanized Japanese
         case jaRomanized = "ja-ro"
+        
+        /// Romanized Korean
         case koRomanized = "ko-ro"
+        
+        /// Romanized Chinese
         case zhRomanized = "zh-ro"
     }
 }
@@ -270,61 +496,73 @@ public struct MangaLink: Codable, Equatable, Hashable, Sendable {
 }
 
 extension MangaLink {
+    /// Returns the complete URL for a manga on [anilist.co](https://anilist.co).
     var anilistURL: URL? {
         if let id = self.al { return URL(string: "https://anilist.co/manga/\(id)") }
         return nil
     }
     
+    /// Returns the complete URL for a manga on [anime-planet.com](https://www.anime-planet.com).
     var animePlanetURL: URL? {
         if let slug = self.ap { return URL(string: "https://www.anime-planet.com/\(slug)") }
         return nil
     }
     
+    /// Returns the complete URL for a manga on [bookwalker.jp](https://bookwalker.jp).
     var bookWalkerURL: URL? {
         if let series = self.bw { return URL(string: "https://bookwalker.jp/\(series)") }
         return nil
     }
     
+    /// Returns the complete URL for a manga on [mangaupdates.com](https://mangaupdates.com).
     var mangaUpdatesURL: URL? {
         if let id = self.mu { return URL(string: "https://mangaupdates.com/series/\(id)") }
         return nil
     }
     
+    /// Returns the complete URL for a manga on [novelupdates.com](https://novelupdates.com).
     var novelUpdatesURL: URL? {
         if let slug = self.nu { return URL(string: "https://novelupdates.com/series/\(slug)") }
         return nil
     }
     
+    /// Returns the complete URL for a manga on [kitsu.app](https://kitsu.app).
     var kitsuURL: URL? {
         if let idOrSlug = self.kt { return URL(string: "https://kitsu.app/manga/\(idOrSlug)") }
         return nil
     }
     
+    /// Returns the complete URL for a manga on [amazon](https://amazon.com).
     var amazonURL: URL? {
         if let urlString = self.amz { return URL(string: urlString) }
         return nil
     }
     
+    /// Returns the complete URL for a manga on [ebookjapan.](https://ebookjapan.yahoo.co.jp).
     var eBookJapanURL: URL? {
         if let urlString = self.ebj { return URL(string: urlString) }
         return nil
     }
     
+    /// Returns the complete URL for a manga on [myanimelist.net](https://myanimelist.net/manga).
     var myAnimeListURL: URL? {
         if let id = self.mal { return URL(string: "https://myanimelist.net/manga/\(id)")}
         return nil
     }
     
+    /// Returns the complete URL for a manga on [cdjapan.co](https://www.cdjapan.co.jp).
     var cdJapanURL: URL? {
         if let urlString = self.cdj { return URL(string: urlString) }
         return nil
     }
     
+    /// Returns the complete URL for the webpage where a manga's official raw can be found.
     var officalRawURL: URL? {
         if let urlString = self.raw { return URL(string: urlString) }
         return nil
     }
     
+    /// Returns the complete URL for the webpage where a manga's official english translation can be found.
     var englishTranslationURL: URL? {
         if let urlString = self.engtl { return URL(string: urlString) }
         return nil
@@ -332,6 +570,9 @@ extension MangaLink {
 }
 
 extension MangaLink {
+    /// Gets all the available links for a manga.
+    ///
+    /// - Returns: all non nil links.
     func getAvailableLinks() -> [URL] {
         [self.anilistURL, self.animePlanetURL, self.bookWalkerURL, self.mangaUpdatesURL, self.mangaUpdatesURL, self.novelUpdatesURL, self.kitsuURL, self.amazonURL, self.eBookJapanURL, self.myAnimeListURL, self.cdJapanURL, self.officalRawURL, self.englishTranslationURL].compactMap( { $0 })
     }

@@ -37,6 +37,8 @@ struct CoverListEntity: MangaDexAPIEntity {
     ///     - coverIds: the UUIDs of the covers to fetch
     ///     - limit: the number of covers to fetch,
     ///     - offset: the starting index of the colleciton  be fetch, 0 by default.
+    ///
+    /// - Returns: a newly created CoverListEntity.
     init(mangaIds: [UUID]? = nil, coverIds: [UUID]? = nil, limit: Int = 10, offset: Int = 0) {
         self.mangaIds = mangaIds
         self.coverIds = coverIds
@@ -51,6 +53,8 @@ struct CoverListEntity: MangaDexAPIEntity {
     ///     - coverIds: the UUIDs of the covers to fetch
     ///     - limit: the number of covers to fetch,
     ///     - offset: the starting index of the colleciton to be fetched, 0 by default.
+    ///
+    /// - Returns: a newly created CoverListEntity.
     init(mangaIds: UUID..., coverIds: UUID..., limit: Int = 10, offset: Int = 0) {
         self.init(mangaIds: mangaIds, coverIds: coverIds, limit: limit, offset: offset)
     }

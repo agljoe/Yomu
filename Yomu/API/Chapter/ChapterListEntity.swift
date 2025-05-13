@@ -33,6 +33,8 @@ struct ChapterListEntity: MangaDexAPIEntity {
     ///     - limit: the number of chapters to fetch, 10 by default.
     ///     - offset: : the starting index of the colleciton, 0 by default.
     ///     - order: the direction of this collection's sort.
+    ///     
+    /// - Returns: a newly created ChapterListEntity.
     init(ids: [UUID], limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
         self.ids = ids
         self.limit = limit
@@ -47,6 +49,8 @@ struct ChapterListEntity: MangaDexAPIEntity {
     ///     - limit: the number of chapters to fetch, 10 by default.
     ///     - offset: : the starting index of the colleciton, 0 by default.
     ///     - order: the direction of this collection's sort.
+    ///
+    /// - Returns: a newly created ChapterListEntity.
     init(ids: UUID..., limit: Int = 10, offset: Int = 0, order: Order = Order.desc) {
         self.init(ids: ids, limit: limit, offset: offset, order: order)
     }

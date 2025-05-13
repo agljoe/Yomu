@@ -23,6 +23,8 @@ struct FollowedFeedEntity: MangaDexAPIEntity {
     /// - Parameters:
     ///     - limit: the number of chapters to fetch, 100 by default.
     ///     - offset: the starting index of the colleciton, 0 by default.
+    ///
+    /// - Returns: a newly created FollowedFeedEntity.
     init(limit: Int = 100, offset: Int = 0) {
         self.limit = limit
         self.offset = offset
