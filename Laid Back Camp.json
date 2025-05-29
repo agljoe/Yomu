@@ -1,0 +1,952 @@
+{
+  "result": "ok",
+  "response": "entity",
+  "data": {
+    "id": "1ee97895-4796-4bcf-bcd1-5ef99c011f8b",
+    "type": "manga",
+    "attributes": {
+      "title": {
+        "en": "Yuru Camp△"
+      },
+      "altTitles": [
+        {
+          "fr": "Au grand air"
+        },
+        {
+          "pl": "Beztroski kemping"
+        },
+        {
+          "en": "Laid-Back Camp"
+        },
+        {
+          "ru": "Лагерь с ночёвкой △"
+        },
+        {
+          "ja": "ゆるキャン△"
+        },
+        {
+          "ru": "Уютный лагерь"
+        },
+        {
+          "ja-ro": "Yurucamp △"
+        }
+      ],
+      "description": {
+        "en": "Rin, a girl camping by herself at the base of Mt. Fuji. Nadeshiko, a girl who came to see Mt. Fuji on her bicycle. The scenery the two witness over a supper of cup ramen marks the start of a new friendship and many adventures to come, camping in the great outdoors!  \n\n  ---\n\n  \n**Links:**  \n- [Official Twitter](https://twitter.com/yurucamp_anime)  \n- [Official Drama Twitter](https://twitter.com/yurucamp_drama)  \n- [Official Instagram](https://www.instagram.com/yurucamp_insta/)  \n- [Official Drama Instagram](https://www.instagram.com/yurucamp_drama/)  \n- [Official Anime (JP)](https://yurucamp.jp/)  \n- [Official Drama (JP)](https://www.tv-tokyo.co.jp/yurucamp/)",
+        "fr": "Quoi de mieux que de camper en bord de lac face au mont Fuji, un bol de nouilles instantanées à la main ? Découvrez le monde du camping en compagnie de Rin, l'amatrice des sorties en solitaire, Nadeshiko, la novice pleine d'enthousiasme, et ses deux amies du club de camping, Chiaki et Aoi. Un manga très relax qui vous fera l'effet d'un grand bol d'air frais !\n\n---\n\nMaison d'édition FR : **Nobi Nobi**",
+        "ja": "富士山が見える湖畔でキャンプをする女の子、リン。自転車に乗り富士山を見にきた女の子、なでしこ。二人でカップラーメンを食べて見た景色は…。読めばキャンプに行きたくなる。行かなくても行った気分になる。",
+        "ru": "Рин всегда разбивает лагерь в одиночестве у подножия Фудзиямы. Надэсико проехала на велосипеде много километров, чтобы взглянуть на «Мистера Фудзи». Совместное любование пейзажем за чашкой рамэна становится началом новой дружбы и множества приключений…"
+      },
+      "isLocked": false,
+      "links": {
+        "al": "98351",
+        "ap": "laid-back-camp",
+        "bw": "series/56350/list",
+        "kt": "38955",
+        "mu": "121961",
+        "amz": "https://www.amazon.co.jp/dp/B074CGZYDW",
+        "cdj": "https://www.cdjapan.co.jp/product/NEOBK-2564245",
+        "ebj": "https://ebookjapan.yahoo.co.jp/books/338994/",
+        "mal": "94376",
+        "raw": "https://comic-fuz.com/manga/218",
+        "engtl": "https://yenpress.com/9780316517805/laid-back-camp-vol-1/"
+      },
+      "originalLanguage": "ja",
+      "lastVolume": "",
+      "lastChapter": "",
+      "publicationDemographic": "seinen",
+      "status": "ongoing",
+      "year": 2015,
+      "contentRating": "safe",
+      "tags": [
+        {
+          "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "Comedy"
+            },
+            "description": {},
+            "group": "genre",
+            "version": 1
+          },
+          "relationships": []
+        },
+        {
+          "id": "87cc87cd-a395-47af-b27a-93258283bbc6",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "Adventure"
+            },
+            "description": {},
+            "group": "genre",
+            "version": 1
+          },
+          "relationships": []
+        },
+        {
+          "id": "caaa44eb-cd40-4177-b930-79d3ef2afe87",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "School Life"
+            },
+            "description": {},
+            "group": "theme",
+            "version": 1
+          },
+          "relationships": []
+        },
+        {
+          "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "Slice of Life"
+            },
+            "description": {},
+            "group": "genre",
+            "version": 1
+          },
+          "relationships": []
+        },
+        {
+          "id": "ea2bc92d-1c26-4930-9b7c-d5c0dc1b6869",
+          "type": "tag",
+          "attributes": {
+            "name": {
+              "en": "Cooking"
+            },
+            "description": {},
+            "group": "theme",
+            "version": 1
+          },
+          "relationships": []
+        }
+      ],
+      "state": "published",
+      "chapterNumbersResetOnNewVolume": false,
+      "createdAt": "2019-02-02T03:38:11+00:00",
+      "updatedAt": "2025-02-22T05:56:34+00:00",
+      "version": 27,
+      "availableTranslatedLanguages": [
+        "vi",
+        "es-la",
+        "en",
+        "it",
+        "ru",
+        "pt-br",
+        "id"
+      ],
+      "latestUploadedChapter": "8f185ab3-a29b-45c4-9179-7bc4fe020240"
+    },
+    "relationships": [
+      {
+        "id": "ccff50e0-042c-4838-b3f3-c93c61484185",
+        "type": "author",
+        "attributes": {
+          "name": "Afro",
+          "imageUrl": null,
+          "biography": {
+            "en": "**Name In Native Language:** あfろ"
+          },
+          "twitter": "https://twitter.com/afro_2021",
+          "pixiv": "https://www.pixiv.net/users/66477644",
+          "melonBook": null,
+          "fanBox": null,
+          "booth": null,
+          "namicomi": null,
+          "nicoVideo": null,
+          "skeb": null,
+          "fantia": null,
+          "tumblr": null,
+          "youtube": null,
+          "weibo": null,
+          "naver": null,
+          "website": null,
+          "createdAt": "2021-04-19T21:59:45+00:00",
+          "updatedAt": "2024-09-13T22:22:14+00:00",
+          "version": 4
+        }
+      },
+      {
+        "id": "ccff50e0-042c-4838-b3f3-c93c61484185",
+        "type": "artist",
+        "attributes": {
+          "name": "Afro",
+          "imageUrl": null,
+          "biography": {
+            "en": "**Name In Native Language:** あfろ"
+          },
+          "twitter": "https://twitter.com/afro_2021",
+          "pixiv": "https://www.pixiv.net/users/66477644",
+          "melonBook": null,
+          "fanBox": null,
+          "booth": null,
+          "namicomi": null,
+          "nicoVideo": null,
+          "skeb": null,
+          "fantia": null,
+          "tumblr": null,
+          "youtube": null,
+          "weibo": null,
+          "naver": null,
+          "website": null,
+          "createdAt": "2021-04-19T21:59:45+00:00",
+          "updatedAt": "2024-09-13T22:22:14+00:00",
+          "version": 4
+        }
+      },
+      {
+        "id": "7da4733c-b426-4a46-ad5c-7d5ad42be42f",
+        "type": "cover_art",
+        "attributes": {
+          "description": "",
+          "volume": "17",
+          "fileName": "a36aee3b-faba-46c1-a81b-d7aa71cc3791.jpg",
+          "locale": "ja",
+          "createdAt": "2025-02-22T05:56:40+00:00",
+          "updatedAt": "2025-02-22T05:56:40+00:00",
+          "version": 1
+        }
+      },
+      {
+        "id": "05ef1fa9-ae22-4a7a-9b9b-3538ea67fd0d",
+        "type": "manga",
+        "related": "doujinshi",
+        "attributes": {
+          "title": {
+            "en": "Yuru Camp - Rin and Nadeshiko ~Night of the Camp Chapter~ (Doujinshi)"
+          },
+          "altTitles": [
+            {
+              "ja-ro": "Rin to Nadeshiko ~Camp no Yoru wa Hen~"
+            },
+            {
+              "ja": "リンとなでしこ ～キャンプの夜は編～"
+            },
+            {
+              "fr": "Rin et Nadeshiko ~Nuit au Camping~"
+            }
+          ],
+          "description": {
+            "en": "Rin x Nadeshiko doujin released at C95.  \n  \n[![](https://i.imgur.com/pL0PoRi.png)](https://e-hentai.org/g/1529263/0e6e16d5eb/)"
+          },
+          "isLocked": false,
+          "links": {},
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": 2018,
+          "contentRating": "pornographic",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Romance"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b13b2a48-c720-44a9-9c77-39c9979373fb",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Doujinshi"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2020-04-13T13:36:47+00:00",
+          "updatedAt": "2024-08-04T12:34:12+00:00",
+          "version": 4,
+          "availableTranslatedLanguages": [
+            "fr",
+            "en"
+          ],
+          "latestUploadedChapter": "1175cfc7-1094-4504-aaf6-005b1693f4e3"
+        }
+      },
+      {
+        "id": "0c314411-6431-4c5e-89cb-f69b8a993545",
+        "type": "manga",
+        "related": "doujinshi",
+        "attributes": {
+          "title": {
+            "en": "Yurucamp △ - Ecchi na Inuyama Senpai (Doujinshi)"
+          },
+          "altTitles": [
+            {
+              "ja": "(COMIC1☆13) えっちな犬山せんぱい (ゆるキャン△)"
+            },
+            {
+              "ja-ro": "Yuru Camp - Naughty Inuyama Senpai"
+            }
+          ],
+          "description": {},
+          "isLocked": false,
+          "links": {},
+          "originalLanguage": "ja",
+          "lastVolume": null,
+          "lastChapter": null,
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": null,
+          "contentRating": "pornographic",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b13b2a48-c720-44a9-9c77-39c9979373fb",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Doujinshi"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2019-06-05T05:04:38+00:00",
+          "updatedAt": "2024-10-31T10:47:48+00:00",
+          "version": 5,
+          "availableTranslatedLanguages": [
+            "en"
+          ],
+          "latestUploadedChapter": "6b3c90ee-5db2-4f77-b1b8-72df951513de"
+        }
+      },
+      {
+        "id": "22f86931-c9fc-49a8-91b0-f55d618c584a",
+        "type": "manga",
+        "related": "shared_universe",
+        "attributes": {
+          "title": {
+            "en": "Mono"
+          },
+          "altTitles": [
+            {
+              "en": "mono"
+            },
+            {
+              "en": "Mono (AFRO)"
+            }
+          ],
+          "description": {
+            "en": "The Photography Club is in danger of shutting down?! And the Cinema Club too?! Fret not, for they shall merge and become…Cinephoto Club! Now, club members Satsuki, An, and Sakurako are asked to be the main characters for manga artist Haruno’s latest work that’s centered around action cameras. The girls head out to capture the lovely sights of Japan, exploring gadgets around them, and of course, chomp on the local delicacies along the way!"
+          },
+          "isLocked": false,
+          "links": {
+            "al": "102211",
+            "ap": "mono",
+            "bw": "series/176562/list",
+            "kt": "52189",
+            "mu": "151103",
+            "amz": "https://www.amazon.co.jp/dp/B09596WW58",
+            "ebj": "https://ebookjapan.yahoo.co.jp/books/492687/",
+            "mal": "111798",
+            "raw": "https://houbunsha.co.jp/comics/detail.php?p=%A3%ED%A3%EF%A3%EE%A3%EF",
+            "engtl": "https://yenpress.com/series/mono"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": "seinen",
+          "status": "ongoing",
+          "year": 2018,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "87cc87cd-a395-47af-b27a-93258283bbc6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Adventure"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b11fda93-8f1d-4bef-b2ed-8803d3733170",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "4-Koma"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "caaa44eb-cd40-4177-b930-79d3ef2afe87",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "School Life"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2019-08-10T00:25:55+00:00",
+          "updatedAt": "2025-01-31T00:08:04+00:00",
+          "version": 7,
+          "availableTranslatedLanguages": [
+            "vi",
+            "en",
+            "es-la"
+          ],
+          "latestUploadedChapter": "75f08ae4-4e15-4d59-9881-960fde7982fb"
+        }
+      },
+      {
+        "id": "486441e9-e0d8-4ece-ae5a-a35c813620b2",
+        "type": "manga",
+        "related": "spin_off",
+        "attributes": {
+          "title": {
+            "en": "Yuru Camp △ Anthology Comic"
+          },
+          "altTitles": [
+            {
+              "ja": "ゆるキャン△アンソロジーコミック"
+            },
+            {
+              "ar": "مخيم يورو"
+            }
+          ],
+          "description": {
+            "en": "Anthology collection for Yurucamp △."
+          },
+          "isLocked": false,
+          "links": {
+            "al": "137440",
+            "bw": "series/235709/list",
+            "kt": "yuru-camp-anthology-comic",
+            "mu": "3o4lp33",
+            "amz": "https://www.amazon.co.jp/dp/B0847LNRLN",
+            "ebj": "https://ebookjapan.yahoo.co.jp/books/577159/",
+            "mal": "143108",
+            "raw": "https://houbunsha.co.jp/comics/detail.php?p=%A4%E6%A4%EB%A5%AD%A5%E3%A5%F3%A2%A4%A5%A2%A5%F3%A5%BD%A5%ED%A5%B8%A1%BC%A5%B3%A5%DF%A5%C3%A5%AF"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "2",
+          "lastChapter": "30",
+          "publicationDemographic": "seinen",
+          "status": "completed",
+          "year": 2020,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "51d83883-4103-437c-b4b1-731cb73d786c",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Anthology"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "87cc87cd-a395-47af-b27a-93258283bbc6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Adventure"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "caaa44eb-cd40-4177-b930-79d3ef2afe87",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "School Life"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Slice of Life"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "ea2bc92d-1c26-4930-9b7c-d5c0dc1b6869",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Cooking"
+                },
+                "description": {},
+                "group": "theme",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2020-12-17T00:41:01+00:00",
+          "updatedAt": "2025-02-08T00:46:21+00:00",
+          "version": 11,
+          "availableTranslatedLanguages": [
+            "en",
+            "ar",
+            "id",
+            "zh-hk"
+          ],
+          "latestUploadedChapter": "88487633-7ec0-4ac5-aa98-4a84270fd8e8"
+        }
+      },
+      {
+        "id": "695841f4-6087-4333-8f1c-d45a6bc677f7",
+        "type": "manga",
+        "related": "doujinshi",
+        "attributes": {
+          "title": {
+            "en": "Yurucamp △ - Yuri Manga - Secret (Doujinshi)"
+          },
+          "altTitles": [
+            {
+              "ja": "ゆるキャン△百合漫画『ひみつ』"
+            }
+          ],
+          "description": {
+            "en": "Rin x Sakura"
+          },
+          "isLocked": false,
+          "links": {
+            "raw": "https://www.pixiv.net/member_illust.php?mode=medium&illust_id=72333593"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": null,
+          "lastChapter": null,
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": null,
+          "contentRating": "safe",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b13b2a48-c720-44a9-9c77-39c9979373fb",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Doujinshi"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2019-12-09T22:57:40+00:00",
+          "updatedAt": "2024-03-28T07:42:01+00:00",
+          "version": 3,
+          "availableTranslatedLanguages": [
+            "en"
+          ],
+          "latestUploadedChapter": "62bcf68b-3777-4feb-b1f5-21a780e8e51f"
+        }
+      },
+      {
+        "id": "7e5a2e51-7170-4f14-8223-47a7be84818f",
+        "type": "manga",
+        "related": "doujinshi",
+        "attributes": {
+          "title": {
+            "en": "Yuru Camp - Nade Rin ga Onsen de (Doujinshi)"
+          },
+          "altTitles": [
+            {
+              "ja": "なでりんが温泉で"
+            },
+            {
+              "en": "Nade Rin at the Onsen"
+            },
+            {
+              "es-la": "Nadeshiko y Rin en las aguas termales"
+            }
+          ],
+          "description": {},
+          "isLocked": false,
+          "links": {
+            "raw": "https://www.melonbooks.co.jp/detail/detail.php?product_id=1186700"
+          },
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": 2021,
+          "contentRating": "pornographic",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b13b2a48-c720-44a9-9c77-39c9979373fb",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Doujinshi"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2022-09-07T18:18:44+00:00",
+          "updatedAt": "2022-09-07T18:22:22+00:00",
+          "version": 2,
+          "availableTranslatedLanguages": [
+            "en"
+          ],
+          "latestUploadedChapter": "d745a5f6-545a-4c78-a142-225a37721f4b"
+        }
+      },
+      {
+        "id": "9eb755bb-de4c-432b-aa87-38bae5311258",
+        "type": "manga",
+        "related": "doujinshi",
+        "attributes": {
+          "title": {
+            "en": "Yuru Camp - Rin and Nadeshiko ~Preparing For Summer Camp On a City Date!~"
+          },
+          "altTitles": [
+            {
+              "ja-ro": "Rin to Nadeshiko ~Machi Date de Natsu Camp Junbi!~"
+            },
+            {
+              "ja": "リンとなでしこ ～街デートで夏キャン準備!～"
+            }
+          ],
+          "description": {
+            "en": "Rin x Nadeshiko doujin of Yuru Camp released at C94."
+          },
+          "isLocked": false,
+          "links": {},
+          "originalLanguage": "ja",
+          "lastVolume": "",
+          "lastChapter": "",
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": 2018,
+          "contentRating": "suggestive",
+          "tags": [
+            {
+              "id": "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Oneshot"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Romance"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Comedy"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b13b2a48-c720-44a9-9c77-39c9979373fb",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Doujinshi"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2020-04-12T12:17:04+00:00",
+          "updatedAt": "2023-08-25T01:52:10+00:00",
+          "version": 4,
+          "availableTranslatedLanguages": [
+            "it",
+            "pt-br",
+            "en"
+          ],
+          "latestUploadedChapter": "463da722-2641-4e3e-bf63-b8c70da877f4"
+        }
+      },
+      {
+        "id": "a59e6ab0-0769-4aa5-8a20-c54d4184da65",
+        "type": "manga",
+        "related": "doujinshi",
+        "attributes": {
+          "title": {
+            "en": "Yurucamp △ - Icha Camp (Doujinshi)"
+          },
+          "altTitles": [
+            {
+              "ja": "いちゃキャン♡"
+            },
+            {
+              "en": "Flirty Camp"
+            }
+          ],
+          "description": {
+            "en": "A Nadeshiko x Rin and Aoi x Chiaki doujin with absolutely no camping whatsoever."
+          },
+          "isLocked": false,
+          "links": {},
+          "originalLanguage": "ja",
+          "lastVolume": "1",
+          "lastChapter": "2",
+          "publicationDemographic": null,
+          "status": "completed",
+          "year": null,
+          "contentRating": "suggestive",
+          "tags": [
+            {
+              "id": "a3c67850-4684-404e-9b7f-c69850ee5da6",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Girls' Love"
+                },
+                "description": {},
+                "group": "genre",
+                "version": 1
+              },
+              "relationships": []
+            },
+            {
+              "id": "b13b2a48-c720-44a9-9c77-39c9979373fb",
+              "type": "tag",
+              "attributes": {
+                "name": {
+                  "en": "Doujinshi"
+                },
+                "description": {},
+                "group": "format",
+                "version": 1
+              },
+              "relationships": []
+            }
+          ],
+          "state": "published",
+          "chapterNumbersResetOnNewVolume": false,
+          "createdAt": "2019-10-27T06:27:19+00:00",
+          "updatedAt": "2022-02-21T02:48:24+00:00",
+          "version": 2,
+          "availableTranslatedLanguages": [
+            "en"
+          ],
+          "latestUploadedChapter": "7ad49082-8e8a-4c1e-9771-77339f4d7d36"
+        }
+      }
+    ]
+  }
+}

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 /// A tag of a manga.
 ///
@@ -76,4 +77,52 @@ extension Tag {
     }
 }
 
+
+/// A tag stored in a user's local SwiftData library context.
+///
+/// - Note: This structure's types are made to match the JSON data structure provided in the MangaDexAPI documentation, where
+///         optionals are used to represent values that can be null.
+@Model
+class StoredTag {
+    #Unique<StoredTag>([\.id], [\.name])
+    #Index<StoredTag>([\.id], [\.name])
+    
+    /// A unique id assigned to a tag.
+    @Attribute(.unique)
+    var id: UUID
+    
+    /// The name of this tag.
+    var name: String
+    
+    /// The type of content this tag is related to.
+    var group: String
+    
+    /// Creates a new StoredTag instance from the given values.
+    ///
+    /// - Parameters:
+    ///     - id: the UUID of a tag.
+    ///     - name: the name of a tag.
+    ///     - group: the collection a tag belongs to.
+    ///
+    /// - Returns: a newly created StoredTag.
+    init(id: UUID, name: String, group: String) {
+        self.id = id
+        self.name = name
+        self.group = group
+    }
+    
+    /// Creates a new StoredTag instance from the specified tag.
+    ///
+    /// - Parameter tag: the tag to create a stored instance of.
+    ///
+    /// - Returns: a newly created StoredTag.
+    convenience init(from tag: Tag) {
+        self.init(
+            id: tag.id,
+            name: tag.name,
+            group:tag.group
+        )
+    }
+    
+}
 

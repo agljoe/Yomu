@@ -13,6 +13,15 @@ struct YomuApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: [
+                    StoredAuthor.self,
+                    StoredChapter.self,
+                    StoredCover.self,
+                    StoredManga.self,
+                    StoredScanlationGroup.self,
+                    StoredUser.self
+                ])
         }
     }
 }
+

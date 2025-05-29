@@ -14,6 +14,7 @@ struct DeferView<Content: View>: View {
     init(@ViewBuilder _ content: @escaping () -> Content) {
         self.content = content
     }
+    
     var body: some View {
         content()          // << everything is created here
     }

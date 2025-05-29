@@ -626,7 +626,7 @@ public enum Status: String, Codable, Sendable {
 /// ### See Also
 /// [Static Data](https://api.mangadex.org/docs/3-enumerations/)
 @frozen
-public enum ReadingStatus: String, Codable, Sendable {
+public enum ReadingStatus: String, CaseIterable, Codable, Sendable {
     /// Indicateds there is no reading status.
     case none = "none"
     
@@ -635,18 +635,18 @@ public enum ReadingStatus: String, Codable, Sendable {
     
     /// Indicates a user has currently paused reading this manga.
     case on_hold = "on_hold"
-    
+
+    /// Indicates a user will not continue reading this manga.
+    case dropped = "dropped"
+
     /// Indicates a user plans to  read this manga.
     case plan_to_read = "plan_to_read"
     
-    /// Indicates a user will not continue reading this manga.
-    case dropped = "dropped"
-    
-    /// Indicates a user is currently re-reading this manga.
-    case re_reading = "re_rereading"
-    
     /// Indicates a user has completed reading this manga.
     case completed = "completed"
+
+    /// Indicates a user is currently re-reading this manga.
+    case re_reading = "re_rereading"
 }
 
 /// A content rating for a given manga.

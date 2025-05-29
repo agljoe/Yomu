@@ -91,7 +91,7 @@ private extension MangaDexAPIRequest {
     }
 }
 
-/// A collection of  tests for this application.
+/// A collection of tests for this application.
 struct YomuTests {
     /// Basic unit tests for decode the types defined in Models.
     ///
@@ -222,7 +222,7 @@ struct YomuTests {
             }
         }
     }
-    
+        
     /// Integration tests for fetching data from the MangaDexAPI,
     ///
     /// Uses a mock get function to ensure test isolation.
@@ -238,7 +238,16 @@ struct YomuTests {
             }
             
             func decode(_ data: Data) throws -> T.ModelType {
-                try JSONDecoder().decode(Wrapper<T.ModelType>.self, from: data).data
+                let decoder = JSONDecoder()
+                
+                let RFC3339DateFormatter = DateFormatter()
+                RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+                RFC3339DateFormatter.timeZone = TimeZone.current
+                
+                decoder.dateDecodingStrategy = .formatted(RFC3339DateFormatter)
+                
+                return try decoder.decode(Wrapper<T.ModelType>.self, from: data).data
             }
             
             func execute() async throws -> T.ModelType {
@@ -287,7 +296,7 @@ struct YomuTests {
         func canFetchScanaltionGroup() async {
             await #expect(throws: Never.self) {
                 let entity = ScanlationGroupEntity(id: UUID(uuidString:"2015e273-89af-41f6-9488-cae400463c93")!)
-                #expect(entity.url.absoluteString == "https://api.mangadex.org/cover/04d79fc9-f8af-422a-ae0d-0594480dce3d?includes%5B%5D=manga")
+                #expect(entity.url.absoluteString == "https://api.mangadex.org/group/2015e273-89af-41f6-9488-cae400463c93/?includes%5B%5D=leader&includes%5B%5D=member")
                 let request = MockRequest<ScanlationGroupEntity>(entity)
                 let scanlationGroup = try await request.execute()
                 #expect(scanlationGroup.name == "Sho Habby Scans")
@@ -304,6 +313,10 @@ struct YomuTests {
                 #expect(user.username == "ripe-mango")
             }
         }
+    }
+    
+    @Suite("Persistent Data Tests") struct YomuDataTests {
+        
     }
 }
 

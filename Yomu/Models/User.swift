@@ -77,12 +77,15 @@ struct UserRealtionship: Decodable, Equatable, Hashable, Sendable {
 /// A User that is stored in a user's local SwiftData library context.
 @Model
 class StoredUser {
+    #Unique<StoredUser>([\.id])
+    #Index<StoredUser>([\.id], [\.username])
+    
     /// The UUID of this user.
     @Attribute(.unique) private(set) var id: UUID
     
     /// The name of this user.
     ///
-    /// This value should be unchangable.
+    /// This value should be immutable..
     var username: String
     
     /// The roles this user has in their respective scanlation group, or as a MangaDex staff.
@@ -91,15 +94,40 @@ class StoredUser {
     /// The version of this user.
     var version: Int
     
+    
+    /// Creates a new StoredUser instance from the given values..
+    ///
+    /// - Parameters
+    ///     - id: the UUID of a user.
+    ///     - username: the name of a user.
+    ///     - roles: titles given to this user as either part of a scanlation group or as MangaDex staff.
+    ///     - version: the version of a user.
+    ///
+    /// - Returns: a newly created StoredUser.
+    init(id: UUID, username: String, roles: [String], version: Int) {
+        self.id = id
+        self.username = username
+        self.roles = roles
+        self.version = version
+    }
+    
     /// Creates a new StoredUser instance from the specified User.
     ///
     /// - Parameter user: the user to create a stored instance of.
     ///
     /// - Returns: a newly created StoredUser.
-    init(from user: User) {
-        self.id = user.id
-        self.username = user.username
-        self.roles = user.roles
-        self.version = user.version
+    convenience init(from user: User) {
+        self.init(
+            id: user.id,
+            username: user.username,
+            roles: user.roles,
+            version: user.version
+        )
+    }
+}
+
+extension StoredUser: Equatable {
+    static func == (lhs: StoredUser, rhs: StoredUser) -> Bool {
+        lhs.id == rhs.id && lhs.version == rhs.version
     }
 }

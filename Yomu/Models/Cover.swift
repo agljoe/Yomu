@@ -123,10 +123,18 @@ extension CoverRelationship {
     }
 }
 
+/// A cover stored in a user's local SwiftData library context.
+///
+/// - Note: This structure's types are made to match the JSON data structure provided in the MangaDexAPI documentation, where
+///         optionals are used to represent values that can be null.
 @Model
 class StoredCover {
+    #Unique<StoredCover>([\.id])
+    #Index<StoredCover>([\.id], [\.volume])
+    
     /// A unique id assigned to a cover.
-    @Attribute(.unique) private(set) var id: UUID
+    @Attribute(.unique, .preserveValueOnDeletion)
+    private(set) var id: UUID
     
     /// The volume this is the cover of.
     var volume: String?
@@ -143,25 +151,52 @@ class StoredCover {
     /// A number desctibing the version of a cover.
     var version: Int
     
-    /// The date a cover was uploaded to MangaDex.
-    var createdAt: Date
-    
     /// The date a cover was last modified.
     var updatedAt: Date
+    
+    
+    /// Creates a new StoredCover instance from the given values.
+    ///
+    /// - Parameters:
+    ///     - id: the UUID of a cover.
+    ///     - volume: the volume this is the cover of.
+    ///     - fileName: the name of this cover in the MangaDex database.
+    ///     - altText: a short description of a cover.
+    ///     - locale: the language a cover is for.
+    ///     - version: the version of a cover.
+    ///     - updatedAt: the last time a cover was updated on MangaDex.
+    ///
+    /// - Returns: a newly created StoredCover.
+    init(id: UUID, volume: String? = nil, fileName: String, altText: String? = nil, locale: String? = nil, version: Int, updatedAt: Date) {
+        self.id = id
+        self.volume = volume
+        self.fileName = fileName
+        self.altText = altText
+        self.locale = locale
+        self.version = version
+        self.updatedAt = updatedAt
+    }
     
     /// Creates a new StoredCover instance from the specified Cover.
     ///
     /// - Parameter cover: the cover to create a stored instance of.
     ///
     /// - Returns: a newly created StoredCover.
-    init(from cover: Cover) {
-        self.id = cover.id
-        self.volume = cover.volume
-        self.fileName = cover.fileName
-        self.altText = cover.description
-        self.locale = cover.locale
-        self.version = cover.version
-        self.createdAt = cover.createdAt
-        self.updatedAt = cover.updatedAt
+    convenience init(from cover: Cover) {
+        self.init(
+            id: cover.id,
+            volume: cover.volume,
+            fileName: cover.fileName,
+            altText: cover.description,
+            locale: cover.locale,
+            version: cover.version,
+            updatedAt: cover.updatedAt
+        )
+    }
+}
+
+extension StoredCover: Equatable {
+    static func == (lhs: StoredCover, rhs: StoredCover) -> Bool {
+        return lhs.id == rhs.id && lhs.updatedAt == rhs.updatedAt
     }
 }

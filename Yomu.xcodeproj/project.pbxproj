@@ -88,6 +88,17 @@
 		499929A22C2A4E0F003BD29B /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499929A12C2A4E0F003BD29B /* Cover.swift */; };
 		499D3F9B2D5B317300D89386 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D3F9A2D5B317300D89386 /* Statistics.swift */; };
 		499D3FB22D606DBE00D89386 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 499D3FB12D606DBE00D89386 /* Algorithms */; };
+		49E6AAFA2DD7115C00731B53 /* Status.json in Resources */ = {isa = PBXBuildFile; fileRef = 49E6AAF92DD7115C00731B53 /* Status.json */; };
+		49E6AB002DDC368000731B53 /* Laid Back Camp Chapter Feed.json in Resources */ = {isa = PBXBuildFile; fileRef = 49E6AAFF2DDC368000731B53 /* Laid Back Camp Chapter Feed.json */; };
+		49E6AB012DDC368000731B53 /* Laid Back Camp.json in Resources */ = {isa = PBXBuildFile; fileRef = 49E6AAFE2DDC368000731B53 /* Laid Back Camp.json */; };
+		49E6AB072DE17EA500731B53 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB062DE17EA500731B53 /* Database.swift */; };
+		49E6AB092DE187AA00731B53 /* DatabaseModelActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB082DE187AA00731B53 /* DatabaseModelActor.swift */; };
+		49E6AB0B2DE2AAE300731B53 /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB0A2DE2AAE300731B53 /* Queryable.swift */; };
+		49E6AB0D2DE2ABEE00731B53 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB0C2DE2ABEE00731B53 /* Selector.swift */; };
+		49E6AB0F2DE2AC4700731B53 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB0E2DE2AC4700731B53 /* Model.swift */; };
+		49E6AB112DE2C3C400731B53 /* UniqueKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB102DE2C3C400731B53 /* UniqueKey.swift */; };
+		49E6AB132DE66AB600731B53 /* ModelContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB122DE66AB600731B53 /* ModelContext.swift */; };
+		49E6AB152DE6877C00731B53 /* Synchronization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB142DE6877C00731B53 /* Synchronization.swift */; };
 		49F0F34E2D2F96EB00525902 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34D2D2F96EB00525902 /* AccountView.swift */; };
 		49F0F3502D40700000525902 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0F34F2D40700000525902 /* ReaderView.swift */; };
 /* End PBXBuildFile section */
@@ -195,6 +206,17 @@
 		4999299F2C225189003BD29B /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		499929A12C2A4E0F003BD29B /* Cover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
 		499D3F9A2D5B317300D89386 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		49E6AAF92DD7115C00731B53 /* Status.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Status.json; sourceTree = "<group>"; };
+		49E6AAFE2DDC368000731B53 /* Laid Back Camp.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Laid Back Camp.json"; sourceTree = "<group>"; };
+		49E6AAFF2DDC368000731B53 /* Laid Back Camp Chapter Feed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Laid Back Camp Chapter Feed.json"; sourceTree = "<group>"; };
+		49E6AB062DE17EA500731B53 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		49E6AB082DE187AA00731B53 /* DatabaseModelActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseModelActor.swift; sourceTree = "<group>"; };
+		49E6AB0A2DE2AAE300731B53 /* Queryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queryable.swift; sourceTree = "<group>"; };
+		49E6AB0C2DE2ABEE00731B53 /* Selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
+		49E6AB0E2DE2AC4700731B53 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		49E6AB102DE2C3C400731B53 /* UniqueKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueKey.swift; sourceTree = "<group>"; };
+		49E6AB122DE66AB600731B53 /* ModelContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContext.swift; sourceTree = "<group>"; };
+		49E6AB142DE6877C00731B53 /* Synchronization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronization.swift; sourceTree = "<group>"; };
 		49F0F34D2D2F96EB00525902 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		49F0F34F2D40700000525902 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -386,6 +408,9 @@
 				4998EA0D2DC9A104005A1591 /* Grouped Manga Statistics.json */,
 				4998EA112DCAD628005A1591 /* Sousou no Frieren Ch. 1 - 5 Statistics.json */,
 				4998EA172DCC297C005A1591 /* User.json */,
+				49E6AAF92DD7115C00731B53 /* Status.json */,
+				49E6AAFE2DDC368000731B53 /* Laid Back Camp.json */,
+				49E6AAFF2DDC368000731B53 /* Laid Back Camp Chapter Feed.json */,
 				499929232C0FEBA3003BD29B /* Yomu */,
 				499929342C0FEBA5003BD29B /* YomuTests */,
 				4999293E2C0FEBA5003BD29B /* YomuUITests */,
@@ -406,6 +431,7 @@
 		499929232C0FEBA3003BD29B /* Yomu */ = {
 			isa = PBXGroup;
 			children = (
+				49E6AB052DE17E9700731B53 /* Database */,
 				496588DE2D9E08DB00E67A6F /* Helpers */,
 				496588F62D9E08DF00E67A6F /* API */,
 				499929522C100B03003BD29B /* Models */,
@@ -492,6 +518,21 @@
 				49F0F34D2D2F96EB00525902 /* AccountView.swift */,
 			);
 			path = "Settings Views";
+			sourceTree = "<group>";
+		};
+		49E6AB052DE17E9700731B53 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				49E6AB062DE17EA500731B53 /* Database.swift */,
+				49E6AB082DE187AA00731B53 /* DatabaseModelActor.swift */,
+				49E6AB0A2DE2AAE300731B53 /* Queryable.swift */,
+				49E6AB0C2DE2ABEE00731B53 /* Selector.swift */,
+				49E6AB0E2DE2AC4700731B53 /* Model.swift */,
+				49E6AB122DE66AB600731B53 /* ModelContext.swift */,
+				49E6AB102DE2C3C400731B53 /* UniqueKey.swift */,
+				49E6AB142DE6877C00731B53 /* Synchronization.swift */,
+			);
+			path = Database;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -604,9 +645,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4998E9FF2DC5D197005A1591 /* Sho Habby Scans.json in Resources */,
+				49E6AAFA2DD7115C00731B53 /* Status.json in Resources */,
 				4999292C2C0FEBA5003BD29B /* Preview Assets.xcassets in Resources */,
 				4998E9F82DC44F54005A1591 /* Namori.json in Resources */,
 				4998EA012DC6E31F005A1591 /* Isekai Izakaya Chapter 1 Statistics.json in Resources */,
+				49E6AB002DDC368000731B53 /* Laid Back Camp Chapter Feed.json in Resources */,
+				49E6AB012DDC368000731B53 /* Laid Back Camp.json in Resources */,
 				499929292C0FEBA5003BD29B /* Assets.xcassets in Resources */,
 				4998EA092DC6F01F005A1591 /* Tensura Statistics.json in Resources */,
 				4998EA0A2DC6F01F005A1591 /* Horimiya Statistics.json in Resources */,
@@ -649,10 +693,12 @@
 				4999298A2C1BBE52003BD29B /* AboutView.swift in Sources */,
 				4999296D2C16A1D6003BD29B /* SettingsView.swift in Sources */,
 				4998EA1B2DCC299A005A1591 /* UserEntity.swift in Sources */,
+				49E6AB152DE6877C00731B53 /* Synchronization.swift in Sources */,
 				496588F72D9E08DF00E67A6F /* LoginRequest.swift in Sources */,
 				496588F82D9E08DF00E67A6F /* AuthorEntity.swift in Sources */,
 				496588F92D9E08DF00E67A6F /* AuthorListEntity.swift in Sources */,
 				4965890B2D9E4BE800E67A6F /* CoverListEntity.swift in Sources */,
+				49E6AB072DE17EA500731B53 /* Database.swift in Sources */,
 				4998EA162DCC1917005A1591 /* GroupedMangaStatisticsEntity.swift in Sources */,
 				4998EA062DC6E5F3005A1591 /* ChapterStatisticsEntity.swift in Sources */,
 				496588FA2D9E08DF00E67A6F /* ChapterEntity.swift in Sources */,
@@ -665,14 +711,18 @@
 				496589002D9E08DF00E67A6F /* RandomMangaEntity.swift in Sources */,
 				496589012D9E08DF00E67A6F /* TagRequest.swift in Sources */,
 				496589022D9E08DF00E67A6F /* MangaDexAPIError.swift in Sources */,
+				49E6AB092DE187AA00731B53 /* DatabaseModelActor.swift in Sources */,
 				496589032D9E08DF00E67A6F /* MangaDexAPIRequest.swift in Sources */,
 				496589092D9E4AC800E67A6F /* CoverEntity.swift in Sources */,
 				496589042D9E08DF00E67A6F /* StaticData.swift in Sources */,
 				4998E9FD2DC5CFE1005A1591 /* ScanlationGroupEntity.swift in Sources */,
 				4999299A2C21142F003BD29B /* FilterTagsView.swift in Sources */,
 				496589062D9E0D9800E67A6F /* MangaReadingStatus.swift in Sources */,
+				49E6AB0D2DE2ABEE00731B53 /* Selector.swift in Sources */,
 				499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */,
 				496589132DA0AD2C00E67A6F /* FollowedFeedEntity.swift in Sources */,
+				49E6AB132DE66AB600731B53 /* ModelContext.swift in Sources */,
+				49E6AB0F2DE2AC4700731B53 /* Model.swift in Sources */,
 				492FB2BC2C7BBB0F00F634E1 /* ScanlationGroup.swift in Sources */,
 				496589182DA2044900E67A6F /* ReadMarkerEntity.swift in Sources */,
 				499929752C16A466003BD29B /* CommunityView.swift in Sources */,
@@ -699,6 +749,8 @@
 				499929772C192C4A003BD29B /* Chapter.swift in Sources */,
 				499D3F9B2D5B317300D89386 /* Statistics.swift in Sources */,
 				499929962C1E7566003BD29B /* FilterSettingsView.swift in Sources */,
+				49E6AB112DE2C3C400731B53 /* UniqueKey.swift in Sources */,
+				49E6AB0B2DE2AAE300731B53 /* Queryable.swift in Sources */,
 				499929862C1BB5DB003BD29B /* GeneralView.swift in Sources */,
 				499929922C1BE438003BD29B /* LibrarySettingsView.swift in Sources */,
 				492FB2B82C79703F00F634E1 /* Relationship.swift in Sources */,

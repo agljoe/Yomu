@@ -4,6 +4,7 @@
 //
 //  Created by Andrew Joe on 2024-06-09.
 //
+import SwiftData
 import SwiftUI
 
 /// A wrapper struct around the elements required to make a update item.
@@ -48,7 +49,7 @@ extension Update: Comparable {
     ///
     /// - Note: It is highly unlikely for two updates to have chaters with the same readableAt value,
     ///         but the implementation of this function is included if such a case occurs.
-    ///         
+    ///
     /// - Parameters:
     ///     - lhs: an update to be compared.
     ///     - rhs: another update to be compared.
@@ -64,8 +65,8 @@ extension Chapter {
     /// For example the formated full title for chapter one of Tokyo Ghoul would be`Vol. 1 Ch. 5 - Coffee`.
     var fullTitle: String {
         if let volume = self.volume {
-            return "Vol. \(volume) Ch. \(self.chapter ?? "0") \(self.title != nil ? "- \(self.title!)" : "")"
-        } else { return "Ch. \(self.chapter ?? "0") - \(self.title != nil ? "- \(self.title!)" : "")" }
+            return "Vol. \(volume) Ch. \(self.chapter ?? "0") \(self.title != nil && self.title != "" ? "- \(self.title!)" : "")"
+        } else { return "Ch. \(self.chapter ?? "0") \(self.title != nil ? "- \(self.title!)" : "")" }
     }
 }
 
@@ -104,7 +105,8 @@ struct ChapterListRow: View {
             // TODO: change to light font size?
             HStack {
                 VStack(alignment: .leading) {
-                    Image(systemName: chapter.hasBeenRead ? "eye.slash" : "eye")
+                    /// TODO: add readmarkers
+                    Image(systemName: "eye")
                     Image(systemName: "person.2")
                 }
                 
@@ -126,11 +128,12 @@ struct ChapterList: View {
     
     /// A list of chapters sorted descending order of chapter number, or upload date if the chapter does not have a number.
     var body: some View {
-        List {
-            ForEach($chapters) { chapter in
-                ChapterListRow(chapter: chapter)
-                    .listRowBackground(Color.clear)
-            }
+        //        List {
+        ForEach($chapters) { chapter in
+            ChapterListRow(chapter: chapter)
+            //                    .listRowBackground(Color.clear)
+                .foregroundStyle(.primary)
+            //            }
         }
         .listRowInsets(.none)
         .scrollIndicators(.never)
@@ -156,13 +159,15 @@ struct UpdateListRow: View {
                 } placeholder: {
                     ProgressView()
                 }
-                .frame(width: 130)
+                .frame(width: 115, height: 169)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
             }
             
             VStack(alignment: .leading) {
                 Text(update.manga.localizedTitle)
                     .lineLimit(1)
-                    .padding(.top, 7)
+                    .font(.title3)
+                //                    .padding(.top, 7)
                 
                 Rectangle().frame(height: 1).backgroundStyle(.white)
                 
@@ -170,7 +175,7 @@ struct UpdateListRow: View {
                     .ignoresSafeArea()
             }
         }
-        .cardStyle()
+        .frame(minHeight: 180, alignment: .top)
     }
 }
 
@@ -187,15 +192,14 @@ struct UpdatesView: View {
                     /// Display all user updates in a scrollable list.
                     ForEach(model.updates, id: \.self.chapters.first!.id) { update in
                         UpdateListRow(update: update)
-                            .padding(.vertical, 3)
+                            .padding(.bottom, 3)
                     }
                     
                     Color.clear
                         .frame(height: 1)
-                        .onAppear { Task { try! await model.fetchUpdates() } }
+                        .onAppear { Task { try? await model.fetchUpdates() } }
                 }
             }
-            .backgroundStyle(Color(UIColor.systemGroupedBackground))
             .overlay(Group { if model.isLoading { ProgressView() } })
             .scrollIndicators(.never)
             .refreshable { try? await model.refreshUpdates() }

@@ -37,7 +37,7 @@ struct Chapter: Decodable, Identifiable, Sendable {
     let translatedLanguage: String
     
     /// A chapter that links to an eternal source.
-    let externalUrl: String?
+    let externalURL: String?
     
     ///  A number describing the version of a chapter.
     let version: Int
@@ -62,9 +62,6 @@ struct Chapter: Decodable, Identifiable, Sendable {
     
     /// The manga a chapter is from.
     let parentManga: ParentManga?
-    
-    /// Sets the read marker for a chapter to false by default.
-    var hasBeenRead: Bool = false
     
     /// The base coding keys for this struct.
     private enum CodingKeys: String, CodingKey {
@@ -93,7 +90,7 @@ struct Chapter: Decodable, Identifiable, Sendable {
         self.chapter = try attributesContainer.decodeIfPresent(String.self, forKey: .chapter)
         self.pages = try attributesContainer.decode(Int.self, forKey: .pages)
         self.translatedLanguage = try attributesContainer.decode(String.self, forKey: .translatedLanguage)
-        self.externalUrl = try attributesContainer.decodeIfPresent(String.self, forKey: .externalUrl)
+        self.externalURL = try attributesContainer.decodeIfPresent(String.self, forKey: .externalUrl)
         self.version = try attributesContainer.decode(Int.self, forKey: .version)
         self.createdAt = try attributesContainer.decode(Date.self, forKey: .createdAt)
         self.updatedAt = try attributesContainer.decode(Date.self, forKey: .updatedAt)
@@ -121,10 +118,6 @@ struct Chapter: Decodable, Identifiable, Sendable {
         self.scanlationGroup = scanlationGroup ?? nil
         self.user = uploader ?? nil
         self.parentManga = parentManga ?? nil
-    }
-    
-    mutating func updateReadMarker(to marker: Bool) {
-        self.hasBeenRead = marker
     }
 }
 
@@ -251,11 +244,19 @@ struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
     }
 }
 
+
+/// A chapter stored in a user's local SwiftData library context.
+///
+/// - Note: This structure's types are made to match the JSON data structure provided in the MangaDexAPI documentation, where
+///         optionals are used to represent values that can be null.
 @Model
 class StoredChapter {
+    #Unique<StoredChapter>([\.id])
+    #Index<StoredChapter>([\.id], [\.title], [\.title, \.hasBeenRead])
+    
     /// A unique id assigned to a chapter.
-    @Attribute(.unique) private(set)
-    var id: UUID
+    @Attribute(.unique, .preserveValueOnDeletion)
+    private(set) var id: UUID
     
     /// The title of this chapter
     var title: String?
@@ -273,56 +274,98 @@ class StoredChapter {
     var translatedLanguage: String
     
     /// A chapter that links to an eternal source.
-    var externalUrl: String?
+    var externalURL: String?
     
     ///  A number describing the version of a chapter.
     var version: Int
-    
-    /// The date a chapter was uploaded to MangaDex.
-    var createdAt: Date
-    
+
     /// The date a chapter was last modified.
     var updatedAt: Date
     
-    /// The date a chapter was published.
-    var publishAt: Date
+    /// Sets the read marker for a chapter to false by default.
+    var hasBeenRead: Bool
     
-    /// The date a chapter was available to read.
-    var readableAt: Date
+    /// The number of pages the user has read.
+    var totalReadPages: Int {
+        get { hasBeenRead ? pages : 0 }
+        set(newValue) { if newValue >= pages { hasBeenRead = true } }
+    }
     
     /// A group of people who translated a chapter.
-    @Relationship(deleteRule: .cascade) var scanlationGroup: StoredScanlationGroup?
+    @Relationship(deleteRule: .cascade)
+    var scanlationGroup: StoredScanlationGroup?
     
     /// The user who uploaded this chapter.
-    @Relationship(deleteRule: .cascade) var user: StoredUser?
+    @Relationship(deleteRule: .cascade)
+    var user: StoredUser?
     
     /// The manga a chapter is from.
-    @Relationship(inverse: \StoredManga.chapters) var parentManga: StoredManga?
+    @Relationship(inverse: \StoredManga.chapters)
+    var parentManga: StoredManga?
     
-    /// Sets the read marker for a chapter to false by default.
-    var hasBeenRead: Bool = false
+    
+    /// Creates a new StoredChapter instance from the given values..
+    ///
+    /// - Parameters:
+    ///     - id: the UUID of a chapter
+    ///     - title: the title of a chapter
+    ///     - volume: the volume a chapter belongs to.
+    ///     - number: the chapter number.
+    ///     - pages: the total number of pages in a given chapter.
+    ///     - translatedLanguage: the language of a chapter.
+    ///     - externalURL: a URL that links to this chapter on a website that is not mangadex.
+    ///     - version: the version of this chapter.
+    ///     - updatedAt: last time this chapters data was updated on MangaDex.
+    ///     - hasBeenRead: indicates if this chapter has been read.
+    ///     - scanlationGroup: the group of people who translated this chapter.
+    ///     - user: the person who uploaded this chatper to MangaDex.
+    ///     - parentManga: the manga a given chapter belongs to.
+    ///
+    /// - Returns: a newly created StoredChapter.
+    init(id: UUID, title: String? = nil, volume: String? = nil, number: String? = nil, pages: Int, translatedLanguage: String, externalURL: String? = nil, version: Int, updatedAt: Date, hasBeenRead: Bool, scanlationGroup: StoredScanlationGroup? = nil, user: StoredUser? = nil, parentManga: StoredManga? = nil) {
+        self.id = id
+        self.title = title
+        self.volume = volume
+        self.number = number
+        self.pages = pages
+        self.translatedLanguage = translatedLanguage
+        self.externalURL = externalURL
+        self.version = version
+        self.updatedAt = updatedAt
+        self.hasBeenRead = hasBeenRead
+        self.scanlationGroup = scanlationGroup
+        self.user = user
+        self.parentManga = parentManga
+    }
     
     /// Creates a new StoredChapter instance from the given Chapter..
     ///
     /// - Parameters:
     ///     - chapter: the chapter to create a stored instance of.
     ///     - parentManga: the manga the given chapter belongs to.
+    ///     - hasBeenRead: a boolean indicating if the given chapter has been read.
     ///
     /// - Returns: a newly created StoredChapter.
-    init(from chapter: Chapter, with parentManga: StoredManga? = nil) {
-        self.id = chapter.id
-        self.title = chapter.title
-        self.volume = chapter.volume
-        self.number = chapter.chapter
-        self.pages = chapter.pages
-        self.translatedLanguage = chapter.translatedLanguage
-        self.externalUrl = chapter.externalUrl
-        self.version = chapter.version
-        self.createdAt = chapter.createdAt
-        self.updatedAt = chapter.updatedAt
-        self.publishAt = chapter.publishAt
-        self.readableAt = chapter.readableAt
-        self.parentManga = parentManga
-        self.hasBeenRead = chapter.hasBeenRead
+    convenience init(from chapter: Chapter, with parentManga: StoredManga? = nil, hasBeenRead: Bool = false) {
+        self.init(
+            id: chapter.id,
+            title: chapter.title,
+            volume: chapter.volume,
+            number: chapter.chapter,
+            pages: chapter.pages,
+            translatedLanguage: chapter.translatedLanguage,
+            externalURL: chapter.externalURL,
+            version: chapter.version,
+            updatedAt: chapter.updatedAt,
+            hasBeenRead: hasBeenRead,
+            parentManga: parentManga
+        )
+    }
+
+}
+
+extension StoredChapter: Equatable {
+    static func == (lhs: StoredChapter, rhs: StoredChapter) -> Bool {
+        return lhs.id == rhs.id && lhs.updatedAt == rhs.updatedAt
     }
 }

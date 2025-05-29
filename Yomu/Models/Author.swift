@@ -35,7 +35,7 @@ struct Author: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// An image of the author or artist.
     ///
     /// MangaDex currently does not support profile pictures, so the value may not exist.
-    let imageUrl: String?
+    let imageURL: String?
     
     /// A brief description of an author or artist.
     ///
@@ -120,7 +120,7 @@ struct Author: Decodable, Equatable, Hashable, Identifiable, Sendable {
         
         let attributesContainer = try container.nestedContainer(keyedBy: AttributesCodingKeys.self, forKey: .attributes)
         self.name = try attributesContainer.decode(String.self, forKey: .name)
-        self.imageUrl = try attributesContainer.decodeIfPresent(String.self, forKey: .imageUrl)
+        self.imageURL = try attributesContainer.decodeIfPresent(String.self, forKey: .imageUrl)
         self.biography = try attributesContainer.decode([String: String].self, forKey: .biography)
         self.twitter = try attributesContainer.decodeIfPresent(String.self, forKey: .twitter)
         self.pixiv = try attributesContainer.decodeIfPresent(String.self, forKey: .pixiv)
@@ -296,14 +296,18 @@ extension CompactManga {
     }
 }
 
-/// An Author or Artist that is stored in a user's local SwiftData library context.
+/// An author or artist stored in a user's local SwiftData library context.
 ///
 /// - Note: This structure's types are made to match the JSON data structure provided in the MangaDexAPI documentation, where
 ///         optionals are used to represent values that can be null.
 @Model
 class StoredAuthor {
+    #Unique<StoredAuthor>([\.id])
+    #Index<StoredAuthor>([\.id], [\.name])
+    
     /// A unique id assigned to an author or arist.
-    @Attribute(.unique) private(set) var id: UUID
+    @Attribute(.unique, .preserveValueOnDeletion)
+    private(set) var id: UUID
     
     /// A string describing the type of an ``Author`` value.
     ///
@@ -318,7 +322,7 @@ class StoredAuthor {
     /// An image of the author or artist.
     ///
     /// MangaDex currently does not support profile pictures, so the value may not exist.
-    var imageUrl: String?
+    var imageURL: String?
     
     /// A brief description of an author or artist.
     ///
@@ -367,9 +371,6 @@ class StoredAuthor {
     /// A link to an author or artist's personal website.
     var website: String?
     
-    /// The date an author or artist's page was uploaded to MangaDex.
-    var createdAt: Date
-    
     /// The date an author or artist's page was last modified.
     var updatedAt: Date
     
@@ -381,35 +382,88 @@ class StoredAuthor {
     @Relationship(inverse: \StoredManga.artist)
     var relatedManga: [StoredManga]? = []
     
+    /// Creates a new StoredAuthor instance from the given values.
+    ///
+    /// - Parameters:
+    ///     - id: the UUID of an author.
+    ///     - type: indicaties if this is an author or artist.
+    ///     - name: the name of an author.
+    ///     - imageURL: the url of an author's profile picture.
+    ///     - biography: a short text describing an author.
+    ///     - twitter: a link to an author's twtiter.
+    ///     - pixiv: a link to an author's pixiv.
+    ///     - melonBook: a link to an author's melonBooks page.
+    ///     - fanBox: a link to an author's pixiv fanbox.
+    ///     - booth: a link to an author's booth.
+    ///     - nicoVideo: a link to an author's nicovideo channel.
+    ///     - skeb: a link to an author's skeb.
+    ///     - fantia: a link to an author's fantia.
+    ///     - tumblr: a link to an author's tumblr.
+    ///     - youtube: a link to an author's youtube channel.
+    ///     - weibo: a link to an author's weibo.
+    ///     - naver: a link to a author's naver.
+    ///     - namicomi: a link to an author's namicomi page.
+    ///     - website: a link to an author's personal website.
+    ///     - updatedAt: the last time an author's MangaDex page was updated.
+    ///     - version:the version of an author.
+    ///     - relatedManga: all manga by an author.
+    ///     
+    /// - Returns: a newly created StoredAuthor.
+    init(id: UUID, type: String, name: String, imageURL: String? = nil, biography: [String : String], twitter: String? = nil, pixiv: String? = nil, melonBook: String? = nil, fanBox: String? = nil, booth: String? = nil, nicoVideo: String? = nil, skeb: String? = nil, fantia: String? = nil, tumblr: String? = nil, youtube: String? = nil, weibo: String? = nil, naver: String? = nil, namicomi: String? = nil, website: String? = nil, updatedAt: Date, version: Int, relatedManga: [StoredManga]? = nil) {
+        self.id = id
+        self.type = type
+        self.name = name
+        self.imageURL = imageURL
+        self.biography = biography
+        self.twitter = twitter
+        self.pixiv = pixiv
+        self.melonBook = melonBook
+        self.fanBox = fanBox
+        self.booth = booth
+        self.nicoVideo = nicoVideo
+        self.skeb = skeb
+        self.fantia = fantia
+        self.tumblr = tumblr
+        self.youtube = youtube
+        self.weibo = weibo
+        self.naver = naver
+        self.namicomi = namicomi
+        self.website = website
+        self.updatedAt = updatedAt
+        self.version = version
+        self.relatedManga = relatedManga
+    }
+    
     /// Creates a new StoredAuthor instance from the specified Author.
     ///
     /// - Parameter author: The author or artist to create a stored instance of.
     ///
     /// - Returns: a newly created StoredAuthor.
-    init(from author: Author) {
-        self.id = author.id
-        self.type = author.type
-        self.name = author.name
-        self.imageUrl = author.imageUrl
-        self.biography = author.biography
-        self.twitter = author.twitter
-        self.pixiv = author.pixiv
-        self.melonBook = author.melonBook
-        self.fanBox = author.fanBox
-        self.booth = author.booth
-        self.nicoVideo = author.nicoVideo
-        self.skeb = author.skeb
-        self.fantia = author.fantia
-        self.tumblr = author.tumblr
-        self.youtube = author.youtube
-        self.weibo = author.weibo
-        self.naver = author.naver
-        self.namicomi = author.namicomi
-        self.website = author.website
-        self.createdAt = author.createdAt
-        self.updatedAt = author.updatedAt
-        self.version = author.version
-        //self.relatedManga = author.relatedManga?.map({ .init(from: $0) })
+    convenience init(from author: Author) {
+        self.init(
+            id: author.id,
+            type: author.type,
+            name: author.name,
+            imageURL:  author.imageURL,
+            biography: author.biography,
+            twitter: author.twitter,
+            pixiv: author.pixiv,
+            melonBook: author.melonBook,
+            fanBox: author.fanBox,
+            booth: author.booth,
+            nicoVideo: author.nicoVideo,
+            skeb: author.skeb,
+            fantia: author.fantia,
+            tumblr: author.tumblr,
+            youtube: author.youtube,
+            weibo: author.weibo,
+            naver: author.naver,
+            namicomi: author.namicomi,
+            website: author.website,
+            updatedAt: author.updatedAt,
+            version: author.version,
+            relatedManga: []
+        )
     }
 }
 

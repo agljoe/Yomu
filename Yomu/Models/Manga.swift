@@ -107,6 +107,12 @@ struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// The user who created this manga's page.
     let creator: User?
     
+    /// Indicates whether or not this manga is currently being read.
+    var readingStatus: ReadingStatus = .none
+    
+    /// Indicates if new chapters of this manga appears in a user's followed manga chapter feed.
+    var isFollowed: Bool = false
+    
     /// The base coding keys for this struct.
     private enum CodingKeys: CodingKey {
         case id, attributes, relationships
@@ -229,25 +235,49 @@ extension RelatedManga {
     }
 }
 
+extension Array where Element == [String: String]  {
+    /// Reduces the weird array of dictionaries returned by the MangaDexAPi into a single dictionary where
+    /// each key leads to all available alternate titles for te respective language.
+    func flattenAltTitles() -> [String: [String]] {
+        var flattenedDictionary: [String: [String]] = [:]
+
+        for element in self {
+            if let _ = flattenedDictionary[element.keys.first!] {
+                flattenedDictionary[element.keys.first!]!.append(element.values.first!)
+            } else {
+                flattenedDictionary.updateValue([element.values.first!], forKey: element.keys.first!)
+            }
+
+        }
+        
+        return flattenedDictionary
+    }
+}
+
+/// A manga stored in a user's local SwiftData library context.
+///
+/// - Note: This structure's types are made to match the JSON data structure provided in the MangaDexAPI documentation, where
+///         optionals are used to represent values that can be null.
 @Model
 class StoredManga {
+    #Unique<StoredManga>([\.id])
+    #Index<StoredManga>([\.id], [\.title])
+    
     /// A unique id assigned to a manga.
-    @Attribute(.unique) private(set) var id: UUID
+    @Attribute(.unique, .preserveValueOnDeletion)
+    private(set) var id: UUID
     
     /// A title of a manga.
     ///
     /// This value is returned as a localized string, the key for `"title"` is usually `"en"`.
     ///
-    var title: [String: String]
+    var title: String
     
     /// A collection of localized titles for a manga.
-    var altTitles: [[String: String]]
+    var altTitles: [String: [String]]
     
     /// A collection of localized descriptions of a manga.
     var summary: [String: String]
-    
-    /// Whether of not this manga is locked.
-    var isLocked: Bool
     
     /// Links to manga trackers, and official sources.
     var links: [URL]
@@ -267,7 +297,7 @@ class StoredManga {
     ///
     /// ### See
     /// ``Demographic``
-    var publicationDemographic: String?
+    var publicationDemographic: Demographic?
     
     /// The current publication status of a manga.
     ///
@@ -296,13 +326,11 @@ class StoredManga {
     /// A collection of tags for a manga.
     ///
     /// Tags describe the format, genre, themes, and content of a manga.
-    var tags: [Tag]
+    @Relationship(deleteRule: .cascade)
+    var tags: [StoredTag]
     
     /// The type of publication for a manga.
     var state: String
-    
-    /// The date a manga was uploaded to MangaDex.
-    var createdAt: Date
     
     /// The data a manga was last modified.
     var updatedAt: Date
@@ -310,52 +338,167 @@ class StoredManga {
     /// A number describing the version of a manga.
     var version: Int
     
-    /// The author or authors of a manga.
-    @Relationship(deleteRule: .cascade) var author: [StoredAuthor]
+    /// The user's  current reading status for this manga.
+    var readingStatus: ReadingStatus
     
-    /// The artist of artists of a manga.
-    @Relationship(deleteRule: .cascade) var artist: [StoredAuthor]
+    /// Indicated if this manga's chapters appear in a user's followed manga chapter feed.
+    var isFollowed: Bool
     
-    /// The cover of a manga.
-    @Relationship(deleteRule: .cascade) var cover: StoredCover
-    
-    /// A collection fo manga related to a manga.
+    /// A collection of manga related to a manga.
     var relatedManga: [UUID]?
     
-    @Relationship(deleteRule: .cascade) var chapters: [StoredChapter]
+    /// The author or authors of a manga.
+    @Relationship(deleteRule: .cascade)
+    var author: [StoredAuthor]
+    
+    /// The artist of artists of a manga.
+    @Relationship(deleteRule: .cascade)
+    var artist: [StoredAuthor]
+    
+    /// The cover of a manga.
+    @Relationship(deleteRule: .cascade)
+    var cover: StoredCover
+    
+    @Relationship(deleteRule: .cascade)
+    var chapters: [StoredChapter]
+    
+    
+    /// Creates a new StoredManga instance from the given values.
+    ///
+    /// - Parameters
+    ///     - id: the UUID of a manga.
+    ///     - title: the title of a manga.
+    ///     - altTitles: the title of a manga in other languages.
+    ///     - summary: a brief description of a manga.
+    ///     - links: URLs for this manga on related websites.
+    ///     - original language: the original language of a manga.
+    ///     - last volume: the final volume of a manga.
+    ///     - last chapter: the final chapter of a manga.
+    ///     - publicationDemographic: the target audience of a manga.
+    ///     - status: the current publication status of a manga.
+    ///     - year: the year a manga was first published.
+    ///     - contentRating: the maturity of content depicted in a manga.
+    ///     - chapterNumbersResetOnNewVolume: if a manga has every volume start at chapter one.
+    ///     - availableTranslatedLanguages: the langauges a manga has been translated into.
+    ///     - latestUploadedChapter: the most reacently uloaded chatper of a manga.
+    ///     - tags: the genres and themes of a manga.
+    ///     - state: a manga's publication state.
+    ///     - updatedAt: the last time this manga was updated on MangaDex.
+    ///     - version: the version of a manga.
+    ///     - readingStatus: a user's reading status for this manga.
+    ///     - isFollowed: inidcates if this manga's chapters appear in a user's followed manga chapter feed.
+    ///     - relatedManga: any managa related to this manga's universe
+    ///     - author: the author of this manga.
+    ///     - artist: the artist of this magna,
+    ///     - cover: a cover art for this manga.
+    ///     - chapters: the available chapters for this manga.
+    ///
+    /// - Returns: a newly created StoredManga.
+    init(id: UUID, title: String, altTitles: [String : [String]], summary: [String : String], links: [URL], originalLanguage: String, lastVolume: String? = nil, lastChapter: String? = nil, publicationDemographic: Demographic? = nil, status: Status, year: Int? = nil, contentRating: String, chapterNumbersResetOnNewVolume: Bool, availableTranslatedLanguages: [String], latestUploadedChapter: UUID? = nil, tags: [StoredTag], state: String, updatedAt: Date, version: Int, readingStatus: ReadingStatus, isFollowed: Bool, relatedManga: [UUID]? = nil, author: [StoredAuthor], artist: [StoredAuthor], cover: StoredCover, chapters: [StoredChapter]) {
+        self.id = id
+        self.title = title
+        self.altTitles = altTitles
+        self.summary = summary
+        self.links = links
+        self.originalLanguage = originalLanguage
+        self.lastVolume = lastVolume
+        self.lastChapter = lastChapter
+        self.publicationDemographic = publicationDemographic
+        self.status = status
+        self.year = year
+        self.contentRating = contentRating
+        self.chapterNumbersResetOnNewVolume = chapterNumbersResetOnNewVolume
+        self.availableTranslatedLanguages = availableTranslatedLanguages
+        self.latestUploadedChapter = latestUploadedChapter
+        self.tags = tags
+        self.state = state
+        self.updatedAt = updatedAt
+        self.version = version
+        self.readingStatus = readingStatus
+        self.isFollowed = isFollowed
+        self.relatedManga = relatedManga
+        self.author = author
+        self.artist = artist
+        self.cover = cover
+        self.chapters = chapters
+    }
     
     /// Creates a new StoredManga instance from the given Manga.
     ///
     /// - Parameter manga: the manga to create a stored instance of.
     ///
     /// - Returns: a newly created StoredManga.
-    init(from manga: Manga) {
-        self.id = manga.id
-        self.title = manga.title
-        self.altTitles = manga.altTitles
-        self.summary = manga.description
-        self.isLocked = manga.isLocked
-        self.links = manga.links.getAvailableLinks()
-        self.originalLanguage = manga.originalLanguage
-        self.lastVolume = manga.lastVolume
-        self.lastChapter = manga.lastChapter
-        self.publicationDemographic = manga.publicationDemographic?.rawValue
-        self.status = manga.status
-        self.year = manga.year
-        self.contentRating = manga.contentRating.rawValue
-        self.chapterNumbersResetOnNewVolume = manga.chapterNumbersResetOnNewVolume
-        self.availableTranslatedLanguages = manga.availableTranslatedLanguages
-        self.latestUploadedChapter = manga.latestUploadedChapter
-        self.tags = manga.tags
-        self.state = manga.state
-        self.createdAt = manga.createdAt
-        self.updatedAt = manga.updatedAt
-        self.version = manga.version
-        self.author = manga.author.map({.init(from: $0)})
-        self.artist = manga.artist.map({.init(from: $0)})
-        self.cover = .init(from: manga.cover)
-        self.relatedManga = manga.relatedManga?.map( { $0.id } ) ?? []
-        self.chapters = []
+    convenience init(from manga: Manga) {
+        self.init(
+            id: manga.id,
+            title: manga.title[manga.title.keys.first ?? "en"] ?? "",
+            altTitles: manga.altTitles.flattenAltTitles(),
+            summary: manga.description,
+            links: manga.links.getAvailableLinks(),
+            originalLanguage: manga.originalLanguage,
+            lastVolume: manga.lastVolume,
+            lastChapter: manga.lastChapter,
+            publicationDemographic: manga.publicationDemographic,
+            status: manga.status,
+            year: manga.year,
+            contentRating: manga.contentRating.rawValue,
+            chapterNumbersResetOnNewVolume: manga.chapterNumbersResetOnNewVolume,
+            availableTranslatedLanguages: manga.availableTranslatedLanguages,
+            latestUploadedChapter: manga.latestUploadedChapter,
+            tags: manga.tags.map({ .init(from: $0) }),
+            state: manga.state,
+            updatedAt: manga.updatedAt,
+            version: manga.version,
+            readingStatus: manga.readingStatus,
+            isFollowed: manga.isFollowed,
+            relatedManga: manga.relatedManga?.map({ $0.id }) ?? [],
+            author: manga.author.map({ .init(from: $0) }),
+            artist: manga.artist.map({ .init(from: $0) }),
+            cover: .init(from: manga.cover),
+            chapters: []
+        )
+    }
+    
+    /// Creates a new StoredManga instance from the given CompactManga.
+    ///
+    /// - Parameters
+    ///     - manga: the compact manga to create a stored instance of.
+    ///     - cover: the cover of this manga.
+    ///     - author: the author(s) of this manga.
+    ///     - artist: the artist(s) of thie manga.
+    ///     - readingStatus: the user's reading status of a manga.
+    ///     - isFollowed: whether or not a user follows a manga.
+    ///
+    /// - Returns: a newly created StoredManga.
+    convenience init(from compactManga: CompactManga, with cover: Cover, author: [Author], artist: [Author], readingStatus: ReadingStatus? = nil, isFollowed: Bool = false) {
+        self.init(
+            id: compactManga.id,
+            title: compactManga.title[compactManga.title.keys.first ?? "en"] ?? "",
+            altTitles: compactManga.altTitles.flattenAltTitles(),
+            summary: compactManga.description,
+            links: compactManga.links.getAvailableLinks(),
+            originalLanguage: compactManga.originalLanguage,
+            lastVolume: compactManga.lastVolume,
+            lastChapter: compactManga.lastChapter,
+            publicationDemographic: compactManga.publicationDemographic,
+            status: compactManga.status,
+            year: compactManga.year,
+            contentRating: compactManga.contentRating.rawValue,
+            chapterNumbersResetOnNewVolume: compactManga.chapterNumbersResetOnNewVolume,
+            availableTranslatedLanguages: compactManga.availableTranslatedLanguages,
+            latestUploadedChapter: compactManga.latestUploadedChapter,
+            tags: compactManga.tags.map({ .init(from: $0) }),
+            state: compactManga.state,
+            updatedAt: compactManga.updatedAt,
+            version: compactManga.version,
+            readingStatus: readingStatus ?? .none,
+            isFollowed: isFollowed,
+            relatedManga: [],
+            author: author.map({ .init(from: $0) }),
+            artist: artist.map({ .init(from: $0) }),
+            cover: .init(from: cover),
+            chapters: []
+        )
     }
 }
 

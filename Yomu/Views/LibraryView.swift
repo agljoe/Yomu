@@ -5,49 +5,44 @@
 //  Created by Andrew Joe on 2024-06-09.
 //
 
+import SwiftData
 import SwiftUI
 
-struct MangaCoverURL: Identifiable {
-    let title: String
-    var id: String { title }
-    let urlString: String
-}
-
 struct LibraryView: View {
-    @State private var query = ""
+    @Environment(\.modelContext) var context
+    @State private var model = Model()
     
-    let data: [UUID] = [
-        UUID(uuidString: "9faba8cf-60df-4894-9370-22571592c8d3")!
-    ]
-    
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(data, id: \.self) { item in
-                        NavigationLink {
-                          
-                        } label: {
-                            Text("Test")
-                        }
-                    }
-                }
-                .padding()
-                .scrollIndicators(.hidden)
-                .navigationTitle("Library")
-            }
-            .searchable(text: $query, prompt: Text("Search Library"))
+            Text("coming soon")
         }
+        .navigationTitle(Text("Library"))
+        .searchable(text: .constant(""))
     }
 }
 
-func getFollowedManga(limit: Int, offset: Int) async throws {
-    
+extension LibraryView {
+    @Observable
+    class Model {
+        private(set) var manga: [Manga] = []
+        private(set) var statuses: [String: String] = [:]
+        private(set) var isLoading: Bool = false
+        
+        
+        @MainActor
+        func fetchLibrary() async throws {
+            guard !isLoading else { return }
+            defer { isLoading = false }
+            isLoading = true
+            
+            async let statuses = AllMangaReadingStatusRequest().execute()
+            let _ = try await statuses.keys
+            
+            
+            
+        }
+    }
 }
 
 #Preview {

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SafariServices
 import SwiftUI
 
 extension Manga {
@@ -39,6 +38,7 @@ extension Manga {
         return ""
     }
     
+    /// The URL for this manga at mangadex.org
     var openUrl: URL {
         URL(string: "https://mangadex.org/title/\(id.uuidString.lowercased())")!
     }
@@ -49,7 +49,107 @@ extension Chapter {
     ///
     /// For example the formated title for chapter one of The Rising of the Sheild Hero would be `Ch.1 - A Royal Summons`.
     var volumeListTitle: String {
-        "Ch. \(self.chapter ?? "0") \(self.title != nil ? "- \(self.title!)" : "")"
+        "Ch. \(self.chapter ?? "0") \(self.title != nil && self.title != "" ? "- \(self.title!)" : "")"
+    }
+}
+
+extension ReadingStatus: Identifiable {
+    /// Conformance to allow instances of ReadingStatus to be used in a ForEach.
+    ///
+    /// - Important: This does not garuntee that every ReadingStatus variable is unique.
+    public var id: Self { self }
+}
+
+extension ReadingStatus {
+    /// Returns a formatted string for each ReadinStatus case.
+    var displayTitle: String {
+        switch self {
+        case .none:
+            "None"
+        case .reading:
+            "Reading"
+        case .on_hold:
+            "On Hold"
+        case .dropped:
+            "Dropped"
+        case .plan_to_read:
+            "Plan to Read"
+        case .completed:
+            "Completed"
+        case .re_reading:
+            "Re-Reading"
+        }
+    }
+    
+    /// Returns the SFSymbol icon name associated with each ReadingStatus case.
+    var systemImageName: String {
+        switch self {
+        case .none:
+            "bookmark.slash.fill"
+        case .reading:
+            "book.fill"
+        case .on_hold:
+            "bookmark.fill"
+        case .dropped:
+            "archivebox.fill"
+        case .plan_to_read:
+            "books.vertical.fill"
+        case .completed:
+            "book.closed.fill"
+        case .re_reading:
+            "arrow.trianglehead.clockwise"
+        }
+    }
+    
+    /// Returns the color associated with each ReadingStatus case.
+    var color: Color {
+        switch self {
+        case .none:
+                .gray
+        case .reading:
+                .green
+        case .on_hold:
+                .orange
+        case .dropped:
+                .red
+        case .plan_to_read:
+                .purple
+        case .completed:
+                .cyan
+        case .re_reading:
+                .mint
+        }
+    }
+}
+
+/// Applies the style of a small icon.
+struct MangaToolBarItem: ViewModifier {
+    /// The size length of the content being styled.
+    ///
+    /// The returned content will have a square frame.
+    let size: CGFloat
+    
+    /// The color of this item.
+    let background: Color
+    
+    /// Creates a square with rounded corners around the given content.
+    ///
+    /// - Parameter content: the view to be modified.
+    ///
+    /// - Returns: the modified content.
+    func body(content: Content) -> some View {
+        content
+            .foregroundStyle(.white)
+            .frame(width: size, height: size)
+            .background(background)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+extension View {
+    /// Applys the MangaToolBarItem ViewModifier to the selected view.
+    func mangaToolBarItem(size: CGFloat, background: Color = Color(UIColor.systemBackground)) -> some View {
+        modifier(MangaToolBarItem(size: size, background: background))
     }
 }
 
@@ -99,17 +199,45 @@ struct ChaptersByVolumeListView: View {
     }
 }
 
+/// Displays the cover of a manga found at a specific URL.
+///
+/// This view attempts to get an image from the URL cache before loading it from the web.
+struct CoverView: View {
+    /// The URL the diplayed cover is found at.
+    let url: URL
+    
+    /// Presents a manga's cover image with rounded corners.
+    ///
+    /// If the cover image cannot be dislpayed a ProgressView is presented in its place.
+    var body: some View {
+        CachedAsyncImage(url: url) { image in
+            image
+                .resizable()
+                .scaledToFit()
+        } placeholder: {
+            ProgressView()
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .frame(width: 150, height: 221)
+    }
+}
+
+/// Displays the title and one alternative tilte of a manga.
 struct MangaTitleView: View {
+    /// The title of a manga, this value can be localized.
     var title: String
+    
+    /// One of the alternative titles of a manga, usually in English.
     var altTitle: String
     
+    /// DIsplays the title of a manga in bold text, and an alternate title
+    /// as a subtitle.
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.largeTitle)
+                .font(.title)
                 .fontWeight(.bold)
                 .backgroundStyle(.white)
-                .lineLimit(2)
             
             Text(altTitle)
                 .font(.title3)
@@ -125,7 +253,7 @@ struct AuthorScrollView: View {
         ScrollView(.horizontal) {
             ForEach(authors) {
                 Text($0.name)
-                    .cardStyle()
+                    .foregroundStyle(.secondary)
             }
             .listStyle(.plain)
             .listRowBackground(Color.clear)
@@ -135,17 +263,52 @@ struct AuthorScrollView: View {
     }
 }
 
+/// A group of buttons for interacting with a manga.
+///
+/// Manga tool bar buttons can be used to update the reading status, followed status,
+/// or to open a manga in safari.
 struct MangaToolBar: View {
+    /// The user's reading status for this manga.
+    @Binding var readingStatus: ReadingStatus
+    
+    /// Indicates if this manga's chapters appear in the user's followed feed.
+    @Binding var isFollowed: Bool
+    
+    /// Indicates whether or not to display the SafariView for this manga.
     @Binding var isPresented: Bool
+    
+    /// The side length of buttons on this tool bar.
+    private let toolBarItemSize: CGFloat = 30
     
     var body: some View {
         HStack {
+            Menu {
+                ForEach(ReadingStatus.allCases) { status in
+                    Button {
+                        readingStatus = status
+                        //TODO: update reading status
+                    } label: {
+                        Text(status.displayTitle)
+                    }
+                }
+            } label: {
+                Image(systemName: readingStatus.systemImageName)
+                    .mangaToolBarItem(size: toolBarItemSize, background: readingStatus.color)
+            }
+            
+            Button {
+                isFollowed.toggle()
+                //TODO: update followed status
+            } label: {
+                Image(systemName: isFollowed ? "bell.fill" : "bell.slash.fill")
+                    .mangaToolBarItem(size: toolBarItemSize, background: isFollowed ? .blue : .gray)
+            }
+            
             Button {
                 self.isPresented = true
             } label: {
                 Image(systemName: "safari")
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .frame(width: 8, height: 8)
+                    .mangaToolBarItem(size: toolBarItemSize, background: .blue)
             }
         }
     }
@@ -164,18 +327,10 @@ struct MangaView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack {
-                    HStack {
-                        CachedAsyncImage(url: model.manga.coverURL) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .frame(width: 150)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    HStack(alignment: .top) {
+                        CoverView(url: model.manga.coverURL)
                         
-                        VStack {
+                        VStack(alignment: .leading) {
                             MangaTitleView(title: model.manga.localizedTitle, altTitle: model.manga.alternateTitle)
                             
                             HStack {
@@ -183,14 +338,14 @@ struct MangaView: View {
                                 AuthorScrollView(authors: model.manga.artist)
                             }
                             
-                            MangaToolBar(isPresented: $isPresented)
+                            
+                            MangaToolBar(readingStatus: $model.manga.readingStatus, isFollowed: $model.manga.isFollowed, isPresented: $isPresented)
                         }
                     }
+                    .padding(.horizontal)
                     
-                    VStack(alignment: .leading) {
-                        Text(try! AttributedString(markdown: model.manga.description["en"] ?? ""))
-                    }
-                    
+                    Text(try! AttributedString(markdown: model.manga.description["en"] ?? ""))
+                        .padding(.horizontal)
                     ChaptersByVolumeListView(chapters: model.chapters)
                 }
             }
@@ -214,12 +369,10 @@ extension MangaView {
     ///
     @Observable
     class Model {
-        private(set) var manga: Manga
+        var manga: Manga
         private(set) var chapters: [String: [Chapter]] = [:]
         private(set) var readMarkers: [String] = []
         private(set) var isLoading: Bool = false
-        private(set) var readingStatus: ReadingStatus = .none
-        private(set) var isFollowed: Bool = false
         // TODO: add statistics
         
         init(manga: Manga) {
@@ -252,8 +405,9 @@ extension MangaView {
             
             self.chapters = Dictionary(grouping: totalChapters, by: { $0.volume ?? "No Volume" })
             self.readMarkers = try await readMarkers
-            self.readingStatus = ReadingStatus(rawValue: try await readingStatus) ?? .none
-            self.isFollowed = try await followed
+            self.manga.readingStatus = ReadingStatus(rawValue: try await readingStatus)!
+            self.manga.isFollowed = try await followed
+            
         }
     }
 }
@@ -293,10 +447,19 @@ extension Bundle {
         }
     }
 }
+
+extension Manga {
+    func updatingStatus() -> Manga {
+        var temp = self
+        temp.readingStatus = .completed
+        temp.isFollowed = true
+        return temp
+    }
+}
 #endif
 
 #Preview {
-    MangaView(manga: Bundle.main.decode(from: "I Can't Say No to the Lonely Girl.json"))
+    MangaView(manga: Bundle.main.decode(from: "I Can't Say No to the Lonely Girl.json").updatingStatus())
 }
 
 
