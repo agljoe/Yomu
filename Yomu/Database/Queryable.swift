@@ -130,7 +130,7 @@ extension Queryable {
     /// Retrieves and transforms specific model type.
     ///
     /// - Parameters:
-    ///     - selector :the query criteria used to fetch the requested model.
+    ///     - selector: the query criteria used to fetch the requested model.
     ///     - completion: a closure that creates the requested model type from the given persistent model.
     ///
     /// - Returns: the result of the completion closure.

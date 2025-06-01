@@ -114,7 +114,7 @@ struct ChapterStatistics: Statistics {
     }
 }
 
-/// A collection of statistics for a given chapter.
+/// A collection of statistics for a given manga.
 ///
 /// ### See Also
 /// [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/Statistics/operation/get-statistics-manga-uuid)

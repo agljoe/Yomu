@@ -13,10 +13,10 @@ import Foundation
 /// of both.
 struct CoverListEntity: MangaDexAPIEntity {
     /// The UUIDs of the manga, whose covers are being retrieved.
-    var mangaIds: [UUID]?
+    var mangaIDs: [UUID]?
     
     /// The UUIDs of the covers being retrieved.
-    var coverIds: [UUID]?
+    var coverIDs: [UUID]?
     
     /// The maximum size of the returned collection, must be in range 0...100
     ///
@@ -33,15 +33,15 @@ struct CoverListEntity: MangaDexAPIEntity {
     /// Creates a new instance for some given manga, or  cover ids.
     ///
     /// - Parameters:
-    ///     - mangaIds: the UUIDs of some manga whose covers to fetch.
-    ///     - coverIds: the UUIDs of the covers to fetch
+    ///     - mangaIDs: the UUIDs of some manga whose covers to fetch.
+    ///     - coverIDs: the UUIDs of the covers to fetch
     ///     - limit: the number of covers to fetch,
     ///     - offset: the starting index of the colleciton  be fetch, 0 by default.
-    ///
+    ///     
     /// - Returns: a newly created CoverListEntity.
-    init(mangaIds: [UUID]? = nil, coverIds: [UUID]? = nil, limit: Int = 10, offset: Int = 0) {
-        self.mangaIds = mangaIds
-        self.coverIds = coverIds
+    init(mangaIDs: [UUID]? = nil, coverIDs: [UUID]? = nil, limit: Int = 10, offset: Int = 0) {
+        self.mangaIDs = mangaIDs
+        self.coverIDs = coverIDs
         self.limit = limit
         self.offset = offset
     }
@@ -49,14 +49,14 @@ struct CoverListEntity: MangaDexAPIEntity {
     /// Convience initializer that accpects a variadic list of UUIDs.
     ///
     /// - Parameters:
-    ///     - mangaIds: the UUIDs of some manga whose covers to fetch.
-    ///     - coverIds: the UUIDs of the covers to fetch
+    ///     - mangaIDs: the UUIDs of some manga whose covers to fetch.
+    ///     - coverIDs: the UUIDs of the covers to fetch
     ///     - limit: the number of covers to fetch,
     ///     - offset: the starting index of the colleciton to be fetched, 0 by default.
     ///
     /// - Returns: a newly created CoverListEntity.
-    init(mangaIds: UUID..., coverIds: UUID..., limit: Int = 10, offset: Int = 0) {
-        self.init(mangaIds: mangaIds, coverIds: coverIds, limit: limit, offset: offset)
+    init(mangaIDs: UUID..., coverIDs: UUID..., limit: Int = 10, offset: Int = 0) {
+        self.init(mangaIDs: mangaIDs, coverIDs: coverIDs, limit: limit, offset: offset)
     }
     
     typealias ModelType = [Cover]
@@ -68,11 +68,11 @@ struct CoverListEntity: MangaDexAPIEntity {
         components.path = "/cover"
         components.queryItems = [URLQueryItem(name: "limit", value: "\(limit)"), URLQueryItem(name: "offset", value: "\(offset)")]
         
-        if let manga = mangaIds {
+        if let manga = mangaIDs {
             components.queryItems?.append(contentsOf: manga.map { URLQueryItem(name: "manga[]", value: $0.uuidString.lowercased()) })
         }
         
-        if let cover = coverIds {
+        if let cover = coverIDs {
             components.queryItems?.append(contentsOf: cover.map { URLQueryItem(name: "ids[]", value: $0.uuidString.lowercased()) })
         }
         

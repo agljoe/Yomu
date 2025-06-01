@@ -21,7 +21,7 @@ struct Chapter: Decodable, Identifiable, Sendable {
     /// A unique id assigned to a chapter.
     let id: UUID
     
-    /// The title of this chapter
+    /// The name of this chapter
     let title: String?
     
     /// The volume which a chapter belongs to.
@@ -188,7 +188,7 @@ extension ParentManga {
 ///
 /// ### See Also
 /// [Retreving a chapter's images](https://api.mangadex.org/docs/04-chapter/retrieving-chapter/)
-struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
+public struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
     /// A string describing the result of retriving this data, "ok" if successful.
     let result: String
     
@@ -231,7 +231,7 @@ struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
     /// - Returns: a newly created AtHomeChapterComponents  from the given decoder.
     ///
     /// - Throws: a ` DeodingError` if AtHomeChapterComponents  cannot be initialized by the given decoder.
-    init(from decoder: any Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.result = try container.decode(String.self, forKey: .result)
         self.baseUrl = try container.decode(String.self, forKey: .baseUrl)
@@ -251,14 +251,14 @@ struct AtHomeChapterComponents: Decodable, Equatable, Hashable, Sendable {
 ///         optionals are used to represent values that can be null.
 @Model
 class StoredChapter {
-    #Unique<StoredChapter>([\.id])
+    #Unique<StoredChapter>([\.id], [\.id, \.updatedAt])
     #Index<StoredChapter>([\.id], [\.title], [\.title, \.hasBeenRead])
     
     /// A unique id assigned to a chapter.
     @Attribute(.unique, .preserveValueOnDeletion)
     private(set) var id: UUID
     
-    /// The title of this chapter
+    /// The name of this chapter
     var title: String?
     
     /// The volume which a chapter belongs to.

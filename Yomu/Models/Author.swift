@@ -10,36 +10,34 @@ import SwiftData
 
 /// An author or artist of a manga.
 ///
-///  MangaDex only makes a distinction between authors, and artists with ``Author/type``.
+///  MangaDex only makes a distinction between authors, and artists with a type string.
 ///  The endpoint, and JSON struction is otherwise identical.
 ///
 /// - Note: This structure's types are made to match the JSON data structure provided in the MangaDexAPI documentation, where
 ///          optionals are used to represent values that can be null.
 ///
-/// ### See Also
+/// ### See
 /// [MangaDex Api Documentation](https://api.mangadex.org/docs/redoc.html#tag/Author/operation/get-author-id)
 struct Author: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id assigned to an author or arist.
     let id: UUID
     
-    /// A string describing the type of an ``Author`` value.
-    ///
-    /// This distingushes between author and artist.
+    /// Indicates if this is an author or artist.
     let type: String
     
-    /// An author or artists full name.
+    /// An author or artists full or pen name.
     ///
-    /// Artist and author names given in romanji (romanized Japanese).
+    /// - Note: Artist and author names given in romanji (romanized Japanese).
     let name: String
     
-    /// An image of the author or artist.
+    /// An image of an author or artist.
     ///
-    /// MangaDex currently does not support profile pictures, so the value may not exist.
+    /// - Note: MangaDex currently does not support profile pictures, so this value may not exist.
     let imageURL: String?
     
     /// A brief description of an author or artist.
     ///
-    /// An author or artist's biography may not be avialable in all languages.
+    /// - Note: An author or artist's biography may not be avialable in all languages.
     let biography: [String: String]
     
     /// A link to an author or artist's Twitter page.
@@ -90,10 +88,10 @@ struct Author: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// The date an author or artist's page was last modified.
     let updatedAt: Date
     
-    /// A number describing the version of this author or artist.
+    /// A number describing the number of updates an author or has had.
     let version: Int
     
-    /// An array of manga by this author or artist.
+    /// An collection of manga by this author or artist.
     let relatedManga: [CompactManga]?
     
     /// The base coding keys for this struct.
@@ -162,15 +160,15 @@ extension Author {
 
 /// A Manga that does not include any relationships.
 ///
-/// ### See Also
+/// ### See
 /// [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-id)
 struct CompactManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id assigned to a manga.
     let id: UUID
     
-    /// A title of a manga.
+    /// The name of a manga.
     ///
-    /// This value is returned as a localized string, the key for `"title"` is usually `"en"`.
+    /// - Note: This value is returned as a localized string, the key for `"title"` is usually `"en"`.
     ///
     let title: [String: String]
     
@@ -227,9 +225,7 @@ struct CompactManga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// The most recent chapter of a manga.
     let latestUploadedChapter: UUID?
     
-    /// A collection of tags for a manga.
-    ///
-    /// Tags describe the format, genre, themes, and content of a manga.
+    /// A collection of tags describing the genres, themes, and content in a manga.
     let tags: [Tag]
     
     /// The type of publication for a manga.
@@ -302,31 +298,29 @@ extension CompactManga {
 ///         optionals are used to represent values that can be null.
 @Model
 class StoredAuthor {
-    #Unique<StoredAuthor>([\.id])
+    #Unique<StoredAuthor>([\.id], [\.id, \.updatedAt])
     #Index<StoredAuthor>([\.id], [\.name])
     
     /// A unique id assigned to an author or arist.
     @Attribute(.unique, .preserveValueOnDeletion)
     private(set) var id: UUID
     
-    /// A string describing the type of an ``Author`` value.
-    ///
-    /// This distingushes between author and artist.
+    /// Indicates if this is an author and artist.
     var type: String
     
-    /// An author or artists full name.
+    /// An author or artists full or pen name.
     ///
-    /// Artist and author names given in romanji (romanized Japanese).
+    /// - Note: Artist and author names are given in romanji (romanized Japanese).
     var name: String
     
     /// An image of the author or artist.
     ///
-    /// MangaDex currently does not support profile pictures, so the value may not exist.
+    /// - Note: MangaDex currently does not support profile pictures, so this value may not exist.
     var imageURL: String?
     
     /// A brief description of an author or artist.
     ///
-    /// An author or artist's biography may not be avialable in all languages.
+    /// - Note: An author or artist's biography may not be avialable in all languages.
     var biography: [String: String]
     
     /// A link to an author or artist's Twitter page.
@@ -471,8 +465,44 @@ extension StoredAuthor: Equatable {
     static func == (lhs: StoredAuthor, rhs: StoredAuthor) -> Bool {
         return lhs.id == rhs.id && lhs.updatedAt == rhs.updatedAt
     }
-    
+}
+
+extension StoredAuthor {
+    /// Adds manga to the specified author or artists related manga array.
+    ///
+    /// - Parameters:
+    ///     - lhs: the author or artist being updated.
+    ///     - rhs: the new manga being added.
     static func += (lhs: inout StoredAuthor, rhs: [Manga]) {
         lhs.relatedManga?.append(contentsOf: rhs.map({ .init(from: $0) }))
+    }
+    
+    /// Adds manga to the specified author or artists related manga
+    ///
+     /// - Parameters:
+    ///     - lhs: the author or artist being updated.
+    ///     - rhs: the new manga being added.
+    static func += (lhs: inout StoredAuthor, rhs: [StoredManga]) {
+        lhs.relatedManga?.append(contentsOf: rhs)
+    }
+}
+
+extension StoredAuthor {
+    /// Returns all non-nil links for this author.
+    var availableLinks: [URL] {
+        [ URL(string: self.booth ?? ""),
+          URL(string: self.fanBox ?? ""),
+          URL(string: self.fantia ?? ""),
+          URL(string: self.melonBook ?? ""),
+          URL(string: self.namicomi ?? ""),
+          URL(string: self.naver ?? ""),
+          URL(string: self.nicoVideo ?? ""),
+          URL(string: self.pixiv ?? ""),
+          URL(string: self.skeb ?? ""),
+          URL(string: self.tumblr ?? ""),
+          URL(string: self.twitter ?? ""),
+          URL(string: self.website ?? ""),
+          URL(string: self.weibo ?? ""),
+          URL(string: self.youtube ?? "") ].compactMap(\.self)
     }
 }

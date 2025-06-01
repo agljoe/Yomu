@@ -129,7 +129,7 @@ extension CoverRelationship {
 ///         optionals are used to represent values that can be null.
 @Model
 class StoredCover {
-    #Unique<StoredCover>([\.id])
+    #Unique<StoredCover>([\.id], [\.id, \.updatedAt])
     #Index<StoredCover>([\.id], [\.volume])
     
     /// A unique id assigned to a cover.

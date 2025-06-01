@@ -35,7 +35,7 @@ private struct ChapterImageEntity: MangaDexAPIEntity {
 
 /// Represents a request to the at-home endpoint which is the only endpoint where chapter
 /// images can be found.
-struct AtHomeRequest {
+public struct AtHomeRequest {
     /// The chapter images being retrieved.
     fileprivate let entity: ChapterImageEntity
     
@@ -50,13 +50,13 @@ struct AtHomeRequest {
 }
 
 extension AtHomeRequest: MangaDexAPIRequest {
-    typealias ModelType = AtHomeChapterComponents
+    public typealias ModelType = AtHomeChapterComponents
     
-    func decode(_ data: Data) throws -> AtHomeChapterComponents {
+    public func decode(_ data: Data) throws -> AtHomeChapterComponents {
         return try JSONDecoder().decode(AtHomeChapterComponents.self, from: data)
     }
     
-    func execute() async throws -> AtHomeChapterComponents {
+    public func execute() async throws -> AtHomeChapterComponents {
         return try await get(from: entity.url)
     }
     

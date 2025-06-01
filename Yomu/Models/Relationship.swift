@@ -7,11 +7,13 @@
 
 import Foundation
 
+/// An type of object that can be found in an author or artist's reference expansion.
 enum AuthorRelationshipType: String, Decodable {
     /// A ``Manga``
     case manga
 }
 
+/// 
 enum AuthorRelationship: Decodable, Equatable, Hashable {
     /// ``AuthorRelationshipType/manga``
     case manga(CompactManga?)

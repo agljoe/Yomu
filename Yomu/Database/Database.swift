@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 /// Asserts the currently executing thread is the main thread if shouldAssertIsBackground.
 ///
@@ -38,8 +39,8 @@ import SwiftData
 public protocol Database: Sendable {
     /// Executes a sendable closure on an isolated model context.
     ///
-    /// - Parameter completetion: the closure to exectute on the given model context.
-    ///
+    /// - Parameter completion: the closure to exectute on the given model context.
+    /// 
     /// - Returns: the value produced by the closure.
     ///
     /// - Throws: any error thrown by the passed closure.
@@ -95,7 +96,7 @@ extension ModelActor where Self: Database {
     
     /// Executes a sendable closure on an isolated model context.
     ///
-    /// - Parameter completetion: the closure to exectute on the given model context.
+    /// - Parameter completion: the closure to exectute on the given model context.
     ///
     /// - Returns: the value produced by the closure.
     ///
@@ -107,5 +108,42 @@ extension ModelActor where Self: Database {
     }
 }
 
+/// A singleton instance of a `Databse` that can be used if no database has been set for an application.
+private struct DefaultDatabase: Database {
+    /// The singleton instance of this database.
+    static let instance = DefaultDatabase()
+
+    func withModelContext<T>(_ completion: @escaping @Sendable (ModelContext) throws -> T) async rethrows -> T {
+        assertionFailure("No database.")
+        fatalError("No database.")
+    }
+}
+
+extension EnvironmentValues {
+    /// A database that can be used within the current environment.
+    @Entry public var database: any Database = DefaultDatabase.instance
+}
+
+extension Scene {
+    /// Sets the database for the current scene to given database.
+    ///
+    /// - Parameter database: a `Database` to be used by this scence.
+    ///
+    /// - Returns: A scene with an environment value of the given database.
+    public func database(_ database: any Database) -> some Scene {
+        environment(\.database, database)
+    }
+}
+
+extension View {
+    /// Sets the database for the current view to given database.
+    ///
+    /// - Parameter database: a `Database` to be used by this view.
+    ///
+    /// - Returns: A view with an environment value of the given database.
+    public func database(_ database: any Database) -> some View {
+        environment(\.database, database)
+    }
+}
 
 

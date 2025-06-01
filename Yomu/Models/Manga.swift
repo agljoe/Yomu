@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-/// A Manga.
+/// A comic of Japanese origin, read from left to right.
 ///
 /// ### See Also
 /// [MangaDex API Documentation](https://api.mangadex.org/docs/redoc.html#tag/Manga/operation/get-manga-id)
@@ -16,16 +16,15 @@ struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// A unique id assigned to a manga.
     let id: UUID
     
-    /// A title of a manga.
+    /// A name of a manga.
     ///
-    /// This value is returned as a localized string, the key for `"title"` is usually `"en"`.
-    ///
+    /// - Note: This value is returned as a localized string, the key for `"title"` is usually `"en"`.
     let title: [String: String]
     
-    /// A collection of localized titles for a manga.
+    /// A collection of localized titles.
     let altTitles: [[String: String]]
     
-    /// A collection of localized descriptions of a manga.
+    /// A short summary of this manga's premise, often available in multple languages.
     let description: [String: String]
     
     /// Whether of not this manga is locked.
@@ -66,7 +65,7 @@ struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// ``Rating``
     let contentRating: Rating
     
-    /// A boolean describing whether the first  chapter in a volume  is denoted "Ch. 1".
+    /// A boolean describing whether the first  chapter in each volume  is denoted "Ch. 1".
     let chapterNumbersResetOnNewVolume: Bool
     
     /// A collection of languages a manga has been translated to.
@@ -75,21 +74,19 @@ struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// The most recent chapter of a manga.
     let latestUploadedChapter: UUID?
     
-    /// A collection of tags for a manga.
-    ///
-    /// Tags describe the format, genre, themes, and content of a manga.
+    /// A collection of tags describing the genres, themes, and content in a manga.
     let tags: [Tag]
     
-    /// The type of publication for a manga.
+    /// The type of publication.
     let state: String
     
-    /// The date a manga was uploaded to MangaDex.
+    /// The date a manga was first uploaded to MangaDex.
     let createdAt: Date
     
     /// The data a manga was last modified.
     let updatedAt: Date
     
-    /// A number describing the version of a manga.
+    /// A number describing the number of updates a manga has had.
     let version: Int
     
     /// The author or authors of a manga.
@@ -98,10 +95,10 @@ struct Manga: Decodable, Equatable, Hashable, Identifiable, Sendable {
     /// The artist of artists of a manga.
     let artist: [Author]
     
-    /// The cover of a manga.
+    /// The most recent cover of a manga.
     let cover: Cover
     
-    /// A collection fo manga related to a manga.
+    /// A collection fo manga related to this manga.
     let relatedManga: [RelatedManga]?
     
     /// The user who created this manga's page.
@@ -260,20 +257,20 @@ extension Array where Element == [String: String]  {
 ///         optionals are used to represent values that can be null.
 @Model
 class StoredManga {
-    #Unique<StoredManga>([\.id])
+    #Unique<StoredManga>([\.id], [\.id, \.updatedAt])
     #Index<StoredManga>([\.id], [\.title])
     
     /// A unique id assigned to a manga.
     @Attribute(.unique, .preserveValueOnDeletion)
     private(set) var id: UUID
     
-    /// A title of a manga.
+    /// A name of a manga.
     ///
     /// This value is returned as a localized string, the key for `"title"` is usually `"en"`.
     ///
     var title: String
     
-    /// A collection of localized titles for a manga.
+    /// A collection of localized titles.
     var altTitles: [String: [String]]
     
     /// A collection of localized descriptions of a manga.
@@ -314,7 +311,7 @@ class StoredManga {
     /// ``Rating``
     var contentRating: String
     
-    /// A boolean describing whether the first  chapter in a volume  is denoted "Ch. 1".
+    /// A boolean describing whether the first  chapter in each volume is denoted "Ch. 1".
     var chapterNumbersResetOnNewVolume: Bool
     
     /// A collection of languages a manga has been translated to.
@@ -323,19 +320,17 @@ class StoredManga {
     /// The most recent chapter of a manga.
     var latestUploadedChapter: UUID?
     
-    /// A collection of tags for a manga.
-    ///
-    /// Tags describe the format, genre, themes, and content of a manga.
+    /// A collection of tags describing the genres, themes, and content in a manga.
     @Relationship(deleteRule: .cascade)
     var tags: [StoredTag]
     
-    /// The type of publication for a manga.
+    /// The type of publication.
     var state: String
     
     /// The data a manga was last modified.
     var updatedAt: Date
     
-    /// A number describing the version of a manga.
+    /// A number describing the number of updates a manga has had..
     var version: Int
     
     /// The user's  current reading status for this manga.
@@ -355,11 +350,12 @@ class StoredManga {
     @Relationship(deleteRule: .cascade)
     var artist: [StoredAuthor]
     
-    /// The cover of a manga.
+    /// The most recent cover of a manga.
     @Relationship(deleteRule: .cascade)
     var cover: StoredCover
     
     @Relationship(deleteRule: .cascade)
+    /// The chapters of a manga.
     var chapters: [StoredChapter]
     
     

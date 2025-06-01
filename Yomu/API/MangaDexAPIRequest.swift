@@ -8,7 +8,9 @@
 import Foundation
 
 /// JSON encoded data that is fetchable from one of Mangadex's API endpoints.
-protocol MangaDexAPIEntity: Sendable {
+///
+/// ###
+public protocol MangaDexAPIEntity: Sendable {
     /// A model type that matches the structure of the fetched JSON data.
     associatedtype ModelType: Decodable
     
@@ -26,7 +28,7 @@ protocol MangaDexAPIEntity: Sendable {
 }
 
 /// A request to the MangaDex API.
-protocol MangaDexAPIRequest {
+public protocol MangaDexAPIRequest {
     /// The model type to be fetched by this request.
     associatedtype ModelType
     
@@ -160,7 +162,7 @@ struct ErrorResponse: Decodable {
 struct Response: Decodable { let result: String }
 
 /// A generic request that fetches the entity specified by `T`.
-struct Request<T: MangaDexAPIEntity>: Sendable {
+public struct Request<T: MangaDexAPIEntity>: Sendable {
     /// The entity being retrieved by this request.
     let entity: T
     
@@ -175,11 +177,11 @@ struct Request<T: MangaDexAPIEntity>: Sendable {
 }
 
 extension Request: MangaDexAPIRequest {
-    func decode(_ data: Data) throws -> T.ModelType {
+    public func decode(_ data: Data) throws -> T.ModelType {
         return try mangaDexAPIDecoder().decode(Wrapper<T.ModelType>.self, from: data).data
     }
     
-    func execute() async throws -> T.ModelType {
+    public func execute() async throws -> T.ModelType {
         if entity.requiresAuthentication { return try await authenticatedGet(from: entity.url) }
         return try await get(from: entity.url)
     }
@@ -188,7 +190,7 @@ extension Request: MangaDexAPIRequest {
 /// A generic request that fetches a list from the entity specified by `T`.
 ///
 /// - Important: List requests should be made with this request type, unless the offset of the collection can be discarded.
-struct ListRequest<T: MangaDexAPIEntity>: Sendable {
+public struct ListRequest<T: MangaDexAPIEntity>: Sendable {
     /// The entity being retrieved by this request.
     let entity: T
     
@@ -203,14 +205,14 @@ struct ListRequest<T: MangaDexAPIEntity>: Sendable {
 }
 
 extension ListRequest: MangaDexAPIRequest {
-    typealias ModelType = (T.ModelType, Int, Int)
+    public typealias ModelType = (T.ModelType, Int, Int)
     
-    func decode(_ data: Data) throws -> (T.ModelType, Int, Int) {
+    public func decode(_ data: Data) throws -> (T.ModelType, Int, Int) {
         let result = try mangaDexAPIDecoder().decode(Wrapper<T.ModelType>.self, from: data)
         return (result.data, result.offset ?? 0, result.total ?? 0)
     }
     
-    func execute() async throws -> (T.ModelType, Int, Int) {
+    public func execute() async throws -> (T.ModelType, Int, Int) {
         if entity.requiresAuthentication { return try await authenticatedGet(from: entity.url) }
         return try await get(from: entity.url)
     }

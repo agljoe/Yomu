@@ -134,7 +134,7 @@ extension ScanlationGroup {
 ///         optionals are used to represent values that can be null.
 @Model
 class StoredScanlationGroup {
-    #Unique<StoredScanlationGroup>([\.id])
+    #Unique<StoredScanlationGroup>([\.id], [\.id, \.updatedAt])
     #Index<StoredScanlationGroup>([\.id], [\.name])
     
     /// A unique id assigned to a scanlation group.

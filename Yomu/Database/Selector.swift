@@ -14,7 +14,7 @@ extension FetchDescriptor {
     /// - Parameters:
     ///     - predicate: the logical condidtion used to filter a collection of models.
     ///     - sortBy: how the returned collection will be arranged.
-    ///     - limit: the maximum number of items in the collection returned when using this fetch descriptor.
+    ///     - fetchLimit: the maximum number of items in the collection returned when using this fetch descriptor.
     ///
     /// - Returns: a newly created FetchDescriptor with
     init(predicate: Predicate<T>? = nil, sortBy: [SortDescriptor<T>] = [], fetchLimit: Int? = nil) {
@@ -23,7 +23,7 @@ extension FetchDescriptor {
     }
 }
 
-/// A selector for database operations.
+/// A database operation.
 public enum Selector<T: PersistentModel>: Sendable {
     /// Represents possible cases for deleting persistent data.
     public enum Delete: Sendable {

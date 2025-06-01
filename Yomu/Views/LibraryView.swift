@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct LibraryView: View {
-    @Environment(\.modelContext) var context
+    @Environment(\.database) var database
     @State private var model = Model()
     
     

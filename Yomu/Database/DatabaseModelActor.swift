@@ -52,7 +52,7 @@ public actor DatabaseModelActor: Database, ModelActor {
     ///
     /// - Parameters:
     ///     - modelContainer: the model container to be used by this DatabaseModelActor
-    ///     - modelExecutor: a closure that creates a new model executor from the given model container.
+    ///     - completion: a closure that creates a new model executor from the given model container.
     ///
     /// - Returns: a newly created DatabaseModelActor.
     public init(modelContainer: SwiftData.ModelContainer, modelExecutor completion: @escaping @Sendable (ModelContainer) -> any ModelExecutor) {
@@ -63,7 +63,7 @@ public actor DatabaseModelActor: Database, ModelActor {
     ///
     /// - Parameters:
     ///     - modelContainer: the model contatiner to be used by this DatabaseModelActor.
-    ///     - modelContext: a closure that creates a new model context from the given model container.
+    ///     - completion: a closure that creates a new model context from the given model container.
     ///
     /// - Returns: a newly created DatabaseModelActor.
     public init(modelContainer: SwiftData.ModelContainer, modelContext completion: @escaping @Sendable (ModelContainer) -> ModelContext) {
