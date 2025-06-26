@@ -46,7 +46,7 @@
 		499929292C0FEBA5003BD29B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 499929282C0FEBA5003BD29B /* Assets.xcassets */; };
 		499D3FB22D606DBE00D89386 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 499D3FB12D606DBE00D89386 /* Algorithms */; };
 		49D7876F2E0CF12F009A9D9D /* MangaDexData in Frameworks */ = {isa = PBXBuildFile; productRef = 49D7876E2E0CF12F009A9D9D /* MangaDexData */; };
-		49D787732E0CFBCB009A9D9D /* Article.md in Resources */ = {isa = PBXBuildFile; fileRef = 49D787722E0CFBCB009A9D9D /* Article.md */; };
+		49D787792E0D109B009A9D9D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 49D787782E0D109B009A9D9D /* .gitignore */; };
 		49E6AB212DEA93B400731B53 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB202DEA93B400731B53 /* Documentation.docc */; };
 		49E6AB262DEFC4BE00731B53 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 49E6AB252DEFC4BE00731B53 /* DequeModule */; };
 /* End PBXBuildFile section */
@@ -111,7 +111,7 @@
 		499929312C0FEBA5003BD29B /* YomuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YomuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4999293B2C0FEBA5003BD29B /* YomuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YomuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D7876C2E0CC8B0009A9D9D /* MangaDexData */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MangaDexData; path = ../MangaDexData; sourceTree = SOURCE_ROOT; };
-		49D787722E0CFBCB009A9D9D /* Article.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Article.md; sourceTree = "<group>"; };
+		49D787782E0D109B009A9D9D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		49E6AB202DEA93B400731B53 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -194,8 +194,8 @@
 		497566632E00E70A00F73BED /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				49D787772E0D024D009A9D9D /* DetailViews */,
 				49D787762E0D0231009A9D9D /* TabViews */,
+				49D787772E0D024D009A9D9D /* DetailViews */,
 				497566592E00E70A00F73BED /* Settings Views */,
 				4975665B2E00E70A00F73BED /* ContentView.swift */,
 			);
@@ -250,7 +250,7 @@
 		499929182C0FEBA3003BD29B = {
 			isa = PBXGroup;
 			children = (
-				49D787722E0CFBCB009A9D9D /* Article.md */,
+				49D787782E0D109B009A9D9D /* .gitignore */,
 				497565C32DFA5A5100F73BED /* Packages */,
 				49E6AB202DEA93B400731B53 /* Documentation.docc */,
 				499929232C0FEBA3003BD29B /* Yomu */,
@@ -420,8 +420,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				499929292C0FEBA5003BD29B /* Assets.xcassets in Resources */,
-				49D787732E0CFBCB009A9D9D /* Article.md in Resources */,
 				4975667A2E00E70F00F73BED /* Preview Assets.xcassets in Resources */,
+				49D787792E0D109B009A9D9D /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
