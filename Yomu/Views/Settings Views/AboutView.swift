@@ -14,18 +14,14 @@ struct AboutView: View {
                 Section {
                     HStack {
                         Text("Version")
-                        
                         Spacer()
-                        
                         Text("dev")
                             .foregroundStyle(.secondary)
                     }
                     
                     HStack {
                         Text("Build")
-                        
                         Spacer()
-                        
                         Text("0.01")
                             .foregroundStyle(.secondary)
                     }
@@ -36,9 +32,7 @@ struct AboutView: View {
                 Section {
                     HStack {
                         Text("Downloaded Manga")
-                        
                         Spacer()
-                        
                         Text("0 GB")
                             .foregroundStyle(.secondary)
                     }

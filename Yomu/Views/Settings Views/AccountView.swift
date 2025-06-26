@@ -5,11 +5,15 @@
 //  Created by Andrew Joe on 2025-01-08.
 //
 
+import MangaDexData
+import MangaDexAPIKit
 import SwiftUI
 
 struct AccountView: View {
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    @AppStorage("loggedInUser") var loggedInUser: String = ""
     @Environment(\.database) var database
-    @State private var model: Model = Model()
+    @State private var model = AccountViewModel()
     
     var body: some View {
         NavigationStack {
@@ -31,8 +35,20 @@ struct AccountView: View {
                         
                         Button("Login") {
                             Task {
-                                try? await model.login()
-                                model.credentials.reset()
+                                do {
+                                    try await model.login()
+                                    loggedInUser = model.credentials.username
+                                    isLoggedIn = true
+                                    model.credentials.reset()
+                                } catch let error {
+                                    print(error)
+                                }
+                            }
+                        }
+                        
+                        Button("Import Library") {
+                            Task {
+                                try await model.setup()
                             }
                         }
                     }
@@ -45,57 +61,27 @@ struct AccountView: View {
                     
                     Section {
                         Button("Logout", role: .destructive) {
-                            resetCredentials()
-                            /// delete all swift data modles
+                            do {
+                                try KeychainManager.remove(credentials: loggedInUser)
+                                isLoggedIn = false
+                                SharedLibraryDatabase.shared.modelContainer.deleteAllData()
+                            } catch let error {
+                                print(error)
+                            }
                         }
                         
                         Button("Reset", role: .destructive) {
-                            resetKeychain()
+                            KeychainManager.reset()
+                            isLoggedIn = false
+                            loggedInUser = ""
+                            SharedLibraryDatabase.shared.modelContainer.deleteAllData()
                         }
                     }
                 }
             }
             .navigationTitle("Account")
         }
-    }
-}
-
-extension AccountView {
-    @Observable
-    class Model {
-        var credentials: Credentials = Credentials()
-        var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
-        var isLoading: Bool = false
-        
-        @MainActor
-        func setup() async throws {
-            guard !isLoading && isLoggedIn else { return }
-            let _ = try await AccountView.Model.getLibrary()
-            
-        }
-        
-        @MainActor
-        func login() async throws {
-            guard !isLoggedIn else { return }
-            defer { UserDefaults.standard.set(true, forKey: "isLoggedIn") }
-            let _ = try await LoginRequest(credentials: credentials).execute()
-        }
-        
-        @MainActor
-        func reauthenticate() async throws {
-            guard !isLoggedIn else { return }
-            defer { UserDefaults.standard.set(true, forKey: "isLoggedIn") }
-            let _ = try await ReAuthenticationRequest().execute()
-        }
-        
-        nonisolated static private func getLibrary() async throws -> [String: [UUID]] {
-            async let statuses = AllMangaReadingStatusRequest().execute()
-            let mapped: [(UUID, String)] = try await statuses.map { (UUID(uuidString: $0.0)!, $0.1) }
-            let grouped = Dictionary(grouping: mapped, by: { $0.1 })
-            var result = [String: [UUID]]()
-            for (key, value) in grouped { result[key] = value.map(\.0) }
-            return result
-        }
+        .overlay( Group { if model.isLoading { ProgressView() } } )
     }
 }
 

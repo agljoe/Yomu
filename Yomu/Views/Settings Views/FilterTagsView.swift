@@ -5,6 +5,7 @@
 //  Created by Andrew Joe on 2024-06-17.
 //
 
+import MangaDexAPIKit
 import SwiftUI
 
 struct TagButton: View {
