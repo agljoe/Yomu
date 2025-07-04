@@ -10,12 +10,13 @@ import MangaDexAPIKit
 import SwiftData
 import SwiftUI
 
+///
 struct LibraryView: View {
     @Environment(\.database) var database
     @Query(sort: \PersistentManga.readingStatus) var library: [PersistentManga]
 //    @State private var model = Model()
     
-    let colums = Array(repeating: GridItem(.flexible()), count: UserDefaults.standard.integer(forKey: "columns") < 2 ? 2 : UserDefaults.standard.integer(forKey: "columns"))
+    @State var colums = Array(repeating: GridItem(.flexible()), count: UserDefaults.standard.integer(forKey: "displayedColumns") < 2 ? 2 : UserDefaults.standard.integer(forKey: "displayedColumns"))
     
     var body: some View {
         NavigationStack {
@@ -29,9 +30,12 @@ struct LibraryView: View {
                         } placeholder: {
                             ProgressView()
                         }
+                        .frame(width: 0, height: 0)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
+//                        .padding()
                     }
                 }
+                .padding(.horizontal)
             }
             .navigationTitle(Text("Library"))
         }
@@ -39,66 +43,6 @@ struct LibraryView: View {
 //        .refreshable { Task { try? await model.updateLibrary() } }
     }
 }
-
-//extension LibraryView {
-//    @MainActor @Observable
-//    class Model {
-//        private(set) var isLoading: Bool = false
-//        
-//        func updateLibrary() async throws {
-//            guard !isLoading else { return }
-//            defer { isLoading = false }
-//            isLoading = true
-////            async let idsToUpdate = SharedLibraryDatabase.shared.getIdsToUpdate()
-////            async let idsToInsert = getIdsToInsert()
-//            
-//            
-//        }
-//        
-//        private func getIdsToInsert() async throws -> [String: String] {
-//            try await MangaDexAPIRequestManager.shared.getAllReadingStatus()
-//        }
-//        
-//        private func updateManga(_ ids: [UUID]) async throws {
-//            guard !ids.isEmpty else { return }
-//            let requestsToMake = ids.count > 100 ? (ids.count / 100) + 1 : 1
-//            
-//            var titles = [Manga]()
-//            
-//            for i in 0...requestsToMake {
-//                async let (newManga, _, _) = MangaDexAPIRequestManager.shared.getManga(Array(ids[(i - 1) * 100..<(i * 100 > ids.count ? ids.count : i * 100)]), limit: i * 100)
-//                titles.append(contentsOf: try await newManga)
-//            }
-//            
-//            let mangaToUpdate = titles
-//            assert(mangaToUpdate.count == titles.count)
-//        }
-//        
-//        private func insertManga(_ manga: [String: String]) async throws {
-//            let ids = manga.keys.map { UUID(uuidString: $0)! }
-//            guard !ids.isEmpty else { return }
-//            let requestsToMake = ids.count > 100 ? (ids.count / 100) + 1 : 1
-//            
-//            var titles = [Manga]()
-//            
-//            for i in 1...requestsToMake {
-//                async let (newManga, _, _) = MangaDexAPIRequestManager.shared.getManga(Array(ids[(i - 1) * 100..<(i * 100 > ids.count ? ids.count : i * 100)]), limit: i * 100)
-//                titles.append(contentsOf: try await newManga)
-//            }
-//            
-//            let mangaToInsert = titles
-//            assert(mangaToInsert.count == titles.count)
-//            
-//            try await SharedLibraryDatabase.shared.database.transaction { modelContext in
-//                for title in mangaToInsert {
-//                    modelContext.insert(StoredManga.init(from: title, readingStatus: ReadingStatus(rawValue: manga[title.id.uuidString] ?? "none")))
-//                }
-//            }
-//            
-//            try await SharedLibraryDatabase.shared.database.save()
-//        }
-//    }
-//}
 
 #Preview {
     LibraryView()

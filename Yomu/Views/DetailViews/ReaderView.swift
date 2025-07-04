@@ -34,34 +34,6 @@ extension View {
     }
 }
 
-/// Reads the size of a view.
-struct SizeReader: ViewModifier {
-    /// The size of the view being read.
-    @Binding var size: CGSize
-    
-    /// Returns the modified view with a binding vairable containing its size.
-    func body(content: Content) -> some View {
-        content
-            .background(GeometryReader { proxy in
-                Color.clear
-                    .onAppear{
-                        size = proxy.size
-                    }
-            })
-    }
-}
-
-extension View {
-    /// Reads the size of the view this modifier is placed on.
-    ///
-    /// - Parameter size: a binding variable that is updated to the size of the view being read.
-    ///
-    /// - Returns: The the view this modifier was placed on, with its size.
-    func readSize(size: Binding<CGSize>) -> some View {
-        modifier(SizeReader(size: size))
-    }
-}
-
 /// A single page of a manga.
 struct PageView: View {
     /// The url  his page's image is downloaded form.
@@ -107,7 +79,6 @@ struct DoublePageView: View {
 
 // TODO: make custom view for page diplays
 
-
 struct ReaderView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var orientation = UIDevice.current.orientation
@@ -128,21 +99,49 @@ struct ReaderView: View {
                 ScrollView(.horizontal) {
                     LazyHStack {
                         if orientation.isLandscape {
-                            ForEach(Array(UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents.dataSaver.enumerated() : model.atHomeComponents.data.enumerated()), id: \.offset) { index, _ in
-                                DoublePageView(imageUrl: UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents[dataSaverIndex: index] : model.atHomeComponents[dataIndex: index], width: $model.pageWidths[index], height: $model.pageHeights[index])
-                                    .scaleEffect(x: -1)
-                                    .frame(width: model.pageWidths[index] > model.pageHeights[index] ? proxy.size.width : proxy.size.width/2, height: proxy.size.height, alignment: .center)
-                                    .padding()
-                                    .containerRelativeFrame(.horizontal, count: model.pageWidths[index] > model.pageHeights[index] ? 1 : 2, spacing: 0)
+                            ForEach(
+                                Array(UserDefaults.standard.bool(
+                                    forKey: "dataSaver") ? model.atHomeComponents.dataSaver.enumerated() : model.atHomeComponents.data.enumerated()
+                                ),
+                                id: \.offset
+                            ) { index, _ in
+                                DoublePageView(
+                                    imageUrl: UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents[dataSaverIndex: index] : model.atHomeComponents[dataIndex: index],
+                                    width: $model.pageWidths[index],
+                                    height: $model.pageHeights[index]
+                                )
+                                .scaleEffect(x: -1)
+                                .frame(
+                                    width: model.pageWidths[index] > model.pageHeights[index] ? proxy.size.width : proxy.size.width/2,
+                                    height: proxy.size.height, alignment: .center
+                                )
+                                .padding()
+                                .containerRelativeFrame(
+                                    .horizontal,
+                                    count: model.pageWidths[index] > model.pageHeights[index] ? 1 : 2, spacing: 0
+                                )
                             }
                         } else {
-                            ForEach(Array(UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents.dataSaver.enumerated() : model.atHomeComponents.data.enumerated()), id: \.offset) { index, _ in
+                            ForEach(
+                                Array(UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents.dataSaver.enumerated() : model.atHomeComponents.data.enumerated()),
+                                id: \.offset
+                            ) { index, _ in
                                 PageView(imageUrl: UserDefaults.standard.bool(forKey: "dataSaver") ? model.atHomeComponents[dataSaverIndex: index] : model.atHomeComponents[dataIndex: index])
                                     .scaleEffect(x: -1)
-                                    .frame(width: proxy.size.width, alignment: .center)
-                                    .frame(width: proxy.size.width, height: proxy.size.height)
+                                    .frame(
+                                        width: proxy.size.width,
+                                        alignment: .center
+                                    )
+                                    .frame(
+                                        width: proxy.size.width,
+                                        height: proxy.size.height
+                                    )
                                     .safeAreaPadding(0)
-                                    .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
+                                    .containerRelativeFrame(
+                                        .horizontal,
+                                        count: 1,
+                                        spacing: 0
+                                    )
                             }
                         }
                     }
@@ -200,13 +199,13 @@ extension Bundle {
         guard let url = self.url(forResource: file, withExtension: nil) else {
             fatalError("Failed to locate \(file) in bundle.")
         }
-
+        
         guard let data = try? Data(contentsOf: url) else {
             fatalError("Failed to load \(file) from bundle.")
         }
-
+        
         let decoder = JSONDecoder()
-
+        
         do {
             return try decoder.decode(Wrapper<Chapter>.self, from: data).data
         } catch DecodingError.keyNotFound(let key, let context) {

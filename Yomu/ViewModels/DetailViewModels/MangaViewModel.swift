@@ -6,19 +6,20 @@
 //
 
 import Foundation
+import MangaDexData
 import MangaDexAPIKit
 import Observation
 
 ///
 @MainActor @Observable
 class MangaViewModel {
-    var manga: Manga
-    private(set) var chapters: [String: [Chapter]] = [:]
-    private(set) var readMarkers: [String] = []
+    var manga: PersistentManga
+//    private(set) var chapters: [String: [Chapter]] = [:]
+//    private(set) var readMarkers: [String] = []
     private(set) var statistics: MangaStatistics = .init()
     private(set) var isLoading: Bool = false
     
-    init(manga: Manga) {
+    init(manga: PersistentManga) {
         self.manga = manga
     }
     
@@ -36,9 +37,9 @@ class MangaViewModel {
         async let followed = getFollowedStatus(for: id)
 //        async let statistics = getStatistics(for: id)
         
-        self.chapters = Dictionary(grouping: try await chapters, by: { $0.volume ?? "No Volume" })
-        self.readMarkers = try await readMarkers
-        self.manga.readingStatus = ReadingStatus(rawValue: try await readingStatus)!
+//        self.chapters = Dictionary(grouping: try await chapters, by: { $0.volume ?? "No Volume" })
+//        self.readMarkers = try await readMarkers
+//        self.manga.readingStatus = ReadingStatus(rawValue: try await readingStatus)!
         self.manga.isFollowed = try await followed
 //        self.statistics = try await statistics
     }

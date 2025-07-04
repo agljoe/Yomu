@@ -47,6 +47,9 @@
 		499D3FB22D606DBE00D89386 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 499D3FB12D606DBE00D89386 /* Algorithms */; };
 		49D7876F2E0CF12F009A9D9D /* MangaDexData in Frameworks */ = {isa = PBXBuildFile; productRef = 49D7876E2E0CF12F009A9D9D /* MangaDexData */; };
 		49D787792E0D109B009A9D9D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 49D787782E0D109B009A9D9D /* .gitignore */; };
+		49D7877E2E0E22B9009A9D9D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D7877D2E0E22B9009A9D9D /* SearchViewModel.swift */; };
+		49D787822E1743FB009A9D9D /* CoverFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D787812E1743FB009A9D9D /* CoverFrame.swift */; };
+		49D787842E174428009A9D9D /* SizeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D787832E174428009A9D9D /* SizeReader.swift */; };
 		49E6AB212DEA93B400731B53 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 49E6AB202DEA93B400731B53 /* Documentation.docc */; };
 		49E6AB262DEFC4BE00731B53 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 49E6AB252DEFC4BE00731B53 /* DequeModule */; };
 /* End PBXBuildFile section */
@@ -112,6 +115,9 @@
 		4999293B2C0FEBA5003BD29B /* YomuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YomuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D7876C2E0CC8B0009A9D9D /* MangaDexData */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MangaDexData; path = ../MangaDexData; sourceTree = SOURCE_ROOT; };
 		49D787782E0D109B009A9D9D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		49D7877D2E0E22B9009A9D9D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		49D787812E1743FB009A9D9D /* CoverFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverFrame.swift; sourceTree = "<group>"; };
+		49D787832E174428009A9D9D /* SizeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeReader.swift; sourceTree = "<group>"; };
 		49E6AB202DEA93B400731B53 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,6 +167,7 @@
 				497566432E00E70600F73BED /* ChapterImageLoader.swift */,
 				497566452E00E70600F73BED /* DeferView.swift */,
 				497566462E00E70600F73BED /* SafariView.swift */,
+				49D787832E174428009A9D9D /* SizeReader.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -170,6 +177,7 @@
 			children = (
 				4975664D2E00E70A00F73BED /* Card.swift */,
 				4975665C2E00E70A00F73BED /* Icon.swift */,
+				49D787812E1743FB009A9D9D /* CoverFrame.swift */,
 			);
 			path = Materials;
 			sourceTree = "<group>";
@@ -231,10 +239,9 @@
 		4975668A2E037BA900F73BED /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				497566922E0394B300F73BED /* AccountViewModel.swift */,
-				4975668E2E0388BB00F73BED /* MangaViewModel.swift */,
-				497566902E0392A000F73BED /* ReaderViewModel.swift */,
-				4975668C2E03851000F73BED /* UpdatesViewModel.swift */,
+				49D7877A2E0E2261009A9D9D /* TabViewModels */,
+				49D7877B2E0E226F009A9D9D /* DetailViewModels */,
+				49D7877C2E0E2283009A9D9D /* SettingsViewModels */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -250,12 +257,12 @@
 		499929182C0FEBA3003BD29B = {
 			isa = PBXGroup;
 			children = (
-				49D787782E0D109B009A9D9D /* .gitignore */,
 				497565C32DFA5A5100F73BED /* Packages */,
-				49E6AB202DEA93B400731B53 /* Documentation.docc */,
 				499929232C0FEBA3003BD29B /* Yomu */,
 				4975667D2E00E71100F73BED /* YomuTests */,
 				497566812E00E71400F73BED /* YomuUITests */,
+				49E6AB202DEA93B400731B53 /* Documentation.docc */,
+				49D787782E0D109B009A9D9D /* .gitignore */,
 				499929222C0FEBA3003BD29B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -276,8 +283,8 @@
 				497566472E00E70600F73BED /* Helpers */,
 				497566A02E0A24BE00F73BED /* Extensions */,
 				4975664E2E00E70A00F73BED /* Materials */,
-				497566632E00E70A00F73BED /* Views */,
 				4975668A2E037BA900F73BED /* ViewModels */,
+				497566632E00E70A00F73BED /* Views */,
 				499929242C0FEBA3003BD29B /* YomuApp.swift */,
 				499929282C0FEBA5003BD29B /* Assets.xcassets */,
 				497566792E00E70F00F73BED /* Preview Content */,
@@ -305,6 +312,32 @@
 				4975665F2E00E70A00F73BED /* ReaderView.swift */,
 			);
 			path = DetailViews;
+			sourceTree = "<group>";
+		};
+		49D7877A2E0E2261009A9D9D /* TabViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4975668C2E03851000F73BED /* UpdatesViewModel.swift */,
+				49D7877D2E0E22B9009A9D9D /* SearchViewModel.swift */,
+			);
+			path = TabViewModels;
+			sourceTree = "<group>";
+		};
+		49D7877B2E0E226F009A9D9D /* DetailViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				497566902E0392A000F73BED /* ReaderViewModel.swift */,
+				4975668E2E0388BB00F73BED /* MangaViewModel.swift */,
+			);
+			path = DetailViewModels;
+			sourceTree = "<group>";
+		};
+		49D7877C2E0E2283009A9D9D /* SettingsViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				497566922E0394B300F73BED /* AccountViewModel.swift */,
+			);
+			path = SettingsViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -448,10 +481,12 @@
 			files = (
 				49E6AB212DEA93B400731B53 /* Documentation.docc in Sources */,
 				497566932E0394B300F73BED /* AccountViewModel.swift in Sources */,
+				49D787822E1743FB009A9D9D /* CoverFrame.swift in Sources */,
 				499929252C0FEBA3003BD29B /* YomuApp.swift in Sources */,
 				497566482E00E70600F73BED /* CachedAsyncImage.swift in Sources */,
 				497566492E00E70600F73BED /* ChapterImageLoader.swift in Sources */,
 				4975664B2E00E70600F73BED /* DeferView.swift in Sources */,
+				49D787842E174428009A9D9D /* SizeReader.swift in Sources */,
 				4975668D2E03851000F73BED /* UpdatesViewModel.swift in Sources */,
 				4975664C2E00E70600F73BED /* SafariView.swift in Sources */,
 				497566642E00E70A00F73BED /* Card.swift in Sources */,
@@ -464,6 +499,7 @@
 				4975666A2E00E70A00F73BED /* FilterTagsView.swift in Sources */,
 				4975666B2E00E70A00F73BED /* GeneralView.swift in Sources */,
 				4975666C2E00E70A00F73BED /* LibrarySettingsView.swift in Sources */,
+				49D7877E2E0E22B9009A9D9D /* SearchViewModel.swift in Sources */,
 				4975666D2E00E70A00F73BED /* ReaderSettingsView.swift in Sources */,
 				4975666E2E00E70A00F73BED /* SearchSettingsView.swift in Sources */,
 				4975666F2E00E70A00F73BED /* CommunityView.swift in Sources */,

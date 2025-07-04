@@ -15,3 +15,6 @@ Unlike like a normal documentation catalog this will be more of a collection of 
 ### View Models
 
 ### Extensions and Other Bits
+
+- <doc:Image-Loaders>
+- <doc:Opening-Links-Using-In-App-Safari>

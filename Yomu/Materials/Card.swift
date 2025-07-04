@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct Card: ViewModifier {
     func body(content: Content) -> some View  {
         content

@@ -5,8 +5,9 @@
 //  Created by Andrew Joe on 2025-02-13.
 //
 
-import MangaDexAPIKit
 import Foundation
+import MangaDexData
+import MangaDexAPIKit
 import SwiftUI
 
 
@@ -135,7 +136,7 @@ struct MangaTitleView: View {
 }
 
 struct AuthorScrollView: View {
-    let authors: [Author]
+    let authors: [PersistentAuthor]
     
     var body: some View {
         ScrollView(.horizontal) {
@@ -157,7 +158,7 @@ struct AuthorScrollView: View {
 /// or to open a manga in safari.
 struct MangaToolBar: View {
     /// The user's reading status for this manga.
-    @Binding var readingStatus: ReadingStatus
+    @Binding var readingStatus: String
     
     /// Indicates if this manga's chapters appear in the user's followed feed.
     @Binding var isFollowed: Bool
@@ -173,15 +174,15 @@ struct MangaToolBar: View {
             Menu {
                 ForEach(ReadingStatus.allCases) { status in
                     Button {
-                        readingStatus = status
+                        readingStatus = status.rawValue
                         //TODO: update reading status
                     } label: {
                         Text(status.displayTitle)
                     }
                 }
             } label: {
-                Image(systemName: readingStatus.systemImageName)
-                    .mangaToolBarItem(size: toolBarItemSize, background: readingStatus.color)
+                Image(systemName: ReadingStatus(rawValue: readingStatus)!.systemImageName)
+                    .mangaToolBarItem(size: toolBarItemSize, background: ReadingStatus(rawValue: readingStatus)!.color)
             }
             
             Button {
@@ -206,7 +207,7 @@ struct MangaView: View {
     @State private var isPresented: Bool = false
     @State var model: MangaViewModel
     
-    init(manga: Manga) {
+    init(manga: PersistentManga) {
         self.model = MangaViewModel(manga: manga)
         self._model = .init(initialValue: model)
     }
@@ -219,11 +220,11 @@ struct MangaView: View {
                         CoverView(url: model.manga.coverURL)
                         
                         VStack(alignment: .leading) {
-                            MangaTitleView(title: model.manga.localizedTitle, altTitle: model.manga.alternateTitle)
+                            MangaTitleView(title: model.manga.title, altTitle: model.manga.alternateTitle)
                             
                             HStack {
-                                AuthorScrollView(authors: model.manga.author)
-                                AuthorScrollView(authors: model.manga.artist)
+                                AuthorScrollView(authors: model.manga.author ?? [])
+                                AuthorScrollView(authors: model.manga.artist ?? [])
                             }
                             
                             
@@ -232,9 +233,9 @@ struct MangaView: View {
                     }
                     .padding(.horizontal)
                     
-                    Text(try! AttributedString(markdown: model.manga.description["en"] ?? ""))
+                    Text(try! AttributedString(markdown: model.manga.summary["en"] ?? ""))
                         .padding(.horizontal)
-                    ChaptersByVolumeListView(chapters: model.chapters)
+//                    ChaptersByVolumeListView(chapters: $model.chapters)
                 }
             }
             .scrollIndicators(.never)
@@ -299,6 +300,6 @@ extension Manga {
 }
 
 #Preview {
-    MangaView(manga: Bundle.main.decode(from: "I Can't Say No to the Lonely Girl.json").updatingStatus())
+    MangaView(manga: PersistentManga(from: Bundle.main.decode(from: "I Can't Say No to the Lonely Girl.json").updatingStatus()))
 }
 #endif

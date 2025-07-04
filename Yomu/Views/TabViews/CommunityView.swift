@@ -13,52 +13,65 @@ import SwiftUI
 struct CommunityView: View {
     @Environment(\.database) var database
     var body: some View {
-        // TODO: move to testing environment
         VStack {
-            Text("Coming Soon")
-            
-            Button {
-                print(SharedLibraryDatabase.shared.modelContainer.schema.debugDescription)
-            } label: {
-                Text("Print Schemas")
-            }
-            
-            Button {
-                Task {
-                    let manga = await database.fetch(for: .descriptor(.init(predicate: #Predicate<PersistentManga> { $0.readingStatus != "none" }, sortBy: [SortDescriptor(\PersistentManga.title, order: .reverse)])))
-                    print(manga)
+            Form {
+                Section {
+                    Button("Insert One") {
+                        Task {
+                            let manga = try await MangaDexAPIClient.shared.getManga(UUID(uuidString: "0e8fac17-979e-4e37-8f45-2c334b25d6dd")!).get()
+                            try await SharedLibraryDatabase.shared.insert(manga: manga)
+                            try await SharedLibraryDatabase.shared.database.save()
+                        }
+                    }
                 }
-            } label: {
-                Text("Print Library")
-            }
-            
-            Button("Test Inserting") {
-                Task {
-                    do {
-                        let manga = try await MangaDexAPIClient.shared.getManga(UUID(uuidString: "2e0fdb3b-632c-4f8f-a311-5b56952db647")!).get()
-                        await database.insert { PersistentManga(from: manga) }
-                        try await database.save()
-                    } catch let error {
-                        print(error)
+                
+                Section {
+                    Button("Test Inserting") {
+                        Task {
+                            do {
+                                try await addManga()
+                            } catch let error {
+                                print(error)
+                            }
+                        }
+                    }
+                }
+                
+                Section {
+                    Button("Reset Library", role: .destructive) {
+                        Task {
+                            try! await database.delete(Selector<PersistentManga>.Delete.all)
+                        }
                     }
                 }
             }
-             
-            Button("Reset Library") {
-                Task {
-                    try! await database.delete(Selector<PersistentManga>.Delete.all)
-                }
-            }
-            
-            Button("Get Chapter with Expansions") {
-                Task {
-                    do {
-                        print(try await MangaDexAPIClient.shared.getChapter(UUID(uuidString: "ff34cbc6-2c68-40f1-910a-c0e6fbd5adaf")!).get())
-                    } catch let error {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
+        }
+    }
+}
+
+private func getOnHoldIds() async throws -> [UUID] {
+    async let statuses = MangaDexAPIClient.shared.getAllReadingStatus().get()
+    let mapped: [(UUID, String)] = try await statuses.map { (UUID(uuidString: $0.0)!, $0.1) }
+    let grouped = Dictionary(grouping: mapped, by: { $0.1 })
+    var result = [String: [UUID]]()
+    for (key, value) in grouped { result[key] = value.map(\.0) }
+    return result[ReadingStatus.on_hold.rawValue]!
+}
+
+private func addManga() async throws {
+    let ids = try await getOnHoldIds()
+    print(ids)
+    
+    let manga = try await MangaDexAPIClient.shared.getManga(ids).get()
+//    
+//    print(manga)
+    
+    for title in manga {
+        do {
+            try await SharedLibraryDatabase.shared.insert(manga: title)
+        } catch let error {
+            print(title)
+            print(error)
         }
     }
 }

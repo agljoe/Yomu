@@ -142,7 +142,7 @@ struct UpdateListRow: View {
     var body: some View {
         HStack(alignment: .top) {
             NavigationLink {
-                MangaView(manga: update.manga)
+//                MangaView(manga: update.manga)
             } label: {
                 CachedAsyncImage(url: update.coverURL) { image in
                     image

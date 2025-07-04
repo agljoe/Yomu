@@ -10,6 +10,8 @@ import SwiftUI
 struct SearchView: View {
     @State private var query = ""
     @State private var showingSheet = false
+    @State private var model = SearchViewModel()
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
