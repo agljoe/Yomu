@@ -48,8 +48,8 @@ public struct SafariView {
     /// Initializes and configures a Safari view controller that loads the specified URL.
     ///
     /// - Parameters:
-    ///     - url: the URL to navigate to. The URL must use the http or https scheme.
-    ///     - configuration: the configuration for the new view controller.
+    ///   - url: the URL to navigate to. The URL must use the http or https scheme.
+    ///   - configuration: the configuration for the new view controller.
     ///
     /// - Returns: a newly created SafariView.
     init(url: URL, configuration: Configuration = .init()) {
@@ -122,8 +122,8 @@ extension SafariView.Configuration {
     /// barCollapsingEnabled members.
     ///
     /// - Parameters:
-    ///     - entersReaderIfAvailable: indicates if the webpage presented by a SafariView should automatically enter reader mode, false by default.
-    ///     - barCollapsingEnabled: indicates if the naviagtion bar and toolbar can be collapsed, true by default.
+    ///   - entersReaderIfAvailable: indicates if the webpage presented by a SafariView should automatically enter reader mode, false by default.
+    ///   - barCollapsingEnabled: indicates if the naviagtion bar and toolbar can be collapsed, true by default.
     ///
     /// - Returns: a newly created SafariView configuration.
     convenience init(entersReaderIfAvailable: Bool = false, barCollapsingEnabled: Bool = true) {
@@ -202,8 +202,8 @@ struct SafariViewPresenter<Item: Identifiable>: UIViewRepresentable {
     /// Updates the UIView being presented using the Coordinator.
     ///
     /// - Parameters:
-    ///     - uiView: this parameter is not used.
-    ///     - context: this parameter is not used.
+    ///   - uiView: this parameter is not used.
+    ///   - context: this parameter is not used.
     func updateUIView(_ uiView: UIView, context: Context) {
         context.coordinator.item = item
         context.coordinator.parent = self
@@ -255,8 +255,8 @@ extension SafariViewPresenter {
         /// Presents a new SafariView if newItem is not oldItem.
         ///
         /// - Parameters:
-        ///     - oldItem: the item currently being presented.
-        ///     - newItem: the item to be presented.
+        ///   - oldItem: the item currently being presented.
+        ///   - newItem: the item to be presented.
         private func handleItemChange(from oldItem: Item?, to newItem: Item?) {
             switch(oldItem, newItem) {
             case let(.some(oldItem), .some(newItem)) where oldItem.id != newItem.id:
@@ -385,9 +385,9 @@ extension View {
     /// A view that displays content from a webpage using an in-app Safari browser.
     ///
     /// - Parameters:
-    ///     - isPresented: a boolean that indicated when to show this view.
-    ///     - onDismiss: a closure preformed when this view is closed.
-    ///     - representationBuilder: an escaping closure that creates a presentable SafariView.
+    ///   - isPresented: a boolean that indicated when to show this view.
+    ///   - onDismiss: a closure preformed when this view is closed.
+    ///   - representationBuilder: an escaping closure that creates a presentable SafariView.
     ///
     ///  - Returns: a SafariView.
     func safariView(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, content representationBuilder: @escaping () -> SafariView) -> some View {
@@ -397,9 +397,9 @@ extension View {
     /// A view that displays content from a webpage using an in-app Safari browser.
     ///
     /// - Parameters:
-    ///     - item: the item being presented.
-    ///     - onDismiss: a closure preformed when this view is closed.
-    ///     - representationBuilder: an escaping closure that creates a presentable SafariView with the given item.
+    ///   - item: the item being presented.
+    ///   - onDismiss: a closure preformed when this view is closed.
+    ///   - representationBuilder: an escaping closure that creates a presentable SafariView with the given item.
     ///
     ///  - Returns: a SafariView.
     func safariView<Item: Identifiable>(item: Binding<Item?>, onDismiss: (() -> Void)? = nil, content representationBuilder: @escaping (Item) -> SafariView) -> some View {

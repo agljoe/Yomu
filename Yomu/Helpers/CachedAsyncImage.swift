@@ -26,9 +26,9 @@ struct CachedAsyncImage<ImageView: View, PlaceholderView: View>: View {
     /// Creates a new `CachedAsyncImage` with the given values.
     ///
     /// - Parameters:
-    ///  - url: the URL of the server where the image to be presented is hosted.
-    ///  - content: a closure that creates a view with a given image.
-    ///  - placeholder: a closure that creates a view.
+    ///   - url: the URL of the server where the image to be presented is hosted.
+    ///   - content: a closure that creates a view with a given image.
+    ///   - placeholder: a closure that creates a view.
     ///
     /// - Returns: a newly created `CachedAsyncImage` initialized by the given values.
     init(url: URL?, @ViewBuilder content: @escaping (Image) -> ImageView, @ViewBuilder placeholder: @escaping () -> PlaceholderView) {

@@ -6,20 +6,21 @@
 //
 
 import Foundation
+import MangaDexData
 import MangaDexAPIKit
 import Observation
 
 
 @MainActor @Observable
 class ReaderViewModel {
-    private(set) var chapter: Chapter
+    private(set) var chapter: PersistentChapter
     private(set) var atHomeComponents: AtHomeChapterComponents = AtHomeChapterComponents()
     private(set) var isLoading: Bool = false
     
     var pageWidths = [CGFloat]()
     var pageHeights = [CGFloat]()
     
-    init(chapter: Chapter) {
+    init(chapter: PersistentChapter) {
         self.chapter = chapter
     }
     

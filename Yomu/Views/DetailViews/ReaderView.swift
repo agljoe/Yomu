@@ -5,6 +5,7 @@
 //  Created by Andrew Joe on 2025-01-21.
 //
 
+import MangaDexData
 import MangaDexAPIKit
 import SwiftUI
 
@@ -87,7 +88,7 @@ struct ReaderView: View {
     
     let title: String
     
-    init(chapter: Chapter, title: String) {
+    init(chapter: PersistentChapter, title: String) {
         self.title = title
         self.model = ReaderViewModel(chapter: chapter)
         self._model = .init(initialValue: model)
@@ -223,6 +224,6 @@ extension Bundle {
 }
 
 #Preview {
-    ReaderView(chapter: Bundle.main.decode(from: "Laid Back Camp Ch. 1 - Mt. Fuji and Cup Ramen.json"), title: "Ch. 1 - Mt. Fuji and Cup Ramen")
+    ReaderView(chapter: PersistentChapter(from: Bundle.main.decode(from: "Laid Back Camp Ch. 1 - Mt. Fuji and Cup Ramen.json"), hasBeenRead: false), title: "Ch. 1 - Mt. Fuji and Cup Ramen")
 }
 #endif

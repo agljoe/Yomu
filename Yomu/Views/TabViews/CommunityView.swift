@@ -18,18 +18,11 @@ struct CommunityView: View {
                 Section {
                     Button("Insert One") {
                         Task {
-                            let manga = try await MangaDexAPIClient.shared.getManga(UUID(uuidString: "0e8fac17-979e-4e37-8f45-2c334b25d6dd")!).get()
-                            try await SharedLibraryDatabase.shared.insert(manga: manga)
-                            try await SharedLibraryDatabase.shared.database.save()
-                        }
-                    }
-                }
-                
-                Section {
-                    Button("Test Inserting") {
-                        Task {
                             do {
-                                try await addManga()
+                                let manga = try await MangaDexAPIClient.shared.getManga(UUID(uuidString: "a44afe37-24fd-44b8-874e-17e8a24ca3ca")!).get()
+                                let (covers, _, _) = try await MangaDexAPIClient.shared.getCovers(mangaIDs: [manga.id], locale: "ja").get()
+                                try await SharedLibraryDatabase.shared.insert(manga: manga, with: covers)
+                                try await SharedLibraryDatabase.shared.database.save()
                             } catch let error {
                                 print(error)
                             }
@@ -38,9 +31,42 @@ struct CommunityView: View {
                 }
                 
                 Section {
+                    Button("Insert Another") {
+                        Task {
+                            do {
+                                let manga = try await MangaDexAPIClient.shared.getManga(UUID(uuidString: "1ee97895-4796-4bcf-bcd1-5ef99c011f8b")!).get()
+                                let (covers, _, _) = try await MangaDexAPIClient.shared.getCovers(mangaIDs: [manga.id], limit: 100, locale: "ja").get()
+                                try await SharedLibraryDatabase.shared.insert(manga: manga, with: covers)
+                                try await SharedLibraryDatabase.shared.database.save()
+                            } catch let error {
+                                print(error)
+                            }
+                        }
+                    }
+                }
+                
+                Section {
+                    Button("Test Inserting") {
+//                        Task {
+//                            do {
+//                                try await addManga()
+//                            } catch let error {
+//                                print(error)
+//                            }
+//                        }
+                        print("coming soon")
+                    }
+                }
+                
+                Section {
                     Button("Reset Library", role: .destructive) {
                         Task {
-                            try! await database.delete(Selector<PersistentManga>.Delete.all)
+                            do {
+                                try await SharedLibraryDatabase.shared.database.delete(.all(PersistentManga.self))
+                                try await SharedLibraryDatabase.shared.database.delete(.all(PersistentAuthor.self))
+                            } catch let error {
+                                print(error)
+                            }
                         }
                     }
                 }
@@ -63,12 +89,11 @@ private func addManga() async throws {
     print(ids)
     
     let manga = try await MangaDexAPIClient.shared.getManga(ids).get()
-//    
-//    print(manga)
     
     for title in manga {
         do {
-            try await SharedLibraryDatabase.shared.insert(manga: title)
+            let (covers, _, _) = try await MangaDexAPIClient.shared.getCovers(mangaIDs: [title.id], locale: title.originalLanguage).get()
+            try await SharedLibraryDatabase.shared.insert(manga: title, with: covers)
         } catch let error {
             print(title)
             print(error)

@@ -8,61 +8,50 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     var body: some View {
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             TabView {
-                UpdatesView()
-                    .tabItem {
-                        Label("Updates", systemImage: "doc.text.image")
-                    }
+                Tab("Updates", systemImage: "doc.text.image") {
+                    UpdatesView()
+                }
                 
-                LibraryView()
-                    .tabItem {
-                        Label("Library", systemImage: "books.vertical")
-                    }
+                Tab("Library", systemImage: "books.vertical") {
+                    LibraryView()
+                }
                 
-                CommunityView()
-                    .tabItem {
-                        Label("Community", systemImage: "person.2")
-                    }
+                Tab("Community", systemImage: "person.2") {
+                    CommunityView()
+                }
                 
-                SearchView()
-                    .tabItem {
-                        Label("Search", systemImage: "magnifyingglass")
-                    }
+                Tab("Search", systemImage: "magnifyingglass") {
+                    SearchView()
+                }
                 
-                SettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gear")
-                    }
+                Tab("Settings", systemImage: "gear") {
+                    SettingsView()
+                }
             }
         } else {
-                TabView {
+            TabView {
+                Tab("Updates", systemImage: "doc.text.image") {
                     UpdatesView()
-                        .tabItem {
-                            Label("Updates", systemImage: "doc.text.image")
-                        }
-                    
+                }
+                
+                Tab("Library", systemImage: "books.vertical") {
                     LibraryView()
-                        .tabItem {
-                            Label("Library", systemImage: "books.vertical")
-                        }
-                    
+                }
+                
+                Tab("Community", systemImage: "person.2") {
                     CommunityView()
-                        .tabItem {
-                            Label("Community", systemImage: "person.2")
-                        }
-                    
+                }
+                
+                Tab("Search", systemImage: "magnifyingglass") {
                     SearchView()
-                        .tabItem {
-                            Label("Search", systemImage: "magnifyingglass")
-                        }
-                    
+                }
+                
+                Tab("Settings", systemImage: "gear") {
                     SettingsView()
-                        .tabItem {
-                            Label("Settings", systemImage: "gear")
-                        }
+                }
             }
         }
     }

@@ -39,8 +39,8 @@ extension Update: Comparable {
     /// Indicateds which update was more recently readable.
     ///
     /// - Parameters:
-    ///  - lhs: an update to be compared.
-    ///  - rhs: another update to be compared.
+    ///   - lhs: an update to be compared.
+    ///   - rhs: another update to be compared.
     ///
     /// - Returns: True if the rhs was available to read more recently than the lhs.
     static func < (lhs: Update, rhs: Update) -> Bool {
@@ -53,8 +53,8 @@ extension Update: Comparable {
     ///         but the implementation of this function is included if such a case occurs.
     ///
     /// - Parameters:
-    ///  - lhs: an update to be compared.
-    ///  - rhs: another update to be compared.
+    ///   - lhs: an update to be compared.
+    ///   - rhs: another update to be compared.
     ///
     /// - Returns: True if both the lhs and rhs were readable at the same time.
     static func == (lhs: Update, rhs: Update) -> Bool {
@@ -90,9 +90,9 @@ struct ChapterListRow: View {
     var body: some View {
         NavigationLink {
             // TODO: link to external website if chapter has externalLink
-            ReaderView(chapter: chapter, title: "Ch. \(chapter.chapter ?? "0") \(chapter.title ?? "")")
+//            ReaderView(chapter: chapter, title: "Ch. \(chapter.chapter ?? "0") \(chapter.title ?? "")")
             /// Fixes a weird animation bug that occurs when new views that cover the tab bar are pushed onto the nagivation stack.
-                .navigationBarBackButtonHidden(true)
+//                .navigationBarBackButtonHidden(true)
         } label: {
             // TODO: change to light font size?
             HStack {
